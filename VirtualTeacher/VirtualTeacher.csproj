@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.66.0" />
+    <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.66.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.66.0.3296" />
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="4.7.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.25.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.1" />
+  </ItemGroup>
+
 </Project>
