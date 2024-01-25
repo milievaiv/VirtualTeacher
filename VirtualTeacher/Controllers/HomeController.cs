@@ -55,7 +55,7 @@ namespace VirtualTeacher.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult GetImage(string imageName, string folderPath)
+        public IActionResult GetImage(string imageName, string folderPath) //imageName = user.Id
         {
             // Fetch the image content from Google Cloud Storage based on imageName
             byte[] imageData = _cloudStorageService.GetImageContent(imageName, folderPath);
