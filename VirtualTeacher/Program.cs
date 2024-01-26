@@ -1,6 +1,8 @@
 using Google.Apis.Auth.AspNetCore3;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using VirtualTeacher.Data;
 
 namespace VirtualTeacher
 {
@@ -21,7 +23,16 @@ namespace VirtualTeacher
                 // Provide the path to your service account key file
                 var serviceAccountKeyPath = "SA_key.json";
                 return new CloudStorageService(serviceAccountKeyPath, bucketName);
-            });          
+            });
+
+            builder.Services.AddDbContext<VirtualTeacherContext>(options =>
+            {
+                string connectionString = @"Data Source=127.0.0.1,1435;Initial Catalog=PhotoForum;User Id=sqlserver;Password=D?3F&>#(}HAmCOi%;";
+                //string connectionString = "Server=localhost;Database=Demo;Trusted_Connection=True;";
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly(typeof(VirtualTeacher.Data.VirtualTeacherContext).Assembly.FullName));
+                options.EnableSensitiveDataLogging();
+            });
+
 
             var app = builder.Build();
 
