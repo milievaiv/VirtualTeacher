@@ -1,12 +1,13 @@
 ﻿using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VirtualTeacher.Models
 {
     public class Course
     {
-        [Key]
-        public int CourseId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public virtual int Id { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 5)]
@@ -23,6 +24,6 @@ namespace VirtualTeacher.Models
         public ICollection<CourseRating> Ratings { get; set; }
 
         // Optional:
-        public ICollection<Course> PrerequisiteCourses { get; set; }
+        //public ICollection<Course> PrerequisiteCourses { get; set; }
     }
 }

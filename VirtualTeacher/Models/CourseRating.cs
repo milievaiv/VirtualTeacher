@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VirtualTeacher.Models
 {
     public class CourseRating
     {
-        [Key]
-        public int RatingId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public virtual int Id { get; set; }
         public Course Course { get; set; }
         public Student Student { get; set; }
         public int RatingValue { get; set; }

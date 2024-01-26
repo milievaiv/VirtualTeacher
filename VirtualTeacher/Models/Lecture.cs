@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VirtualTeacher.Models
 {
     public class Lecture
     {
-        [Key]
-        public int LectureId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public virtual int Id { get; set; }
         public Course Course { get; set; }
 
         [Required]
