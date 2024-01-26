@@ -12,7 +12,7 @@ using VirtualTeacher.Data;
 namespace VirtualTeacher.Migrations
 {
     [DbContext(typeof(VirtualTeacherContext))]
-    [Migration("20240126203520_InitialMigration")]
+    [Migration("20240126210339_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,11 +147,16 @@ namespace VirtualTeacher.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("StudentId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.HasIndex("StudentId");
+
+                    b.HasIndex("StudentId1");
 
                     b.ToTable("CourseRatings");
                 });
@@ -342,10 +347,14 @@ namespace VirtualTeacher.Migrations
                         .IsRequired();
 
                     b.HasOne("VirtualTeacher.Models.Student", "Student")
-                        .WithMany("CourseRatings")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("VirtualTeacher.Models.Student", null)
+                        .WithMany("CourseRatings")
+                        .HasForeignKey("StudentId1");
 
                     b.Navigation("Course");
 
@@ -368,7 +377,7 @@ namespace VirtualTeacher.Migrations
                     b.HasOne("VirtualTeacher.Models.Course", "Course")
                         .WithMany("Students")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VirtualTeacher.Models.Student", "Student")
@@ -425,7 +434,7 @@ namespace VirtualTeacher.Migrations
                     b.HasOne("VirtualTeacher.Models.Course", "Course")
                         .WithMany("Teachers")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VirtualTeacher.Models.Teacher", "Teacher")

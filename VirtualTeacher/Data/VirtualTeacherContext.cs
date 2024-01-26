@@ -88,7 +88,7 @@ namespace VirtualTeacher.Data
 
             modelBuilder.Entity<CourseRating>()
                 .HasOne(cr => cr.Student)
-                .WithMany(s => s.CourseRatings)
+                .WithMany()
                 .HasForeignKey(cr => cr.StudentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -127,7 +127,7 @@ namespace VirtualTeacher.Data
                 .HasOne(sc => sc.Course)
                 .WithMany(c => c.Students)
                 .HasForeignKey(sc => sc.CourseId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure SubmittedAssignment entity
             modelBuilder.Entity<SubmittedAssignment>()
@@ -159,7 +159,7 @@ namespace VirtualTeacher.Data
                 .HasOne(tc => tc.Course)
                 .WithMany(c => c.Teachers)
                 .HasForeignKey(tc => tc.CourseId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure TeacherAssignment entity
             modelBuilder.Entity<TeacherAssignment>()
