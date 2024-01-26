@@ -11,5 +11,8 @@ namespace VirtualTeacher.Models
         public string SubmittedFile { get; set; } // File Path or URL
         public decimal? Grade { get; set; }
         public string Feedback { get; set; }
+
+        public ICollection<TeacherAssignment> Graders { get; set; }
+
     }
 }

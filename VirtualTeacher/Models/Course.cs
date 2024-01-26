@@ -9,6 +9,7 @@ namespace VirtualTeacher.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
 
+
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }
@@ -21,7 +22,14 @@ namespace VirtualTeacher.Models
         public DateTime? StartDate { get; set; }
 
         public ICollection<Lecture> Lectures { get; set; }
+
         public ICollection<CourseRating> Ratings { get; set; }
+
+        public ICollection<StudentCourse> Students { get; set; }
+
+        public ICollection<TeacherCourse> Teachers { get; set; }
+
+        public Teacher Creator { get; set; }
 
         // Optional:
         //public ICollection<Course> PrerequisiteCourses { get; set; }
