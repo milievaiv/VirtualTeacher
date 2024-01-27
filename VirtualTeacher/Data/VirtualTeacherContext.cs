@@ -31,7 +31,7 @@ namespace VirtualTeacher.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure Assignment entity
+            //Configure Assignment entity
             modelBuilder.Entity<Assignment>()
                 .HasKey(a => a.Id);
 
@@ -88,7 +88,7 @@ namespace VirtualTeacher.Data
 
             modelBuilder.Entity<CourseRating>()
                 .HasOne(cr => cr.Student)
-                .WithMany()
+                .WithMany(s => s.CourseRatings)
                 .HasForeignKey(cr => cr.StudentId)
                 .OnDelete(DeleteBehavior.Cascade);
 

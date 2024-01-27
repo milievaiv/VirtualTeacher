@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualTeacher.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,8 +83,7 @@ namespace VirtualTeacher.Migrations
                     TopicId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: true)
+                    CreatorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,11 +94,6 @@ namespace VirtualTeacher.Migrations
                         principalTable: "CourseTopics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Courses_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Courses_Teachers_CreatorId",
                         column: x => x.CreatorId,
@@ -117,8 +111,7 @@ namespace VirtualTeacher.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     RatingValue = table.Column<int>(type: "int", nullable: false),
-                    Feedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentId1 = table.Column<int>(type: "int", nullable: true)
+                    Feedback = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,11 +127,6 @@ namespace VirtualTeacher.Migrations
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CourseRatings_Students_StudentId1",
-                        column: x => x.StudentId1,
-                        principalTable: "Students",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -295,19 +283,9 @@ namespace VirtualTeacher.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseRatings_StudentId1",
-                table: "CourseRatings",
-                column: "StudentId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Courses_CreatorId",
                 table: "Courses",
                 column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Courses_StudentId",
-                table: "Courses",
-                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_TopicId",
@@ -361,6 +339,9 @@ namespace VirtualTeacher.Migrations
                 name: "Assignments");
 
             migrationBuilder.DropTable(
+                name: "Students");
+
+            migrationBuilder.DropTable(
                 name: "Lectures");
 
             migrationBuilder.DropTable(
@@ -368,9 +349,6 @@ namespace VirtualTeacher.Migrations
 
             migrationBuilder.DropTable(
                 name: "CourseTopics");
-
-            migrationBuilder.DropTable(
-                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

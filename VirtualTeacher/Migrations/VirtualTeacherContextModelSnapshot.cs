@@ -102,9 +102,6 @@ namespace VirtualTeacher.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -116,8 +113,6 @@ namespace VirtualTeacher.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
-
-                    b.HasIndex("StudentId");
 
                     b.HasIndex("TopicId");
 
@@ -145,16 +140,11 @@ namespace VirtualTeacher.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
 
                     b.ToTable("CourseRatings");
                 });
@@ -321,10 +311,6 @@ namespace VirtualTeacher.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VirtualTeacher.Models.Student", null)
-                        .WithMany("CompletedCourses")
-                        .HasForeignKey("StudentId");
-
                     b.HasOne("VirtualTeacher.Models.CourseTopic", "Topic")
                         .WithMany()
                         .HasForeignKey("TopicId")
@@ -345,14 +331,10 @@ namespace VirtualTeacher.Migrations
                         .IsRequired();
 
                     b.HasOne("VirtualTeacher.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("CourseRatings")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("VirtualTeacher.Models.Student", null)
-                        .WithMany("CourseRatings")
-                        .HasForeignKey("StudentId1");
 
                     b.Navigation("Course");
 
@@ -494,8 +476,6 @@ namespace VirtualTeacher.Migrations
             modelBuilder.Entity("VirtualTeacher.Models.Student", b =>
                 {
                     b.Navigation("Assignments");
-
-                    b.Navigation("CompletedCourses");
 
                     b.Navigation("CourseRatings");
 
