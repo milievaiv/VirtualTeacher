@@ -60,6 +60,10 @@ namespace VirtualTeacher.Data
                 .HasBaseType<BaseUser>()
                 .ToTable("Teachers");
 
+            modelBuilder.Entity<Admin>()
+                .HasBaseType<BaseUser>()
+                .ToTable("Admins");
+
             // Configure Course entity
             modelBuilder.Entity<Course>()
                 .HasKey(c => c.Id);
