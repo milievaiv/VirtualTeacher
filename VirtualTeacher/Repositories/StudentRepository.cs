@@ -1,4 +1,5 @@
 ﻿using VirtualTeacher.Data;
+using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 
@@ -17,14 +18,14 @@ namespace VirtualTeacher.Repositories
         {
             var student = GetStudents().FirstOrDefault(u => u.Id == id);
 
-            return student;
+            return student ?? throw new EntityNotFoundException($"Student with id={id} doesn't exist."); 
         }
 
         public Student GetStudentByEmail(string email)
         {
             var student = GetStudents().FirstOrDefault(u => u.Email == email);
 
-            return student;
+            return student ?? throw new EntityNotFoundException($"Student with email {email} doesn't exist."); ;
         }
 
         private IQueryable<Student> GetStudents()

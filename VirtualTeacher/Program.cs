@@ -84,11 +84,11 @@ namespace VirtualTeacher
             var app = builder.Build();
 
             app.UseSwagger();
-            app.UseSession();
+            //app.UseSession();
 
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreDemo API V1");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "VirtualTeacher API V1");
                 options.RoutePrefix = "api/swagger";
             });
 
