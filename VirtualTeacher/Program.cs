@@ -1,8 +1,16 @@
 using Google.Apis.Auth.AspNetCore3;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using VirtualTeacher.Data;
+using Newtonsoft.Json;
+using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Services;
+using VirtualTeacher.Repositories.Contracts;
+using VirtualTeacher.Repositories;
 
 namespace VirtualTeacher
 {
@@ -14,7 +22,29 @@ namespace VirtualTeacher
             var configuration = builder.Configuration;
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+           .AddJwtBearer(options =>
+           {
+               options.SaveToken = true;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = false,
+                   ValidateAudience = false,
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Secret"]))
+               };
+           });
 
             var bucketName = configuration["GoogleCloudStorage:BucketName"];
 
@@ -33,8 +63,34 @@ namespace VirtualTeacher
                 options.EnableSensitiveDataLogging();
             });
 
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+            builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
+            //builder.Services.AddScoped<IUserService, UserService>();
+            //builder.Services.AddScoped<IAdminService, AdminService>();
+
+            builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IVerificationService, VerificationService>();
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                // Register ConflictingActionsResolver to handle conflicts
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
 
             var app = builder.Build();
+
+            app.UseSwagger();
+            app.UseSession();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreDemo API V1");
+                options.RoutePrefix = "api/swagger";
+            });
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -46,6 +102,11 @@ namespace VirtualTeacher
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
 
             app.MapControllerRoute(
                 name: "default",

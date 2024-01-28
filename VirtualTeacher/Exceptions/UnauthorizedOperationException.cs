@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AspNetCoreDemo.Exceptions
+namespace VirtualTeacher.Exceptions
 {
 	public class UnauthorizedOperationException : ApplicationException
 	{

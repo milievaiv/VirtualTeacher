@@ -16,6 +16,7 @@ namespace VirtualTeacher.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<BaseUser> Users { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
 
         public DbSet<Lecture> Lectures { get; set; }
 
