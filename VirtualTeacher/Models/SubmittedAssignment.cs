@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace VirtualTeacher.Models
+﻿namespace VirtualTeacher.Models
 {
     public class SubmittedAssignment
     {

@@ -1,11 +1,9 @@
 ﻿using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Models;
-using VirtualTeacher.Repositories;
 using System.Security.Cryptography;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
-using System.Diagnostics.Eventing.Reader;
 
 namespace VirtualTeacher.Services
 {

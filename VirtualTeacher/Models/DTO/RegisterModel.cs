@@ -1,6 +1,4 @@
-﻿using VirtualTeacher.Models.DTO;
-
-namespace VirtualTeacher.Models.DTO
+﻿namespace VirtualTeacher.Models.DTO
 {
     public class RegisterModel
     {

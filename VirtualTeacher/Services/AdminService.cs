@@ -1,5 +1,4 @@
-﻿using PhotoForum.Controllers.Data.Exceptions;
-using VirtualTeacher.Models;
+﻿using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
@@ -12,7 +11,10 @@ namespace VirtualTeacher.Services
         private readonly IStudentRepository studentRepository;
         private readonly IAdminRepository adminsRepository;
 
-        public AdminService(IStudentRepository studentRepository, IAdminRepository adminsRepository, IRegistrationService registrationService)
+        public AdminService(
+            IStudentRepository studentRepository,
+            IAdminRepository adminsRepository, 
+            IRegistrationService registrationService)
         {
             this.studentRepository = studentRepository;
             this.registrationService = registrationService;

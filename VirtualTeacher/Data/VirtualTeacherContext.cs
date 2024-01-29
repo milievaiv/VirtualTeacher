@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 using VirtualTeacher.Models;
 
 namespace VirtualTeacher.Data

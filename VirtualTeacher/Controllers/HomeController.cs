@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using VirtualTeacher.Models;
 
 namespace VirtualTeacher.Controllers
 {

@@ -1,18 +1,16 @@
 ﻿using VirtualTeacher.Models;
 using VirtualTeacher.Models.QueryParameters;
 
-namespace VirtualTeacher.Repositories.Contracts
+namespace VirtualTeacher.Services.Contracts
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         IList<BaseUser> GetAllUsers();
         BaseUser GetUserById(int id);
         BaseUser GetUserByEmail(string email);
         BaseUser GetUserByFirstName(string firstName);
-        BaseUser GetUserByLastName(string lastName);
+        BaseUser GetUserByLastName(string firstName);
         BaseUser Update(int id, BaseUser user);
-        bool Delete(int id);
         IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters);
-        bool UserExists(string email);
     }
 }
