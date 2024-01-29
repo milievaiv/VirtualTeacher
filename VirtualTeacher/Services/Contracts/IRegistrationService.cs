@@ -5,6 +5,6 @@ namespace VirtualTeacher.Services.Contracts
 {
     public interface IRegistrationService
     {
-        BaseUser Register(RegisterModel registerModel);
+        PasswordHashInfo GeneratePasswordHashAndSalt(RegisterModel registerModel);
     }
 }

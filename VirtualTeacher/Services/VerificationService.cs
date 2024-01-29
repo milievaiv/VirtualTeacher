@@ -1,5 +1,5 @@
 ﻿using VirtualTeacher.Exceptions;
-using VirtualTeacher.Models.ViewModel;
+using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories;
 using System.Security.Cryptography;

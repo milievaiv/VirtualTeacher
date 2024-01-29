@@ -11,6 +11,7 @@ namespace VirtualTeacher.Models
 
         [Required]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [RegularExpression(@"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$", ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
         [Required]

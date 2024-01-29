@@ -4,7 +4,9 @@ namespace VirtualTeacher.Repositories.Contracts
 {
     public interface IStudentRepository
     {
+        Student CreateStudent(Student student);
         Student GetStudentById(int id);
         Student GetStudentByEmail(string email);
+        IList<Student> GetStudents();
     }
 }

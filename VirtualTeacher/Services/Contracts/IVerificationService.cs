@@ -1,5 +1,5 @@
 ﻿using VirtualTeacher.Models;
-using VirtualTeacher.Models.ViewModel;
+using VirtualTeacher.Models.DTO;
 
 namespace VirtualTeacher.Services.Contracts
 {

@@ -1,5 +1,5 @@
 ﻿using VirtualTeacher.Exceptions;
-using VirtualTeacher.Models.ViewModel;
+using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using System.Security.Cryptography;
@@ -16,27 +16,24 @@ namespace VirtualTeacher.Services
             this.userRepository = userRepository;
         }
 
-        public BaseUser Register(RegisterModel registerModel)
+        public PasswordHashInfo GeneratePasswordHashAndSalt(RegisterModel registerModel)
         {
             var existingUser = userRepository.UserExists(registerModel.Email);
 
             if (existingUser)
             {
-                throw new DuplicateEntityException("User already exists!");
+                throw new DuplicateEntityException("This email is taken.");
             }
 
             CreatePasswordHash(registerModel.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            var user = new BaseUser
+            var pass = new PasswordHashInfo
             {
-                Email = registerModel.Email,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                FirstName = registerModel.FirstName,
-                LastName = registerModel.LastName,                
+                PasswordSalt = passwordSalt,           
             };
 
-            return user;
+            return pass;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
