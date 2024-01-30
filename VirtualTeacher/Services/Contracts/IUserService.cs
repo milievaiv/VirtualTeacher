@@ -11,6 +11,7 @@ namespace VirtualTeacher.Services.Contracts
         BaseUser GetUserByFirstName(string firstName);
         BaseUser GetUserByLastName(string firstName);
         BaseUser Update(int id, BaseUser user);
+        void ChangePassword(int userId, string oldPassword, string newPassword);
         IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters);
     }
 }

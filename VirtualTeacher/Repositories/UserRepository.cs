@@ -1,4 +1,5 @@
-﻿using VirtualTeacher.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VirtualTeacher.Data;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.QueryParameters;
@@ -23,7 +24,7 @@ namespace VirtualTeacher.Repositories
         {
             var user = GetUsers().FirstOrDefault(u => u.Id == id);           
 
-            return user ?? throw new EntityNotFoundException($"User with id={id} doesn't exist.");
+            return user ?? throw new EntityNotFoundException($"User with Id {id} doesn't exist.");
         }
        
         public BaseUser GetUserByEmail(string email)
@@ -32,31 +33,57 @@ namespace VirtualTeacher.Repositories
 
             return user ?? throw new EntityNotFoundException($"User with email {email} doesn't exist."); 
         }
+
         public BaseUser GetUserByFirstName(string firstName)
         {
             var user = GetUsers().FirstOrDefault(u => u.FirstName == firstName);
 
             return user ?? throw new EntityNotFoundException($"User with firsname {firstName} doesn't exist."); 
         }
+
         public BaseUser GetUserByLastName(string lastName)
         {
             var user = GetUsers().FirstOrDefault(u => u.LastName == lastName);
 
             return user ?? throw new EntityNotFoundException($"User with lastname {lastName} doesn't exist."); 
         }
+
         public BaseUser Update(int id, BaseUser user)
         {
             var userToUpdate = GetUserById(id);
 
-            userToUpdate.FirstName = user.FirstName;
-            userToUpdate.LastName = user.LastName;
-            //ProfilePicture
+            if (userToUpdate != null)
+            {
+                userToUpdate.FirstName = user.FirstName;
+                userToUpdate.LastName = user.LastName;
+                // Photo
 
-            context.Update(userToUpdate);
-            context.SaveChanges();
+                context.Update(userToUpdate);
+                context.SaveChanges();
 
-            return userToUpdate;
+                return userToUpdate;
+            }
+            else
+            {               
+                throw new EntityNotFoundException($"User with Id {id} not found.");
+            }
         }
+
+        public void UpdateUserPassword(int userId, byte[] passwordHash, byte[] passwordSalt)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new EntityNotFoundException($"User with Id {userId} not found.");
+            }
+        }
+
         public bool Delete(int id)
         {
             BaseUser userToDelete = GetUserById(id);
@@ -67,6 +94,7 @@ namespace VirtualTeacher.Repositories
 
             return context.SaveChanges() > 0;
         }
+
         public IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters)
         {
             IQueryable<BaseUser> result = GetUsers();
@@ -78,6 +106,7 @@ namespace VirtualTeacher.Repositories
 
             return result.ToList();
         }
+
         public static IQueryable<BaseUser> SortBy(IQueryable<BaseUser> users, string sortBy)
         {
             switch (sortBy)
@@ -104,6 +133,7 @@ namespace VirtualTeacher.Repositories
         {
             return context.Users;
         }
+
         private static IQueryable<BaseUser> FilterByEmail(IQueryable<BaseUser> users, string email)
         {
             if (!string.IsNullOrEmpty(email))
@@ -115,6 +145,7 @@ namespace VirtualTeacher.Repositories
                 return users;
             }
         }
+
         private static IQueryable<BaseUser> FilterByFirstName(IQueryable<BaseUser> users, string firstName)
         {
             if (!string.IsNullOrEmpty(firstName))
@@ -126,6 +157,7 @@ namespace VirtualTeacher.Repositories
                 return users;
             }
         }
+
         private static IQueryable<BaseUser> FilterByLastName(IQueryable<BaseUser> users, string lastName)
         {
             if (!string.IsNullOrEmpty(lastName))
@@ -137,15 +169,18 @@ namespace VirtualTeacher.Repositories
                 return users;
             }
         }
+
         private static IQueryable<BaseUser> SortByEmail(IQueryable<BaseUser> users)
         {
             return users.OrderBy(user => user.Email);
 
         }
+
         private static IQueryable<BaseUser> SortByFirstName(IQueryable<BaseUser> users)
         {
             return users.OrderBy(user => user.FirstName);
         }
+
         private static IQueryable<BaseUser> SortByLastName(IQueryable<BaseUser> users)
         {
             return users.OrderBy(user => user.LastName);
