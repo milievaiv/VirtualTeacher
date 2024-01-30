@@ -1,8 +1,5 @@
-﻿using Google.Apis.Drive.v3.Data;
-using PhotoForum.Controllers.Data.Exceptions;
-using VirtualTeacher.Models;
+﻿using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Repositories;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 
@@ -43,8 +40,6 @@ namespace VirtualTeacher.Services
         public Student GetStudentByEmail(string email)
         {
             return this.studentRepository.GetStudentByEmail(email);
-        }
-
-        
+        }        
     }
 }

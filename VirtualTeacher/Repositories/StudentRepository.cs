@@ -1,6 +1,4 @@
-﻿using Google.Apis.Drive.v3.Data;
-using PhotoForum.Controllers.Data.Exceptions;
-using VirtualTeacher.Data;
+﻿using VirtualTeacher.Data;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;

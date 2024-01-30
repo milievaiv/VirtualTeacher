@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace VirtualTeacher.Models
+﻿namespace VirtualTeacher.Models
 {
     public class TeacherAssignment
     {
@@ -8,7 +6,7 @@ namespace VirtualTeacher.Models
         public Teacher Teacher { get; set; }
 
         public int AssignmentId { get; set; }  // Foreign key part 1
-        public int StudentId { get; set; }      // Foreign key part 2
+        public int StudentId { get; set; }     // Foreign key part 2
         public SubmittedAssignment SubmittedAssignment { get; set; }
     }
 }

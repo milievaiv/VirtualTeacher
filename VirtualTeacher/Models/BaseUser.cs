@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VirtualTeacher.Models
@@ -27,6 +26,9 @@ namespace VirtualTeacher.Models
         public string LastName { get; set; }
 
         public UserRole Role { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
+
         //public bool EmailConfirmed { get; set; }
 
     }
