@@ -21,6 +21,18 @@ namespace VirtualTeacher
             var builder = WebApplication.CreateBuilder(args);
             var configuration = builder.Configuration;
 
+
+            string smtpSettingsFilePath = "C:\\Google Keys\\smtpsettings.json";
+
+            // Read SmtpSettings from the separate JSON file
+            var smtpSettingsConfiguration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(smtpSettingsFilePath, optional: false, reloadOnChange: true)
+                .Build();
+
+            builder.Services.Configure<SmtpSettings>(smtpSettingsConfiguration);
+            builder.Services.AddTransient<IEmailService, EmailService>();
+            builder.Services.AddTransient<ITeacherCandidateService, TeacherCandidateService>(); // Add this line
             // Add services to the container.
             builder.Services.AddControllersWithViews()
             .AddNewtonsoftJson(options =>
@@ -51,7 +63,7 @@ namespace VirtualTeacher
             builder.Services.AddScoped<CloudStorageService>(provider =>
             {
                 // Provide the path to your service account key file
-                var serviceAccountKeyPath = "SA_key.json";
+                var serviceAccountKeyPath = "C:\\Google Keys\\SA_key.json";
                 return new CloudStorageService(serviceAccountKeyPath, bucketName);
             });
 

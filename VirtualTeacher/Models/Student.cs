@@ -6,6 +6,7 @@
         //public ICollection<Course> CompletedCourses { get; set; }
         public ICollection<SubmittedAssignment> Assignments { get; set; }
         public ICollection<CourseRating> CourseRatings { get; set; }
+        public bool IsDeleted { get; set; }
 
     }
 }

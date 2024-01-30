@@ -17,7 +17,7 @@ namespace VirtualTeacher
         {
             try
             {
-                using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream("C:\\Google Keys\\credentials.json", FileMode.Open, FileAccess.Read))
                 {
                     string credPath = "token.json";
                     return await GoogleWebAuthorizationBroker.AuthorizeAsync(

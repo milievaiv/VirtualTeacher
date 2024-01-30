@@ -37,14 +37,12 @@ namespace VirtualTeacher.Controllers
             }
             catch (DuplicateEntityException)
             {
-
                 return Conflict("That username is taken.Try another.");
             }
             catch (DuplicateEmailException ex)
             {
                 return Conflict(ex.Message);
             }
-
         }
 
         [HttpPost("login")]
@@ -64,8 +62,7 @@ namespace VirtualTeacher.Controllers
             catch(EntityNotFoundException)
             { 
                 return BadRequest("Invalid login attempt!");
-            }
-            
+            }           
         }
 
         private string DetermineUserRole(BaseUser user)
