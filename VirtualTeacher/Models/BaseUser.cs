@@ -26,8 +26,8 @@ namespace VirtualTeacher.Models
         public string LastName { get; set; }
 
         public UserRole Role { get; set; }
-        [Required]
-        public bool IsDeleted { get; set; }
+        //[Required]
+        //public bool IsDeleted { get; set; }
 
         //public bool EmailConfirmed { get; set; }
 

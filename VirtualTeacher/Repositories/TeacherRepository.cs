@@ -12,6 +12,13 @@ namespace VirtualTeacher.Repositories
         {
             this.context = context;
         }
+        public Teacher CreateTeacher(Teacher teacher)
+        {
+            context.Teachers.Add(teacher);
+            context.SaveChanges();
+
+            return teacher;
+        }
 
         public Teacher GetTeacherById(int id)
         {

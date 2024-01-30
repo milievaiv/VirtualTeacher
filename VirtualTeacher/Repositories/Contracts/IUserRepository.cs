@@ -12,7 +12,7 @@ namespace VirtualTeacher.Repositories.Contracts
         BaseUser GetUserByLastName(string lastName);
         BaseUser Update(int id, BaseUser user);
         void UpdateUserPassword(int userId, byte[] passwordHash, byte[] passwordSalt);
-        bool Delete(int id);
+        //bool Delete(int id);
         IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters);
         bool UserExists(string email);
     }

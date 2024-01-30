@@ -84,16 +84,16 @@ namespace VirtualTeacher.Repositories
             }
         }
 
-        public bool Delete(int id)
-        {
-            BaseUser userToDelete = GetUserById(id);
+        //public bool Delete(int id)
+        //{
+        //    BaseUser userToDelete = GetUserById(id);
 
-            if (userToDelete.IsDeleted == true) throw new InvalidOperationException("User is already deleted.");
+        //    if (userToDelete.IsDeleted == true) throw new InvalidOperationException("User is already deleted.");
 
-            userToDelete.IsDeleted = true;
+        //    userToDelete.IsDeleted = true;
 
-            return context.SaveChanges() > 0;
-        }
+        //    return context.SaveChanges() > 0;
+        //}
 
         public IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters)
         {

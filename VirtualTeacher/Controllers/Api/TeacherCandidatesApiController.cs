@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Services;
+using VirtualTeacher.Exceptions;
 
 namespace VirtualTeacher.Controllers.Api
 {
@@ -11,12 +13,29 @@ namespace VirtualTeacher.Controllers.Api
     public class TeacherCandidatesController : ControllerBase
     {
         private readonly ITeacherCandidateService _teacherCandidateService;
+        private readonly ITeacherService _teacherService;
         private readonly IEmailService _emailService;
 
-        public TeacherCandidatesController(ITeacherCandidateService teacherCandidateService, IEmailService emailService)
+        public TeacherCandidatesController(ITeacherCandidateService teacherCandidateService, IEmailService emailService, ITeacherService teacherService)
         {
             _teacherCandidateService = teacherCandidateService;
             _emailService = emailService;
+            _teacherService = teacherService;
+        }
+
+        [HttpPost("register")]
+        public IActionResult RegisterTeacher([FromBody] RegisterModel registerModel)
+        {
+            try
+            {
+                var teacher = _teacherService.Register(registerModel);
+                return Ok(teacher);
+            }
+            catch (DuplicateEntityException)
+            {
+
+                return Conflict("That email is taken. Try another.");
+            }
         }
 
         [HttpPost]

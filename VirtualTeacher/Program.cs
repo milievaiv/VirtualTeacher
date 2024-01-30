@@ -79,6 +79,7 @@ namespace VirtualTeacher
 
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<ITeacherService, TeacherService>();
 
             builder.Services.AddScoped<IRegistrationService, RegistrationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
