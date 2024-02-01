@@ -19,10 +19,11 @@ namespace VirtualTeacher.Data
         public DbSet<Lecture> Lectures { get; set; }
 
         public DbSet<Course> Courses { get; set; }
-        public DbSet<CourseRating> CourseRatings { get; set; }
-        public DbSet<CourseTopic> CourseTopics { get; set; }
+        public DbSet<CourseRating> CoursesRatings { get; set; }
+        public DbSet<CourseTopic> CoursesTopics { get; set; }
 
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<TeacherAssignment> TeachersAssigments { get; set; }
 
         //Bridge tables
         public DbSet<SubmittedAssignment> SubmittedAssignments { get; set; }
@@ -126,7 +127,10 @@ namespace VirtualTeacher.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<SubmittedAssignment>()
-                .HasKey(sa => new { sa.AssignmentId, sa.StudentId });
+                .HasKey(sa => sa.Id); // Specify the independent primary key
+
+            modelBuilder.Entity<SubmittedAssignment>()
+                .HasAlternateKey(sa => new { sa.AssignmentId, sa.StudentId }); // Specify the composite key
 
             modelBuilder.Entity<SubmittedAssignment>()
                 .HasOne(sa => sa.Assignment)
@@ -155,20 +159,36 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(tc => tc.CourseId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            //modelBuilder.Entity<SubmittedAssignment>()
+            //    .HasKey(sa => new { sa.AssignmentId, sa.StudentId });
+
+            //modelBuilder.Entity<SubmittedAssignment>()
+            //    .HasOne(sa => sa.Assignment)
+            //    .WithMany(a => a.Submissions)
+            //    .HasForeignKey(sa => sa.AssignmentId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<SubmittedAssignment>()
+            //    .HasOne(sa => sa.Student)
+            //    .WithMany(s => s.Assignments)
+            //    .HasForeignKey(sa => sa.StudentId)
+            //    .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<TeacherAssignment>()
-                .HasKey(ta => new { ta.TeacherId, ta.AssignmentId, ta.StudentId });
+                .HasKey(ta => new { ta.TeacherId, ta.AssignmentId });
 
             modelBuilder.Entity<TeacherAssignment>()
                 .HasOne(ta => ta.Teacher)
                 .WithMany(t => t.AssignmentsToGrade)
+                .HasPrincipalKey(ta => ta.Id)
                 .HasForeignKey(ta => ta.TeacherId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<TeacherAssignment>()
                 .HasOne(ta => ta.SubmittedAssignment)
                 .WithMany(sa => sa.Graders)
-                .HasForeignKey(ta => new { ta.AssignmentId, ta.StudentId })  // Use the correct foreign key properties here
-                .HasPrincipalKey(sa => new { sa.AssignmentId, sa.StudentId })  // Specify the composite key of SubmittedAssignment
+                .HasPrincipalKey(ta => ta.Id)
+                .HasForeignKey(ta => ta.AssignmentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 

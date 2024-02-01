@@ -15,7 +15,7 @@ namespace VirtualTeacher.Repositories
 
         public CourseTopic CreateCourseTopic(CourseTopic courseTopic)
         {
-            context.CourseTopics.Add(courseTopic);
+            context.CoursesTopics.Add(courseTopic);
             context.SaveChanges();
 
             return courseTopic;
@@ -29,14 +29,14 @@ namespace VirtualTeacher.Repositories
 
         public CourseTopic GetCourseTopicById(int id)
         {
-            var courseTopic = context.CourseTopics.FirstOrDefault(c => c.Id == id);
+            var courseTopic = context.CoursesTopics.FirstOrDefault(c => c.Id == id);
 
             return courseTopic ?? throw new EntityNotFoundException($"Course Topic with id:{id} doesn't exist.");
         }
 
         public bool IsCourseTopicUnique(string courseTopic)
         {
-            return context.CourseTopics.Any(c => c.Topic == courseTopic);
+            return context.CoursesTopics.Any(c => c.Topic == courseTopic);
         }
     }
 }

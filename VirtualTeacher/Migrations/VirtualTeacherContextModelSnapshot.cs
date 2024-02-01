@@ -91,6 +91,9 @@ namespace VirtualTeacher.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CourseTopicId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
@@ -107,14 +110,11 @@ namespace VirtualTeacher.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CourseTopicId");
 
-                    b.HasIndex("TopicId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Courses");
                 });
@@ -146,7 +146,7 @@ namespace VirtualTeacher.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("CourseRatings");
+                    b.ToTable("CoursesRatings");
                 });
 
             modelBuilder.Entity("VirtualTeacher.Models.CourseTopic", b =>
@@ -163,7 +163,7 @@ namespace VirtualTeacher.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CourseTopics");
+                    b.ToTable("CoursesTopics");
                 });
 
             modelBuilder.Entity("VirtualTeacher.Models.Lecture", b =>
@@ -218,10 +218,13 @@ namespace VirtualTeacher.Migrations
 
             modelBuilder.Entity("VirtualTeacher.Models.SubmittedAssignment", b =>
                 {
-                    b.Property<int>("AssignmentId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AssignmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Feedback")
@@ -231,11 +234,16 @@ namespace VirtualTeacher.Migrations
                     b.Property<decimal?>("Grade")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SubmittedFile")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AssignmentId", "StudentId");
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("AssignmentId", "StudentId");
 
                     b.HasIndex("StudentId");
 
@@ -250,14 +258,11 @@ namespace VirtualTeacher.Migrations
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.HasKey("TeacherId", "AssignmentId");
 
-                    b.HasKey("TeacherId", "AssignmentId", "StudentId");
+                    b.HasIndex("AssignmentId");
 
-                    b.HasIndex("AssignmentId", "StudentId");
-
-                    b.ToTable("TeacherAssignment");
+                    b.ToTable("TeachersAssigments");
                 });
 
             modelBuilder.Entity("VirtualTeacher.Models.TeacherCourse", b =>
@@ -318,21 +323,21 @@ namespace VirtualTeacher.Migrations
 
             modelBuilder.Entity("VirtualTeacher.Models.Course", b =>
                 {
+                    b.HasOne("VirtualTeacher.Models.CourseTopic", "CourseTopic")
+                        .WithMany()
+                        .HasForeignKey("CourseTopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("VirtualTeacher.Models.Teacher", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VirtualTeacher.Models.CourseTopic", "Topic")
-                        .WithMany()
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CourseTopic");
 
                     b.Navigation("Creator");
-
-                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("VirtualTeacher.Models.CourseRating", b =>
@@ -405,16 +410,16 @@ namespace VirtualTeacher.Migrations
 
             modelBuilder.Entity("VirtualTeacher.Models.TeacherAssignment", b =>
                 {
+                    b.HasOne("VirtualTeacher.Models.SubmittedAssignment", "SubmittedAssignment")
+                        .WithMany("Graders")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("VirtualTeacher.Models.Teacher", "Teacher")
                         .WithMany("AssignmentsToGrade")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("VirtualTeacher.Models.SubmittedAssignment", "SubmittedAssignment")
-                        .WithMany("Graders")
-                        .HasForeignKey("AssignmentId", "StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("SubmittedAssignment");

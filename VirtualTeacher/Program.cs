@@ -66,7 +66,8 @@ namespace VirtualTeacher
 
             builder.Services.AddDbContext<VirtualTeacherContext>(options =>
             {
-                string connectionString = @"Data Source=127.0.0.1,1435;Initial Catalog=VirtualTeacher;User Id=sqlserver;Password=D?3F&>#(}HAmCOi%;";
+                string connectionString = @"Data Source=127.0.0.1,1435;Initial Catalog=VirtualTeacher;User Id=sqlserver;Password=D?3F&>#(}HAmCOi%;
+";
                 //string connectionString = "Server=localhost;Database=Demo;Trusted_Connection=True;";
                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly(typeof(VirtualTeacher.Data.VirtualTeacherContext).Assembly.FullName));
                 options.EnableSensitiveDataLogging();

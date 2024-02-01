@@ -1,7 +1,11 @@
-﻿namespace VirtualTeacher.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VirtualTeacher.Models
 {
     public class SubmittedAssignment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public virtual int Id { get; set; }
         public int AssignmentId { get; set; } //Primary Key
         public Assignment Assignment { get; set; }
         public int StudentId { get; set; } // Primary Key

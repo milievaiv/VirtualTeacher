@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualTeacher.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CourseTopics",
+                name: "CoursesTopics",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +19,7 @@ namespace VirtualTeacher.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseTopics", x => x.Id);
+                    table.PrimaryKey("PK_CoursesTopics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,10 +41,27 @@ namespace VirtualTeacher.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admins_Users_Id",
+                        column: x => x.Id,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,7 +78,8 @@ namespace VirtualTeacher.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Approved = table.Column<bool>(type: "bit", nullable: false)
+                    Approved = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +98,7 @@ namespace VirtualTeacher.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TopicId = table.Column<int>(type: "int", nullable: false),
+                    CourseTopicId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatorId = table.Column<int>(type: "int", nullable: false)
@@ -89,9 +107,9 @@ namespace VirtualTeacher.Migrations
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Courses_CourseTopics_TopicId",
-                        column: x => x.TopicId,
-                        principalTable: "CourseTopics",
+                        name: "FK_Courses_CoursesTopics_CourseTopicId",
+                        column: x => x.CourseTopicId,
+                        principalTable: "CoursesTopics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -103,7 +121,7 @@ namespace VirtualTeacher.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseRatings",
+                name: "CoursesRatings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -115,14 +133,14 @@ namespace VirtualTeacher.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseRatings", x => x.Id);
+                    table.PrimaryKey("PK_CoursesRatings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CourseRatings_Courses_CourseId",
+                        name: "FK_CoursesRatings_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CourseRatings_Students_StudentId",
+                        name: "FK_CoursesRatings_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -220,6 +238,8 @@ namespace VirtualTeacher.Migrations
                 name: "SubmittedAssignments",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AssignmentId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     SubmittedFile = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -228,7 +248,8 @@ namespace VirtualTeacher.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubmittedAssignments", x => new { x.AssignmentId, x.StudentId });
+                    table.PrimaryKey("PK_SubmittedAssignments", x => x.Id);
+                    table.UniqueConstraint("AK_SubmittedAssignments_AssignmentId_StudentId", x => new { x.AssignmentId, x.StudentId });
                     table.ForeignKey(
                         name: "FK_SubmittedAssignments_Assignments_AssignmentId",
                         column: x => x.AssignmentId,
@@ -243,24 +264,23 @@ namespace VirtualTeacher.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeacherAssignment",
+                name: "TeachersAssigments",
                 columns: table => new
                 {
                     TeacherId = table.Column<int>(type: "int", nullable: false),
-                    AssignmentId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    AssignmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherAssignment", x => new { x.TeacherId, x.AssignmentId, x.StudentId });
+                    table.PrimaryKey("PK_TeachersAssigments", x => new { x.TeacherId, x.AssignmentId });
                     table.ForeignKey(
-                        name: "FK_TeacherAssignment_SubmittedAssignments_AssignmentId_StudentId",
-                        columns: x => new { x.AssignmentId, x.StudentId },
+                        name: "FK_TeachersAssigments_SubmittedAssignments_AssignmentId",
+                        column: x => x.AssignmentId,
                         principalTable: "SubmittedAssignments",
-                        principalColumns: new[] { "AssignmentId", "StudentId" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeacherAssignment_Teachers_TeacherId",
+                        name: "FK_TeachersAssigments_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id");
@@ -273,14 +293,9 @@ namespace VirtualTeacher.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseRatings_CourseId",
-                table: "CourseRatings",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CourseRatings_StudentId",
-                table: "CourseRatings",
-                column: "StudentId");
+                name: "IX_Courses_CourseTopicId",
+                table: "Courses",
+                column: "CourseTopicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_CreatorId",
@@ -288,9 +303,14 @@ namespace VirtualTeacher.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_TopicId",
-                table: "Courses",
-                column: "TopicId");
+                name: "IX_CoursesRatings_CourseId",
+                table: "CoursesRatings",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoursesRatings_StudentId",
+                table: "CoursesRatings",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lectures_CourseId",
@@ -308,29 +328,32 @@ namespace VirtualTeacher.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_AssignmentId_StudentId",
-                table: "TeacherAssignment",
-                columns: new[] { "AssignmentId", "StudentId" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TeacherCourse_CourseId",
                 table: "TeacherCourse",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeachersAssigments_AssignmentId",
+                table: "TeachersAssigments",
+                column: "AssignmentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CourseRatings");
+                name: "Admins");
+
+            migrationBuilder.DropTable(
+                name: "CoursesRatings");
 
             migrationBuilder.DropTable(
                 name: "StudentsCourses");
 
             migrationBuilder.DropTable(
-                name: "TeacherAssignment");
+                name: "TeacherCourse");
 
             migrationBuilder.DropTable(
-                name: "TeacherCourse");
+                name: "TeachersAssigments");
 
             migrationBuilder.DropTable(
                 name: "SubmittedAssignments");
@@ -348,7 +371,7 @@ namespace VirtualTeacher.Migrations
                 name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "CourseTopics");
+                name: "CoursesTopics");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

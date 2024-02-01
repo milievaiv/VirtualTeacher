@@ -42,6 +42,14 @@ namespace VirtualTeacher.Attributes
                 // Return a 403 Forbidden response if the user is not authorized
                 context.Result = new ForbidResult();
             }
+            else
+            { 
+                var claims = jsonToken?.Claims ?? new List<Claim>();
+                var identity = new ClaimsIdentity(claims, "custom"); // "custom" is the authentication type
+                var principal = new ClaimsPrincipal(identity);
+
+                context.HttpContext.User = principal; 
+            }
         }
 
         private bool IsAuthorized(string rolesClaim)
