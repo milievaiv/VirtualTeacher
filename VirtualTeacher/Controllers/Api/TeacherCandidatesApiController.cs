@@ -58,11 +58,11 @@ namespace VirtualTeacher.Controllers.Api
         //localhost:5267/api/apply-for-teacher?requestId={requestId}
         [HttpGet]
         [Route("verify-submission")]
-        public IActionResult VerifyApplication([FromQuery] string requestId)
+        public async Task<IActionResult> VerifyApplication([FromQuery] string requestId)
         {
             try
             {
-                _emailService.FindEmail(requestId);
+                await _emailService.VerifyApplication(requestId);
 
                 return Ok("Application has been verified for further processing.");
             }

@@ -13,6 +13,7 @@ namespace VirtualTeacher.Models
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }
 
+        public int CourseTopicId { get; set; }
         public CourseTopic Topic { get; set; }
 
         [MaxLength(1000)]
