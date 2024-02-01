@@ -7,7 +7,7 @@ using MailKit.Search;
 using MailKit;
 using VirtualTeacher.Models.DTO;
 using System.Text;
-using PhotoForum.Exceptions;
+using VirtualTeacher.Exceptions;
 using MimeKit;
 using System.Xml;
 using HtmlAgilityPack;
