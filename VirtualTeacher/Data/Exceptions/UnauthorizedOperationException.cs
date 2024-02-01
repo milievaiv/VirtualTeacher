@@ -1,4 +1,4 @@
-﻿namespace PhotoForum.Exceptions
+﻿namespace VirtualTeacher.Exceptions
 {
     public class UnauthorizedOperationException : ApplicationException
     {
