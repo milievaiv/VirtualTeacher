@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using VirtualTeacher.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 using VirtualTeacher.Data;
 using VirtualTeacher.Services.Contracts;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Attributes;
+using System.Security.Claims;
+using VirtualTeacher.Data.Exceptions;
 
 namespace VirtualTeacher.Controllers.Api
 {
@@ -19,6 +19,8 @@ namespace VirtualTeacher.Controllers.Api
     public class CoursesApiController : ControllerBase
     {
         private readonly ICourseService courseService;
+        private readonly ITeacherService teacherService;
+        private readonly IAdminService adminService;
 
         public CoursesApiController(ICourseService courseService)
         {
@@ -60,7 +62,13 @@ namespace VirtualTeacher.Controllers.Api
             
             try
             {
-                return Ok(courseService.CreateCourse(createCourseModel));
+                var email = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (email != null)
+                {
+                    var teacher = teacherService.GetTeacherByEmail(email);
+                    return Ok(courseService.CreateCourse(createCourseModel, teacher));
+                }
+                throw new InvalidOperationException();
             }
             catch (Exception ex)
             {

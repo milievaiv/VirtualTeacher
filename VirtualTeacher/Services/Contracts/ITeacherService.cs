@@ -6,5 +6,7 @@ namespace VirtualTeacher.Services.Contracts
     public interface ITeacherService
     {
         Teacher Register(RegisterModel registerModel);
+        Teacher GetTeacherByEmail(string email);
+
     }
 }

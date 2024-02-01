@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VirtualTeacher.Data;
-using VirtualTeacher.Exceptions;
+using VirtualTeacher.Data.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.QueryParameters;
 using VirtualTeacher.Repositories.Contracts;

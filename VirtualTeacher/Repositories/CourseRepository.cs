@@ -1,7 +1,7 @@
 ﻿using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
-using VirtualTeacher.Exceptions;
+using VirtualTeacher.Data.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace VirtualTeacher.Repositories

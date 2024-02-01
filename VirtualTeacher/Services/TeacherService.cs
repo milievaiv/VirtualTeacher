@@ -38,5 +38,11 @@ namespace VirtualTeacher.Services
 
             return teacher;
         }
+
+        public Teacher GetTeacherByEmail(string email)
+        {
+            return teacherRepository.GetTeacherByEmail(email);
+        }
+
     }
 }

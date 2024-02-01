@@ -7,13 +7,9 @@ using MailKit.Search;
 using MailKit;
 using VirtualTeacher.Models.DTO;
 using System.Text;
-using VirtualTeacher.Exceptions;
+using VirtualTeacher.Data.Exceptions;
 using MimeKit;
-using System.Xml;
 using HtmlAgilityPack;
-using Microsoft.VisualBasic;
-using System.Text.RegularExpressions;
-using System.Reflection.Metadata;
 
 
 namespace VirtualTeacher.Services

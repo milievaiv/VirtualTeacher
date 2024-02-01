@@ -1,4 +1,4 @@
-﻿namespace VirtualTeacher.DTOs
+﻿namespace VirtualTeacher.Models.DTO
 {
     public class CourseTopicDto
     {

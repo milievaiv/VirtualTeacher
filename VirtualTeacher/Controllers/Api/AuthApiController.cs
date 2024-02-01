@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using VirtualTeacher.Controllers.Data.Exceptions;
+using VirtualTeacher.Data.Exceptions;
 
 namespace VirtualTeacher.Controllers
 {

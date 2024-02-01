@@ -1,10 +1,10 @@
-﻿namespace VirtualTeacher.DTOs
+﻿namespace VirtualTeacher.Models.DTO
 {
-    public class LectureDto
+    public class CourseDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public CourseTopicDto Topic { get; set; }
         public string Description { get; set; }
-        public string VideoURL { get; set; }
     }
 }

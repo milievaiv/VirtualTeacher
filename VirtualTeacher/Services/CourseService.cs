@@ -17,12 +17,13 @@ namespace VirtualTeacher.Services
             this.courseRepository = courseRepository;
             this.courseTopicService = courseTopicService;
         }
-        public Course CreateCourse(CreateCourseModel createCourseModel)
+        public Course CreateCourse(CreateCourseModel createCourseModel, Teacher teacher)
         {
             var courseTopic = courseTopicService.GetCourseTopicById(createCourseModel.CourseTopicId);
             var course = new Course()
             {
                 Title = createCourseModel.Title,
+                Creator = teacher,
                 //CourseTopicId = createCourseModel.CourseTopicId,
                 CourseTopic = courseTopic,
                 Description = createCourseModel.Description,

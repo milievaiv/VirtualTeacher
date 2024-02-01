@@ -3,7 +3,7 @@ using VirtualTeacher.Models;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Repositories;
-using VirtualTeacher.Exceptions;
+using VirtualTeacher.Data.Exceptions;
 using System.Security.Cryptography;
 
 namespace VirtualTeacher.Services

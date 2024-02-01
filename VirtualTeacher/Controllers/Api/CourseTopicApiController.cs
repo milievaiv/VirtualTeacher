@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Exceptions;
-using VirtualTeacher.DTOs;
 using VirtualTeacher.Models;
 using VirtualTeacher.Services;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Data.Exceptions;
+using VirtualTeacher.Models.DTO;
 
 namespace VirtualTeacher.Controllers.Api
 {
