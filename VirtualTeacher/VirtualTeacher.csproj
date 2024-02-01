@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Attributes\AuthorizeApiUser.cs" />
+    <Compile Remove="Attributes\AuthorizeApiUserAttribute.cs" />
+    <Compile Remove="Attributes\AuthorizeUser.cs" />
+    <Compile Remove="Attributes\AuthorizeUserAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Attributes\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Apis.Auth" Version="1.66.0" />
     <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.66.0" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.66.0.3296" />

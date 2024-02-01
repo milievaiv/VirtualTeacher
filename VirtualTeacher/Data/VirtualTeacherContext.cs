@@ -30,7 +30,6 @@ namespace VirtualTeacher.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Configure Assignment entity
             modelBuilder.Entity<Assignment>()
                 .HasKey(a => a.Id);
 
@@ -46,7 +45,6 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(sa => sa.AssignmentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure BaseUser entity
             modelBuilder.Entity<BaseUser>()
                 .ToTable("Users")
                 .HasKey(bu => bu.Id);
@@ -63,7 +61,6 @@ namespace VirtualTeacher.Data
                 .HasBaseType<BaseUser>()
                 .ToTable("Admins");
 
-            // Configure Course entity
             modelBuilder.Entity<Course>()
                 .HasKey(c => c.Id);
 
@@ -79,7 +76,6 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(cr => cr.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure CourseRating entity
             modelBuilder.Entity<CourseRating>()
                 .HasKey(cr => cr.Id);
 
@@ -95,11 +91,9 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(cr => cr.StudentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure CourseTopic entity
             modelBuilder.Entity<CourseTopic>()
                 .HasKey(ct => ct.Id);
 
-            // Configure Lecture entity
             modelBuilder.Entity<Lecture>()
                 .HasKey(l => l.Id);
 
@@ -116,7 +110,6 @@ namespace VirtualTeacher.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            // Configure StudentCourse entity
             modelBuilder.Entity<StudentCourse>()
                 .HasKey(sc => new { sc.StudentId, sc.CourseId });
 
@@ -132,7 +125,6 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(sc => sc.CourseId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Configure SubmittedAssignment entity
             modelBuilder.Entity<SubmittedAssignment>()
                 .HasKey(sa => new { sa.AssignmentId, sa.StudentId });
 
@@ -148,7 +140,6 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(sa => sa.StudentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Configure TeacherCourse entity
             modelBuilder.Entity<TeacherCourse>()
                 .HasKey(tc => new { tc.TeacherId, tc.CourseId });
 
@@ -164,7 +155,6 @@ namespace VirtualTeacher.Data
                 .HasForeignKey(tc => tc.CourseId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Configure TeacherAssignment entity
             modelBuilder.Entity<TeacherAssignment>()
                 .HasKey(ta => new { ta.TeacherId, ta.AssignmentId, ta.StudentId });
 
@@ -182,7 +172,6 @@ namespace VirtualTeacher.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            // Your other entity configurations...
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,4 +1,4 @@
-﻿namespace PhotoForum.Controllers.Data.Exceptions
+﻿namespace VirtualTeacher.Controllers.Data.Exceptions
 {
 	public class DuplicateEmailException : ApplicationException
 	{

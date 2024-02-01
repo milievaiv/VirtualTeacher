@@ -3,7 +3,7 @@ using VirtualTeacher.Models;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Repositories;
-using PhotoForum.Exceptions;
+using VirtualTeacher.Exceptions;
 using System.Security.Cryptography;
 
 namespace VirtualTeacher.Services
