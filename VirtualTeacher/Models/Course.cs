@@ -13,7 +13,8 @@ namespace VirtualTeacher.Models
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }
 
-        public CourseTopic Topic { get; set; }
+        public CourseTopic CourseTopic { get; set; }
+        //public int CourseTopicId { get; set; }
 
         [MaxLength(1000)]
         public string Description { get; set; }
@@ -21,7 +22,7 @@ namespace VirtualTeacher.Models
         public DateTime? StartDate { get; set; }
 
         public ICollection<Lecture> Lectures { get; set; }
-
+        //public List<int> LectureIds { get; set; }
         public ICollection<CourseRating> Ratings { get; set; }
 
         public ICollection<StudentCourse> Students { get; set; }
@@ -29,6 +30,7 @@ namespace VirtualTeacher.Models
         public ICollection<TeacherCourse> Teachers { get; set; }
 
         public Teacher Creator { get; set; }
+        //public int CreatorId { get; set; }
 
         // Optional:
         //public ICollection<Course> PrerequisiteCourses { get; set; }

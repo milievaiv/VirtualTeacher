@@ -8,7 +8,7 @@ using VirtualTeacher.Services.Contracts;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using PhotoForum.Controllers.Data.Exceptions;
+using VirtualTeacher.Controllers.Data.Exceptions;
 
 namespace VirtualTeacher.Controllers
 {
