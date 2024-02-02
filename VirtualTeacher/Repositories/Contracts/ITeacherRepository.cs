@@ -6,9 +6,8 @@ namespace VirtualTeacher.Repositories.Contracts
     {
         Teacher GetTeacherById(int id);
         Teacher GetTeacherByEmail(string email);
-
         Teacher CreateTeacher(Teacher teacher);
-
         IList<ApprovedTeacher> GetApprovedTeachers();
+        IList<Course> GetCoursesCreated(Teacher teacher);
     }
 }

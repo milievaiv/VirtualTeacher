@@ -49,5 +49,10 @@ namespace VirtualTeacher.Services
             return teacherRepository.GetApprovedTeachers();
         }
 
+        public IList<Course> GetCoursesCreated(Teacher teacher)
+        {
+            return teacherRepository.GetCoursesCreated(teacher);
+        }
+
     }
 }

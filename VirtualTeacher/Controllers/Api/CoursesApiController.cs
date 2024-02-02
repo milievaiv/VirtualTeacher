@@ -178,5 +178,26 @@ namespace VirtualTeacher.Controllers.Api
                 return Conflict(ex.Message);
             }
         }
+
+        [AuthorizeApiUsers("teacher")]
+        [HttpGet("created")]
+        public ActionResult<CourseTopicDto> GetCoursesCreated()
+        // FromQuery has to be tested
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (email != null)
+                {
+                    var teacher = teacherService.GetTeacherByEmail(email);
+                    return Ok(teacherService.GetCoursesCreated(teacher));
+                }
+                throw new InvalidOperationException();
+            }
+            catch (DuplicateEntityException ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
     }
 }

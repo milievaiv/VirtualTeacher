@@ -1,4 +1,5 @@
-﻿using VirtualTeacher.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 
@@ -36,7 +37,7 @@ namespace VirtualTeacher.Repositories
 
         private IQueryable<Teacher> GetTeachers()
         {
-            return context.Teachers;
+            return context.Teachers.Include(x => x.CoursesCreated);
         }
 
         private IQueryable<ApprovedTeacher> IQ_GetApprovedTeachers()
@@ -47,6 +48,10 @@ namespace VirtualTeacher.Repositories
         public IList<ApprovedTeacher> GetApprovedTeachers()
         {
             return IQ_GetApprovedTeachers().ToList();
+        }        
+        public IList<Course> GetCoursesCreated(Teacher teacher)
+        {
+            return teacher.CoursesCreated.ToList();
         }
     }
 }

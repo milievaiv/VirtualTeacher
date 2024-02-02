@@ -59,6 +59,11 @@ namespace VirtualTeacher.Data
                 .HasBaseType<BaseUser>()
                 .ToTable("Teachers");
 
+            modelBuilder.Entity<Teacher>()
+               .HasMany(teacher => teacher.CoursesCreated)
+               .WithOne(course => course.Creator)
+               .HasForeignKey(course => course.CreatorId);
+
             modelBuilder.Entity<Admin>()
                 .HasBaseType<BaseUser>()
                 .ToTable("Admins");

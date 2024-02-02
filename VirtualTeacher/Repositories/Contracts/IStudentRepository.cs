@@ -8,5 +8,6 @@ namespace VirtualTeacher.Repositories.Contracts
         Student GetStudentById(int id);
         Student GetStudentByEmail(string email);
         IList<Student> GetStudents();
+        double CalculateProgress(Student student, Course course);
     }
 }

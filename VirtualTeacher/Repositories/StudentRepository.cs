@@ -45,5 +45,15 @@ namespace VirtualTeacher.Repositories
         {
             return IQ_GetStudents().ToList();
         }
+
+        public double CalculateProgress(Student student, Course course)
+        {
+            var enrolledCourse = student.EnrolledCourses.FirstOrDefault(x => x.Course == course);
+            enrolledCourse.Grade = student.Assignments.Count / (double)course.TotalAssignments * 100;
+
+            context.SaveChanges();
+
+            return enrolledCourse.Grade;
+        }
     }
 }

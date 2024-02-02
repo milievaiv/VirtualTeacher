@@ -8,5 +8,6 @@ namespace VirtualTeacher.Services.Contracts
         Teacher Register(RegisterModel registerModel);
         Teacher GetTeacherByEmail(string email);
         IList<ApprovedTeacher> GetApprovedTeachers();
+        IList<Course> GetCoursesCreated(Teacher teacher);
     }
 }
