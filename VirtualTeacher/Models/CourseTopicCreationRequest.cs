@@ -2,7 +2,6 @@
 {
     public class CourseTopicCreationRequest
     {
-
         public string Topic { get; set; }
     }
 }

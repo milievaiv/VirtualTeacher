@@ -8,6 +8,8 @@ using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Services;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Repositories;
+using VirtualTeacher.Helpers;
+using VirtualTeacher.Helpers.Contracts;
 
 namespace VirtualTeacher
 {
@@ -55,6 +57,14 @@ namespace VirtualTeacher
                };
            });
 
+            // Authorization
+            builder.Services.AddAuthorization(options =>
+            {
+            // Define policies here
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            // Other policies...
+            });
+
             var bucketName = configuration["GoogleCloudStorage:BucketName"];
 
             builder.Services.AddScoped<CloudStorageService>(provider =>
@@ -84,11 +94,14 @@ namespace VirtualTeacher
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<ITeacherService, TeacherService>();
             builder.Services.AddScoped<ICourseService, CourseService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddScoped<IRegistrationService, RegistrationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IVerificationService, VerificationService>();
             builder.Services.AddScoped<ICourseTopicService, CourseTopicService>();
+
+            builder.Services.AddScoped<IModelMapper, ModelMapper>();
 
             builder.Services.AddSwaggerGen(c =>
             {
@@ -116,6 +129,7 @@ namespace VirtualTeacher
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
