@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtualTeacher.Data;
 
@@ -11,9 +12,10 @@ using VirtualTeacher.Data;
 namespace VirtualTeacher.Migrations
 {
     [DbContext(typeof(VirtualTeacherContext))]
-    partial class VirtualTeacherContextModelSnapshot : ModelSnapshot
+    [Migration("20240202114937_AddIsPublicDeleteApproved")]
+    partial class AddIsPublicDeleteApproved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,23 +23,6 @@ namespace VirtualTeacher.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("VirtualTeacher.Models.ApprovedTeacher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApprovedTeachers");
-                });
 
             modelBuilder.Entity("VirtualTeacher.Models.Assignment", b =>
                 {

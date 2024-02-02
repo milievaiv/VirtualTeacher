@@ -50,6 +50,11 @@ namespace VirtualTeacher.Services
             return adminsRepository.GetAdminByEmail(email);
         }
 
+        public ApprovedTeacher ApproveTeacher(string email)
+        {
+            return adminsRepository.ApproveTeacher(email);
+        }
+
         //public bool Block(string username)
         //{
         //    return this.usersRepository.Block(username);

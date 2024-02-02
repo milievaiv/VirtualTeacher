@@ -33,5 +33,12 @@ namespace VirtualTeacher.Controllers.Api
                 return Conflict("That email is taken. Try another.");
             }
         }
+
+        [HttpPost("approve-teacher")]
+        public IActionResult ApproveTeacher([FromBody] string email)
+        {
+            var approvedTeacher = adminService.ApproveTeacher(email);
+            return Ok(approvedTeacher);
+        }
     }
 }

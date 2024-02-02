@@ -7,10 +7,12 @@ namespace VirtualTeacher.Repositories
     public class AdminRepository : IAdminRepository
     {
         private readonly VirtualTeacherContext context;
+        private readonly ITeacherRepository teacherRepository;
 
-        public AdminRepository(VirtualTeacherContext context)
+        public AdminRepository(VirtualTeacherContext context, ITeacherRepository teacherRepository)
         {
             this.context = context;
+            this.teacherRepository = teacherRepository;
         }
 
         public Admin CreateAdmin(Admin admin)
@@ -38,12 +40,17 @@ namespace VirtualTeacher.Repositories
             return admin;
         }
 
-        public Teacher ApproveTeacher(Teacher teacher)
+        public ApprovedTeacher ApproveTeacher(string email)
         {
-            context.Teachers.Add(teacher);
+            ApprovedTeacher approvedTeacher = new ApprovedTeacher
+            {
+                Email = email 
+            };
+
+            context.ApprovedTeachers.Add(approvedTeacher);
             context.SaveChanges();
 
-            return teacher;
+            return approvedTeacher;
         }
         
     }

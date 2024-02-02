@@ -1,4 +1,5 @@
 ﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Services.Contracts
@@ -6,6 +7,7 @@ namespace VirtualTeacher.Services.Contracts
     public interface IUserService
     {
         IList<BaseUser> GetAllUsers();
+        BaseUser Register(RegisterModel registerModel);
         BaseUser GetUserById(int id);
         BaseUser GetUserByEmail(string email);
         BaseUser GetUserByFirstName(string firstName);

@@ -8,5 +8,7 @@ namespace VirtualTeacher.Services.Contracts
         Admin GetAdminByEmail(string email);
         Admin Register(RegisterModel registerModel);
         IList<Admin> GetAdmins();
+
+        ApprovedTeacher ApproveTeacher(string email);
     }
 }

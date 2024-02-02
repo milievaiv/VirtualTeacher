@@ -88,7 +88,6 @@ namespace VirtualTeacher
             builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
             builder.Services.AddScoped<IAdminRepository, AdminRepository>();
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-            builder.Services.AddScoped<ICourseTopicRepository, CourseTopicRepository>();
 
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
@@ -99,7 +98,6 @@ namespace VirtualTeacher
             builder.Services.AddScoped<IRegistrationService, RegistrationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IVerificationService, VerificationService>();
-            builder.Services.AddScoped<ICourseTopicService, CourseTopicService>();
 
             builder.Services.AddScoped<IModelMapper, ModelMapper>();
 

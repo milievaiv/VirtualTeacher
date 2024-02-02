@@ -7,8 +7,12 @@ namespace VirtualTeacher.Services.Contracts
     public interface ICourseService
     {
         Course CreateCourse(CreateCourseModel createCourseModel, Teacher teacher);
+        Course DeleteCourse(Course course);
         Course GetCourseById(int id);
-        Course GetCourseByTitle(string courseName);
+        IList<Course> GetCoursesByTitle(string courseName);
         IList<Course> GetCourses();
+        CourseTopic GetCourseTopicById(int id);
+        CourseTopic CreateCourseTopic(string courseTopic);
+        CourseTopic Delete(int id);
     }
 }

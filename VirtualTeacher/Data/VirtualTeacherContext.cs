@@ -28,6 +28,7 @@ namespace VirtualTeacher.Data
         //Bridge tables
         public DbSet<SubmittedAssignment> SubmittedAssignments { get; set; }
         public DbSet<StudentCourse> StudentsCourses { get; set; }
+        public DbSet<ApprovedTeacher> ApprovedTeachers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

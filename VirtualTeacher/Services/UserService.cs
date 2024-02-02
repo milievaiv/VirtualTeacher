@@ -5,6 +5,7 @@ using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Repositories;
 using VirtualTeacher.Data.Exceptions;
 using System.Security.Cryptography;
+using VirtualTeacher.Models.DTO;
 
 namespace VirtualTeacher.Services
 {
@@ -12,11 +13,21 @@ namespace VirtualTeacher.Services
     {
         private readonly IUserRepository userRepository;
         private readonly IVerificationService verificationService;
+        private readonly IRegistrationService registrationService;
+        private readonly IStudentRepository studentRepository;
+        private readonly ITeacherRepository teacherRepository;
 
-        public UserService(IUserRepository userRepository, IVerificationService verificationService)
+        public UserService(IUserRepository userRepository, 
+            IRegistrationService registrationService, 
+            IVerificationService verificationService,
+            IStudentRepository studentRepository, 
+            ITeacherRepository teacherRepository)
         {
             this.userRepository = userRepository;
             this.verificationService = verificationService;
+            this.teacherRepository = teacherRepository;
+            this.studentRepository = studentRepository;
+            this.registrationService = registrationService;
         }
 
         public IList<BaseUser> GetAllUsers()
@@ -78,6 +89,41 @@ namespace VirtualTeacher.Services
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        public BaseUser Register(RegisterModel registerModel)
+        {
+            var passInfo = registrationService.GeneratePasswordHashAndSalt(registerModel);
+
+            if (teacherRepository.GetApprovedTeachers().Any(x => x.Email == registerModel.Email))
+            {
+                Teacher teacher = new Teacher
+                {
+                    Email = registerModel.Email,
+                    PasswordHash = passInfo.PasswordHash,
+                    PasswordSalt = passInfo.PasswordSalt,
+                    FirstName = registerModel.FirstName,
+                    LastName = registerModel.LastName,
+                    Role = UserRole.Teacher
+                };
+
+                teacherRepository.CreateTeacher(teacher);
+                return teacher;
+            }
+            else
+            {
+                Student student = new Student
+                {
+                    Email = registerModel.Email,
+                    PasswordHash = passInfo.PasswordHash,
+                    PasswordSalt = passInfo.PasswordSalt,
+                    FirstName = registerModel.FirstName,
+                    LastName = registerModel.LastName
+                };
+
+                studentRepository.CreateStudent(student);
+                return student;
             }
         }
     }

@@ -44,5 +44,10 @@ namespace VirtualTeacher.Services
             return teacherRepository.GetTeacherByEmail(email);
         }
 
+        public IList<ApprovedTeacher> GetApprovedTeachers()
+        {
+            return teacherRepository.GetApprovedTeachers();
+        }
+
     }
 }

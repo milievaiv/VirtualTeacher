@@ -30,6 +30,7 @@ namespace VirtualTeacher.Models
         public ICollection<TeacherCourse> Teachers { get; set; }
 
         public Teacher Creator { get; set; }
+        public bool IsPublic { get; set; }
         //public int CreatorId { get; set; }
 
         // Optional:

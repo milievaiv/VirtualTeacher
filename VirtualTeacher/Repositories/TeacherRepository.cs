@@ -38,5 +38,15 @@ namespace VirtualTeacher.Repositories
         {
             return context.Teachers;
         }
+
+        private IQueryable<ApprovedTeacher> IQ_GetApprovedTeachers()
+        {
+            return context.ApprovedTeachers;
+        }
+
+        public IList<ApprovedTeacher> GetApprovedTeachers()
+        {
+            return IQ_GetApprovedTeachers().ToList();
+        }
     }
 }

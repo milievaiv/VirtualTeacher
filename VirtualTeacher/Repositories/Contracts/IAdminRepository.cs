@@ -7,6 +7,6 @@ namespace VirtualTeacher.Repositories.Contracts
         Admin GetAdminByEmail(string email);
         Admin CreateAdmin(Admin admin);
         IList<Admin> GetAdmins();
-
+        ApprovedTeacher ApproveTeacher(string email);
     }
 }

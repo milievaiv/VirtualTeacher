@@ -17,14 +17,14 @@ namespace VirtualTeacher.Controllers
     [ApiController]
     public class AuthApiController : ControllerBase
     {
-        private readonly IStudentService studentService;
+        private readonly IUserService userService;
         private readonly ITokenService tokenService;
         private readonly IVerificationService verificationService;
 
-        public AuthApiController(ITokenService tokenService, IStudentService studentService, IVerificationService verificationService)
+        public AuthApiController(ITokenService tokenService, IUserService userService, IVerificationService verificationService)
         {
             this.tokenService = tokenService;
-            this.studentService = studentService;
+            this.userService = userService;
             this.verificationService = verificationService;
         }
 
@@ -33,7 +33,7 @@ namespace VirtualTeacher.Controllers
         {
             try
             {
-                var user = studentService.Register(registerModel);
+                var user = userService.Register(registerModel);
                 return StatusCode(StatusCodes.Status201Created);
             }
             catch (DuplicateEntityException)

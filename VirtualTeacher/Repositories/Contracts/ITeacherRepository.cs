@@ -8,5 +8,7 @@ namespace VirtualTeacher.Repositories.Contracts
         Teacher GetTeacherByEmail(string email);
 
         Teacher CreateTeacher(Teacher teacher);
+
+        IList<ApprovedTeacher> GetApprovedTeachers();
     }
 }
