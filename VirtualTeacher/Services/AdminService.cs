@@ -7,6 +7,7 @@ namespace VirtualTeacher.Services
 {
     public class AdminService : IAdminService
     {
+        #region State
         private readonly IRegistrationService registrationService;
         private readonly IStudentRepository studentRepository;
         private readonly IAdminRepository adminsRepository;
@@ -20,8 +21,10 @@ namespace VirtualTeacher.Services
             this.registrationService = registrationService;
             this.adminsRepository = adminsRepository;
         }
+        #endregion
 
-        public Admin Register(RegisterModel registerModel)
+        #region CRUD Methods
+        public Admin Register(RegisterDto registerModel)
         {
             var passInfo = registrationService.GeneratePasswordHashAndSalt(registerModel);
 
@@ -35,25 +38,28 @@ namespace VirtualTeacher.Services
                 Role = UserRole.Administrator
             };
 
-            adminsRepository.CreateAdmin(admin);
+            adminsRepository.Create(admin);
 
             return admin;
         }
 
-        public IList<Admin> GetAdmins()
+        public IList<Admin> GetAll()
         {
-            return adminsRepository.GetAdmins();
+            return adminsRepository.GetAll();
         }
 
-        public Admin GetAdminByEmail(string email)
+        public Admin GetByEmail(string email)
         {
             return adminsRepository.GetAdminByEmail(email);
         }
+        #endregion
 
+        #region Additional Methods
         public ApprovedTeacher ApproveTeacher(string email)
         {
             return adminsRepository.ApproveTeacher(email);
         }
+        #endregion
 
         //public bool Block(string username)
         //{

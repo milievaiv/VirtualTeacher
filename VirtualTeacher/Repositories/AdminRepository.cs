@@ -6,16 +6,17 @@ namespace VirtualTeacher.Repositories
 {
     public class AdminRepository : IAdminRepository
     {
+        #region State
         private readonly VirtualTeacherContext context;
-        private readonly ITeacherRepository teacherRepository;
 
-        public AdminRepository(VirtualTeacherContext context, ITeacherRepository teacherRepository)
+        public AdminRepository(VirtualTeacherContext context)
         {
             this.context = context;
-            this.teacherRepository = teacherRepository;
         }
+        #endregion
 
-        public Admin CreateAdmin(Admin admin)
+        #region CRUD Methods
+        public Admin Create(Admin admin)
         {
             context.Admins.Add(admin);
             context.SaveChanges();
@@ -23,23 +24,20 @@ namespace VirtualTeacher.Repositories
             return admin;
         }
 
-        private IQueryable<Admin> IQ_GetAdmins()
-        {
-            return context.Admins;
-        }
-
-        public IList<Admin> GetAdmins()
+        public IList<Admin> GetAll()
         {
             return IQ_GetAdmins().ToList();
         }
 
         public Admin GetAdminByEmail(string email)
         {
-            var admin = GetAdmins().FirstOrDefault(a => a.Email == email);
+            var admin = GetAll().FirstOrDefault(a => a.Email == email);
 
             return admin;
         }
+        #endregion
 
+        #region Additional Methods
         public ApprovedTeacher ApproveTeacher(string email)
         {
             ApprovedTeacher approvedTeacher = new ApprovedTeacher
@@ -52,6 +50,13 @@ namespace VirtualTeacher.Repositories
 
             return approvedTeacher;
         }
-        
+        #endregion
+
+        #region Private Methods
+        private IQueryable<Admin> IQ_GetAdmins()
+        {
+            return context.Admins;
+        }
+        #endregion
     }
 }

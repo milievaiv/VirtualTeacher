@@ -4,9 +4,9 @@ namespace VirtualTeacher.Repositories.Contracts
 {
     public interface IAdminRepository
     {
+        Admin Create(Admin admin);
+        IList<Admin> GetAll();
         Admin GetAdminByEmail(string email);
-        Admin CreateAdmin(Admin admin);
-        IList<Admin> GetAdmins();
         ApprovedTeacher ApproveTeacher(string email);
     }
 }

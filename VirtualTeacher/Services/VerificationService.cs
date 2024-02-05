@@ -1,9 +1,10 @@
-﻿using VirtualTeacher.Exceptions;
-using VirtualTeacher.Models.DTO;
+﻿using System.Security.Cryptography;
 using VirtualTeacher.Models;
-using System.Security.Cryptography;
+using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Constants;
+using VirtualTeacher.Exceptions;
 
 namespace VirtualTeacher.Services
 {
@@ -25,7 +26,7 @@ namespace VirtualTeacher.Services
             this.studentRepository = studentRepository;
             this.teacherRepository = teacherRepository;
         }
-        public BaseUser AuthenticateUser(LoginModel loginModel)
+        public BaseUser AuthenticateUser(LoginDto loginModel)
         {
             var admin = adminsRepository.GetAdminByEmail(loginModel.Email);
             if (admin != null)
@@ -34,27 +35,27 @@ namespace VirtualTeacher.Services
                 return admin;
             }
 
-            var student = studentRepository.GetStudentByEmail(loginModel.Email);
+            var student = studentRepository.GetByEmail(loginModel.Email);
             if (student != null)
             {
                 AuthenticateStudent(loginModel.Password, student);
                 return student;
             }
 
-            var teacher = teacherRepository.GetTeacherByEmail(loginModel.Email);
+            var teacher = teacherRepository.GetByEmail(loginModel.Email);
             if (teacher != null)
             {
                 AuthenticateTeacher(loginModel.Password, teacher);
                 return teacher;
             }
-            throw new UnauthorizedOperationException("Invalid username!");
+            throw new UnauthorizedOperationException(Messages.InvalidEmailError);
         }
 
         public void AuthenticateAdmin(string password, Admin admin)
         {
             if (!VerifyPasswordHash(password, admin.PasswordHash, admin.PasswordSalt))
             {
-                throw new UnauthorizedOperationException("Invalid password!");
+                throw new UnauthorizedOperationException(Messages.InvalidPasswordError);
             }
         }
 
@@ -62,14 +63,14 @@ namespace VirtualTeacher.Services
         {
             if (!VerifyPasswordHash(password, student.PasswordHash, student.PasswordSalt))
             {
-                throw new UnauthorizedOperationException("Invalid password!");
+                throw new UnauthorizedOperationException(Messages.InvalidPasswordError);
             }
         }
         public void AuthenticateTeacher(string password, Teacher teacher)
         {
             if (!VerifyPasswordHash(password, teacher.PasswordHash, teacher.PasswordSalt))
             {
-                throw new UnauthorizedOperationException("Invalid password!");
+                throw new UnauthorizedOperationException(Messages.InvalidPasswordError);
             }
         }
 

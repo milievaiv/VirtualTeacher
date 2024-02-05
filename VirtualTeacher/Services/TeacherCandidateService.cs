@@ -8,7 +8,7 @@ namespace VirtualTeacher.Services
 {
     public class TeacherCandidateService : ITeacherCandidateService
     {
-        private readonly Dictionary<string, (TeacherCandidate, string)> _temporaryStorage = new Dictionary<string, (TeacherCandidate, string)>();
+        private readonly Dictionary<string, (TeacherCandidateDto, string)> _temporaryStorage = new Dictionary<string, (TeacherCandidateDto, string)>();
         private readonly IEmailService _emailService;
         //private readonly IEmailReplyService _emailReplyService;
 
@@ -17,7 +17,7 @@ namespace VirtualTeacher.Services
             _emailService = emailService;
             //_emailReplyService = emailReplyService;
         }
-        public string ProcessSubmission(TeacherCandidate teacherCandidateDto)
+        public string ProcessSubmission(TeacherCandidateDto teacherCandidateDto)
         {
             if (string.IsNullOrEmpty(teacherCandidateDto.Email))
             {

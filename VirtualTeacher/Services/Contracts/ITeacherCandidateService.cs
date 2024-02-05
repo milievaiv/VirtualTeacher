@@ -5,7 +5,7 @@ namespace VirtualTeacher.Services.Contracts
 {
     public interface ITeacherCandidateService
     {
-        string ProcessSubmission(TeacherCandidate teacherCandidateDto);
+        string ProcessSubmission(TeacherCandidateDto teacherCandidateDto);
 
     }
 }

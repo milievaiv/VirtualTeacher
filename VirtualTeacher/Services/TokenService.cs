@@ -1,8 +1,8 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using VirtualTeacher.Models;
-using VirtualTeacher.Services.Contracts;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using VirtualTeacher.Models;
+using VirtualTeacher.Services.Contracts;
 
 namespace VirtualTeacher.Services
 {
@@ -20,7 +20,7 @@ namespace VirtualTeacher.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role), // Include the role claim
+                new Claim(ClaimTypes.Role, role),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

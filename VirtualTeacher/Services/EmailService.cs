@@ -1,15 +1,16 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Net;
+using System.Text;
+using Microsoft.Extensions.Options;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Data.Exceptions;
+using VirtualTeacher.Models.DTO;
+using HtmlAgilityPack;
+using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
-using MailKit;
-using VirtualTeacher.Models.DTO;
-using System.Text;
-using VirtualTeacher.Data.Exceptions;
 using MimeKit;
-using HtmlAgilityPack;
+
 
 
 namespace VirtualTeacher.Services
@@ -30,7 +31,7 @@ namespace VirtualTeacher.Services
             _smtpSettings = smtpSettings.Value;
         }
 
-        public void SendVerificationEmail(string requestId, TeacherCandidate contents)
+        public void SendVerificationEmail(string requestId, TeacherCandidateDto contents)
         {
             try
             {

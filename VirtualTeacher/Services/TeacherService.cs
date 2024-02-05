@@ -1,5 +1,5 @@
-﻿using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Models;
+﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Repositories.Contracts;
 
@@ -7,43 +7,38 @@ namespace VirtualTeacher.Services
 {
     public class TeacherService : ITeacherService
     {
+        #region State
         private readonly IRegistrationService registrationService;
-        private readonly IStudentRepository studentRepository;
         private readonly ITeacherRepository teacherRepository;
 
         public TeacherService(
-            IStudentRepository studentRepository,
             IRegistrationService registrationService,
             ITeacherRepository teacherRepository)
         {
-            this.studentRepository = studentRepository;
             this.registrationService = registrationService;
             this.teacherRepository = teacherRepository;
         }
-        public Teacher Register(RegisterModel registerModel)
+        #endregion
+
+        #region CRUD Methods
+        
+        public Teacher GetById(int id)
         {
-            var passInfo = registrationService.GeneratePasswordHashAndSalt(registerModel);
-
-            Teacher teacher = new Teacher
-            {
-                Email = registerModel.Email,
-                PasswordHash = passInfo.PasswordHash,
-                PasswordSalt = passInfo.PasswordSalt,
-                FirstName = registerModel.FirstName,
-                LastName = registerModel.LastName,
-                Role = UserRole.Teacher
-            };
-
-            teacherRepository.CreateTeacher(teacher);
-
-            return teacher;
+            return teacherRepository.GetById(id);
         }
 
-        public Teacher GetTeacherByEmail(string email)
+        public Teacher GetByEmail(string email)
         {
-            return teacherRepository.GetTeacherByEmail(email);
+            return teacherRepository.GetByEmail(email);
         }
 
+        public bool Delete(int id)
+        {
+            return teacherRepository.Delete(id);
+        }
+        #endregion
+
+        #region Additional Methods
         public IList<ApprovedTeacher> GetApprovedTeachers()
         {
             return teacherRepository.GetApprovedTeachers();
@@ -53,6 +48,6 @@ namespace VirtualTeacher.Services
         {
             return teacherRepository.GetCoursesCreated(teacher);
         }
-
+        #endregion
     }
 }

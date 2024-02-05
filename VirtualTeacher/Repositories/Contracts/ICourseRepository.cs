@@ -5,14 +5,14 @@ namespace VirtualTeacher.Repositories.Contracts
 {
     public interface ICourseRepository
     {
-        Course CreateCourse(Course course);
-        Course DeleteCourse(Course course);
-        Course GetCourseById(int id);
-        IList<Course> GetCoursesByTitle(string courseTitle);
-        IList<Course> GetCourses();
-        CourseTopic GetCourseTopicById(int id);
-        CourseTopic CreateCourseTopic(CourseTopic courseTopic);
-        CourseTopic Delete(int id);
-        bool IsCourseTopicUnique(string courseTopic);
+        Course Create(Course course);
+        IList<Course> GetAll();
+        Course GetById(int id);
+        IList<Course> GetByTitle(string courseTitle);
+        void Update(int courseId, Course updatedCourse);
+        bool Delete(Course course);
+        public void PublicizeCourse(int courseId);
+        public void MarkAsDraft(int courseId);            
+        void AddLectureToCourse(int courseId, Lecture newLecture);      
     }
 }

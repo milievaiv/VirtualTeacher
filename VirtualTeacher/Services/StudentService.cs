@@ -1,26 +1,60 @@
-﻿using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
+﻿using VirtualTeacher.Exceptions;
+using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Services
 {
     public class StudentService : IStudentService
     {
+        #region State
         private readonly IStudentRepository studentRepository;
 
-        public StudentService(IStudentRepository studentRepository, IRegistrationService registrationService)
+        public StudentService(IStudentRepository studentRepository)
         {
             this.studentRepository = studentRepository;
         }
+        #endregion
 
-        public IList<Student> GetStudents()
+        #region CRUD Methods
+        public IList<Student> GetAll()
         {
-            return this.studentRepository.GetStudents();
+            return this.studentRepository.GetAll();
         }
-        public Student GetStudentByEmail(string email)
+
+        public Student GetById(int id)
         {
-            return this.studentRepository.GetStudentByEmail(email);
+            return studentRepository.GetById(id);
         }        
+
+        public Student GetByEmail(string email)
+        {
+            return this.studentRepository.GetByEmail(email);
+        }
+
+        public bool Delete(int id)
+        {
+            return studentRepository.Delete(id);
+        }
+        #endregion
+
+        #region Additional Methods
+        public void EnrollInCourse(Student student, Course course)
+        {
+            if (course.StartDate <= DateTime.Now)
+            {
+                throw new InvalidOperationException(Messages.EnrollmentNotAllowedBeforeStartDate);
+            }
+            if (!studentRepository.IsEnrolled(student.Id, course.Id))
+            {
+                studentRepository.EnrollStudentInCourse(student.Id, course.Id);
+            }
+            else
+            {
+                throw new DuplicateEntityException(Messages.StudentAlreadyEnrolled);
+            }           
+        }
+        #endregion
     }
 }

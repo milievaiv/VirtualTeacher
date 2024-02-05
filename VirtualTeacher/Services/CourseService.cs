@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using VirtualTeacher.Exceptions;
-using VirtualTeacher.Models;
+﻿using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Repositories;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 
@@ -11,19 +8,24 @@ namespace VirtualTeacher.Services
 {
     public class CourseService : ICourseService
     {
+        #region State
         private readonly ICourseRepository courseRepository;
-        public CourseService(ICourseRepository courseRepository)
+        private readonly ICourseTopicRepository courseTopicRepository;
+        public CourseService(ICourseRepository courseRepository, ICourseTopicRepository courseTopicRepository)
         {
             this.courseRepository = courseRepository;
+            this.courseTopicRepository = courseTopicRepository;
         }
-        public Course CreateCourse(CreateCourseModel createCourseModel, Teacher teacher)
+        #endregion
+
+        #region CRUD Methods
+        public Course Create(CreateCourseDto createCourseModel, Teacher teacher)
         {
-            var courseTopic = GetCourseTopicById(createCourseModel.CourseTopicId);
+            var courseTopic = courseTopicRepository.GetById(createCourseModel.CourseTopicId);
             var course = new Course()
             {
                 Title = createCourseModel.Title,
                 Creator = teacher,
-                //CourseTopicId = createCourseModel.CourseTopicId,
                 CourseTopic = courseTopic,
                 Description = createCourseModel.Description,
                 StartDate = createCourseModel.StartDate,
@@ -34,55 +36,50 @@ namespace VirtualTeacher.Services
 
                 //TODO CreatorId how to use logged user?
             };
-                courseRepository.CreateCourse(course);
+                courseRepository.Create(course);
                 return course;
         }
+        public IList<Course> GetAll()
+        {
+            return courseRepository.GetAll();
+        }
 
-        public Course DeleteCourse(Course course)
+        public Course GetById(int id)
+        {
+            var course = courseRepository.GetById(id);
+            return course;
+        }
+        public IList<Course> GetByTitle(string courseTitle)
+        {
+            var course = courseRepository.GetByTitle(courseTitle);
+            return course;
+        }
+        public void Update(int courseId, Course updatedCourse)
+        {
+            courseRepository.Update(courseId, updatedCourse);
+        }
+
+        public bool Delete(Course course)
         { 
-            return courseRepository.DeleteCourse(course);
+            return courseRepository.Delete(course);
+        }
+        #endregion
+
+        #region Additional Methods
+        public void PublicizeCourse(int courseId)
+        {
+            courseRepository.PublicizeCourse(courseId);
         }
 
-        public Course GetCourseById(int id)
+        public void MarkAsDraft(int courseId)
         {
-            var course = courseRepository.GetCourseById(id);
-            course.CourseTopic = GetCourseTopicById(course.Id);
-            return course;
+            courseRepository.MarkAsDraft(courseId);              
         }
 
-        public IList<Course> GetCoursesByTitle(string courseTitle)
+        public void AddLectureToCourse(int courseId, Lecture newLecture)
         {
-            var course = courseRepository.GetCoursesByTitle(courseTitle);
-            return course;
+            courseRepository.AddLectureToCourse(courseId, newLecture);
         }
-
-        public IList<Course> GetCourses()
-        {
-            return courseRepository.GetCourses();
-        }
-
-        public CourseTopic CreateCourseTopic(string courseTopic)
-        {
-            if (courseRepository.IsCourseTopicUnique(courseTopic))
-            {
-                throw new DuplicateEntityException($"Course Topic with the name:{courseTopic} already exists.");
-            }
-            var createdCourseTopic = new CourseTopic
-            {
-                Topic = courseTopic,
-                //IsDeleted = false
-            };
-            return courseRepository.CreateCourseTopic(createdCourseTopic);
-        }
-
-        public CourseTopic Delete(int id)
-        {
-            return courseRepository.Delete(id);
-        }
-
-        public CourseTopic GetCourseTopicById(int id)
-        {
-            return courseRepository.GetCourseTopicById(id);
-        }
+        #endregion
     }
 }

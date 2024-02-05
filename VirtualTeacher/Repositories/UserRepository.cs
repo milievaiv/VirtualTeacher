@@ -1,62 +1,65 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VirtualTeacher.Data;
+﻿using VirtualTeacher.Data;
 using VirtualTeacher.Data.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.QueryParameters;
 using VirtualTeacher.Repositories.Contracts;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        #region State
         private readonly VirtualTeacherContext context;
 
         public UserRepository(VirtualTeacherContext context)
         {
             this.context = context;
         }
+        #endregion
 
-        public IList<BaseUser> GetAllUsers()
+        #region CRUD Methods
+        public IList<BaseUser> GetAll()
         {
             return GetUsers().ToList();
         }
-        public BaseUser GetUserById(int id)
+
+        public BaseUser GetById(int id)
         {
             var user = GetUsers().FirstOrDefault(u => u.Id == id);           
 
-            return user ?? throw new EntityNotFoundException($"User with Id {id} doesn't exist.");
+            return user ?? throw new EntityNotFoundException(Messages.UserNotFound);
         }
        
-        public BaseUser GetUserByEmail(string email)
+        public BaseUser GetByEmail(string email)
         {
             var user = GetUsers().FirstOrDefault(u => u.Email == email);
 
-            return user ?? throw new EntityNotFoundException($"User with email {email} doesn't exist."); 
+            return user ?? throw new EntityNotFoundException(Messages.UserNotFound); 
         }
 
-        public BaseUser GetUserByFirstName(string firstName)
+        public BaseUser GetByFirstName(string firstName)
         {
             var user = GetUsers().FirstOrDefault(u => u.FirstName == firstName);
 
-            return user ?? throw new EntityNotFoundException($"User with firsname {firstName} doesn't exist."); 
+            return user ?? throw new EntityNotFoundException(Messages.UserNotFound); 
         }
 
-        public BaseUser GetUserByLastName(string lastName)
+        public BaseUser GetByLastName(string lastName)
         {
             var user = GetUsers().FirstOrDefault(u => u.LastName == lastName);
 
-            return user ?? throw new EntityNotFoundException($"User with lastname {lastName} doesn't exist."); 
+            return user ?? throw new EntityNotFoundException(Messages.UserNotFound); 
         }
 
         public BaseUser Update(int id, BaseUser user)
         {
-            var userToUpdate = GetUserById(id);
+            var userToUpdate = GetById(id);
 
             if (userToUpdate != null)
             {
                 userToUpdate.FirstName = user.FirstName;
                 userToUpdate.LastName = user.LastName;
-                // Photo
 
                 context.Update(userToUpdate);
                 context.SaveChanges();
@@ -65,11 +68,13 @@ namespace VirtualTeacher.Repositories
             }
             else
             {               
-                throw new EntityNotFoundException($"User with Id {id} not found.");
+                throw new EntityNotFoundException(Messages.UserNotFound);
             }
         }
+        #endregion
 
-        public void UpdateUserPassword(int userId, byte[] passwordHash, byte[] passwordSalt)
+        #region Additional Methods
+        public void UpdatePassword(int userId, byte[] passwordHash, byte[] passwordSalt)
         {
             var user = context.Users.FirstOrDefault(u => u.Id == userId);
             if (user != null)
@@ -80,20 +85,9 @@ namespace VirtualTeacher.Repositories
             }
             else
             {
-                throw new EntityNotFoundException($"User with Id {userId} not found.");
+                throw new EntityNotFoundException(Messages.UserNotFound);
             }
-        }
-
-        //public bool Delete(int id)
-        //{
-        //    BaseUser userToDelete = GetUserById(id);
-
-        //    if (userToDelete.IsDeleted == true) throw new InvalidOperationException("User is already deleted.");
-
-        //    userToDelete.IsDeleted = true;
-
-        //    return context.SaveChanges() > 0;
-        //}
+        }        
 
         public IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters)
         {
@@ -105,29 +99,15 @@ namespace VirtualTeacher.Repositories
             result = SortBy(result, userQueryParameters.SortBy);
 
             return result.ToList();
-        }
-
-        public static IQueryable<BaseUser> SortBy(IQueryable<BaseUser> users, string sortBy)
-        {
-            switch (sortBy)
-            {
-                case "firstName":
-                    users = SortByFirstName(users);
-                    break;
-                case "lastName":
-                    users = SortByLastName(users);
-                    break;
-                case "email":
-                    users = SortByEmail(users);
-                    break;
-            }
-            return users;
-        }
+        }        
 
         public bool UserExists(string email)
         {
             return context.Users.Any(user => user.Email == email);
         }
+        #endregion
+
+        #region Private Methods
 
         private IQueryable<BaseUser> GetUsers()
         {
@@ -145,7 +125,7 @@ namespace VirtualTeacher.Repositories
                 return users;
             }
         }
-
+       
         private static IQueryable<BaseUser> FilterByFirstName(IQueryable<BaseUser> users, string firstName)
         {
             if (!string.IsNullOrEmpty(firstName))
@@ -170,20 +150,21 @@ namespace VirtualTeacher.Repositories
             }
         }
 
-        private static IQueryable<BaseUser> SortByEmail(IQueryable<BaseUser> users)
+        private static IQueryable<BaseUser> SortBy(IQueryable<BaseUser> users, string sortBy)
         {
-            return users.OrderBy(user => user.Email);
-
+            switch (sortBy)
+            {
+                case "firstName":
+                    return users.OrderBy(user => user.FirstName);
+                case "lastName":
+                    return users.OrderBy(user => user.LastName);
+                case "email":
+                    return users.OrderBy(user => user.Email);
+                default:
+                    return users;
+            }
         }
 
-        private static IQueryable<BaseUser> SortByFirstName(IQueryable<BaseUser> users)
-        {
-            return users.OrderBy(user => user.FirstName);
-        }
-
-        private static IQueryable<BaseUser> SortByLastName(IQueryable<BaseUser> users)
-        {
-            return users.OrderBy(user => user.LastName);
-        }       
+        #endregion
     }
 }

@@ -1,20 +1,25 @@
-﻿using VirtualTeacher.Data;
-using VirtualTeacher.Data.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
+using VirtualTeacher.Constants;
+using VirtualTeacher.Data.Exceptions;
 
 namespace VirtualTeacher.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
+        #region State
         private readonly VirtualTeacherContext context;
 
         public StudentRepository(VirtualTeacherContext context)
         {
             this.context = context;
         }
+        #endregion
 
-        public Student CreateStudent(Student student)
+        #region CRUD Methods
+        public Student Create(Student student)
         {
             context.Students.Add(student);
             context.SaveChanges();
@@ -22,28 +27,56 @@ namespace VirtualTeacher.Repositories
             return student;
         }
 
-        public Student GetStudentById(int id)
+        public IList<Student> GetAll()
         {
-            var student = GetStudents().FirstOrDefault(u => u.Id == id);
-
-            return student /*?? throw new EntityNotFoundException($"Student with id={id} doesn't exist.")*/; 
+            return GetStudents().ToList();
         }
 
-        public Student GetStudentByEmail(string email)
+        public Student GetById(int id)
         {
-            var student = GetStudents().FirstOrDefault(u => u.Email == email);
+            var student = GetAll().FirstOrDefault(u => u.Id == id);
 
-            return student/* ?? throw new EntityNotFoundException($"Student with email {email} doesn't exist."); */;
+            return student;
         }
 
-        private IQueryable<Student> IQ_GetStudents()
+        public Student GetByEmail(string email)
         {
-            return context.Students;
+            var student = GetAll().FirstOrDefault(u => u.Email == email);
+
+            return student;
         }
 
-        public IList<Student> GetStudents()
+        public bool Delete(int id)
         {
-            return IQ_GetStudents().ToList();
+            var studentToDelete = GetById(id);
+            if (studentToDelete == null) 
+                throw new EntityNotFoundException(Messages.StudentNotFoundMessage);
+
+            if (studentToDelete.IsDeleted == true) 
+                throw new EntityNotFoundException(Messages.StudentAlreadyDeletedMessage);
+
+            studentToDelete.IsDeleted = true;
+
+            return context.SaveChanges() > 0;
+        }
+        #endregion
+
+        #region Additional Methods
+        public bool IsEnrolled(int studentId, int courseId)
+        {
+            return context.StudentsCourses.Any(sc => sc.StudentId == studentId && sc.CourseId == courseId);
+        }
+
+        public void EnrollStudentInCourse(int studentId, int courseId)
+        {
+            var studentCourse = new StudentCourse
+            {
+                StudentId = studentId,
+                CourseId = courseId
+            };
+
+            context.StudentsCourses.Add(studentCourse);
+            context.SaveChanges();
         }
 
         public double CalculateProgress(Student student, Course course)
@@ -55,5 +88,15 @@ namespace VirtualTeacher.Repositories
 
             return enrolledCourse.Grade;
         }
+        #endregion
+
+        #region Private Methods
+        private IQueryable<Student> GetStudents()
+        {
+            return context.Students
+                .Include(s => s.EnrolledCourses)
+            .ThenInclude(ec => ec.Course);
+        }
+         #endregion
     }
 }

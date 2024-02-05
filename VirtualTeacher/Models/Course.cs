@@ -8,25 +8,18 @@ namespace VirtualTeacher.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
 
-
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }
-
         public CourseTopic CourseTopic { get; set; }
-        //public int CourseTopicId { get; set; }
 
         [MaxLength(1000)]
         public string Description { get; set; }
-
         public DateTime? StartDate { get; set; }
 
         public ICollection<Lecture> Lectures { get; set; }
-        //public List<int> LectureIds { get; set; }
         public ICollection<CourseRating> Ratings { get; set; }
-
         public ICollection<StudentCourse> Students { get; set; }
-
         public ICollection<TeacherCourse> Teachers { get; set; }
 
         public Teacher Creator { get; set; }
@@ -34,9 +27,5 @@ namespace VirtualTeacher.Models
         public bool IsPublic { get; set; }
 
         public int TotalAssignments { get; set; }
-        //public int CreatorId { get; set; }
-
-        // Optional:
-        //public ICollection<Course> PrerequisiteCourses { get; set; }
     }
 }

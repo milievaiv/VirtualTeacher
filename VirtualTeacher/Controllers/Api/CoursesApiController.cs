@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-using System.Linq;
-using VirtualTeacher.Data;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Attributes;
-using System.Security.Claims;
 using VirtualTeacher.Data.Exceptions;
 using VirtualTeacher.Exceptions;
-using VirtualTeacher.Services;
+using VirtualTeacher.Constants;
+using VirtualTeacher.Helpers.Contracts;
+using VirtualTeacher.Models.DTO.CourseDTO;
 
 namespace VirtualTeacher.Controllers.Api
 {
@@ -21,15 +18,19 @@ namespace VirtualTeacher.Controllers.Api
     {
         private readonly ICourseService courseService;
         private readonly ITeacherService teacherService;
-        private readonly IAdminService adminService;
+        private readonly IModelMapper modelMapper;
 
-        public CoursesApiController(ICourseService courseService, ITeacherService teacherService)
+        public CoursesApiController(
+            ICourseService courseService,
+            ITeacherService teacherService,
+            IModelMapper modelMapper)
         {
             this.courseService = courseService;
             this.teacherService = teacherService;
-
+            this.modelMapper = modelMapper;
         }
 
+        //GET: api/courses/drafts
         [AuthorizeApiUsers("teacher, admin")]
         [HttpGet("drafts")]
         public IActionResult GetDrafts()
@@ -37,71 +38,82 @@ namespace VirtualTeacher.Controllers.Api
             try
             {
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
-                var courses = courseService.GetCourses();
+                var courses = courseService.GetAll();
                 if (role == UserRole.Student.ToString())
                 {
                     courses = courses.Where(x => x.IsPublic).ToList();
                 }
-                return Ok(courses);
+                
+                var drafts = courses.Select(course => modelMapper.MapToCourseResponseDto(course)).ToList();
+                return Ok(drafts);
             }
             catch (EntityNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
         }
 
+        //GET: api/courses/search/{title}
         [HttpGet("search/{title}")]
-        public IActionResult GetCoursesByTitle([FromQuery] string title)
+        public IActionResult GetCoursesByTitle([FromRoute] string title)
         {
             try
             {
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
-                var courses = courseService.GetCoursesByTitle(title);
+                var courses = courseService.GetAll().Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+
                 if (role == UserRole.Student.ToString())
                 {
                     courses = courses.Where(x => x.IsPublic).ToList();
                 }
-                return Ok(courses);
+                var result = courses.Select(course => modelMapper.MapToCourseResponseDto(course)).ToList();
+                return Ok(result);
             }
             catch (EntityNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
         }
 
-        [HttpGet]
+        //GET: api/courses
+        [HttpGet("")]
         public IActionResult GetCourses()
         {
             try
             {
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
-                var courses = courseService.GetCourses();
+                var courses = courseService.GetAll();
                 if (role == UserRole.Student.ToString())
                 {
                     courses = courses.Where(x => x.IsPublic).ToList();
-                }        
-                return Ok(courses);
+                }
+                var courseDtos = courses.Select(course => modelMapper.MapToCourseResponseDto(course)).ToList();
+                return Ok(courseDtos);
             }
             catch (EntityNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
         }
 
+        //GET: api/courses/id
         [AuthorizeApiUsers("teacher, admin")]
         [HttpGet("{id}")]
         public IActionResult GetCourseById(int id)
         {
             try
             {
-                return Ok(courseService.GetCourseById(id));
+                var course = courseService.GetById(id);
+                var courseDto = modelMapper.MapToCourseResponseDto(course); 
+
+                return Ok(courseDto);
             }
             catch (EntityNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
         }
-
+        //DELETE: api/courses/id
         [AuthorizeApiUsers("teacher, admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCourse(int id)
@@ -109,19 +121,19 @@ namespace VirtualTeacher.Controllers.Api
             
             try
             {
-                var course = courseService.GetCourseById(id);
-                return Ok(courseService.DeleteCourse(course));
+                var course = courseService.GetById(id);
+                return Ok(courseService.Delete(course));
                 throw new InvalidOperationException();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
-
-        [AuthorizeApiUsers("teacher")]
-        [HttpPost]
-        public IActionResult CreateCourse([FromBody] CreateCourseModel createCourseModel)
+        //POST: api/courses
+        [AuthorizeApiUsers("teacher, admin")]
+        [HttpPost("")]
+        public IActionResult CreateCourse([FromBody] CreateCourseDto createCourseModel)
         {
 
             try
@@ -129,57 +141,71 @@ namespace VirtualTeacher.Controllers.Api
                 var email = User.FindFirst(ClaimTypes.Email)?.Value;
                 if (email != null)
                 {
-                    var teacher = teacherService.GetTeacherByEmail(email);
-                    return Ok(courseService.CreateCourse(createCourseModel, teacher));
+                    var teacher = teacherService.GetByEmail(email);
+                    var course = courseService.Create(createCourseModel, teacher);
+                    var courseDto = modelMapper.MapToCourseResponseDto(course);
+
+                    return Ok(courseDto);
                 }
                 throw new InvalidOperationException();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [AuthorizeApiUsers("teacher")]
-        [HttpPut("{id}")]
-        public IActionResult UpdateCourse(int id, CourseDto courseDto)
-        {
-            // Validate and update the course in the database
-
-            return NoContent();
-        }
-
+        //PUT: api/courses/courseId
         [AuthorizeApiUsers("teacher, admin")]
-        [HttpGet("topic/{id}")]
-        public ActionResult<CourseTopicDto> GetCourseTopicById(int id)
+        [HttpPut("{courseId}")]
+        public IActionResult UpdateCourse(int courseId, [FromBody] UpdateCourseDto updateCourseDto)
         {
             try
             {
-                return Ok(courseService.GetCourseTopicById(id));
+                var updatedCourse = modelMapper.MapToUpdateCourse(updateCourseDto);
+                courseService.Update(courseId, updatedCourse);
+                return this.StatusCode(StatusCodes.Status200OK, Messages.CourseUpdatedSuccessfullyMessage);
             }
-            catch (EntityNotFoundException ex)
+            catch (ApplicationException ex)
             {
-                return NotFound(ex.Message);
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [AuthorizeApiUsers("teacher")]
-        [HttpPost("topics")]
-        public ActionResult<CourseTopicDto> CreateCourseTopic([FromBody] CourseTopicCreationRequest topic)
-        // FromQuery has to be tested
+        //POST: api/courses/courseId/publicize
+        [AuthorizeApiUsers("teacher, admin")]
+        [HttpPost("{courseId}/publicize")]
+        public IActionResult PublicizeCourse(int courseId)
         {
             try
             {
-                var result = topic.Topic;
-                return Ok(courseService.CreateCourseTopic(result));
+                courseService.PublicizeCourse(courseId);
+                return this.StatusCode(StatusCodes.Status200OK, Messages.CoursePublicizedSuccessfullyMessage);
             }
-            catch (DuplicateEntityException ex)
+            catch (ApplicationException ex)
             {
-                return Conflict(ex.Message);
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [AuthorizeApiUsers("teacher")]
+        //POST: api/courses/courseId/mark-as-draft
+        [AuthorizeApiUsers("teacher, admin")]
+        [HttpPost("{courseId}/mark-as-draft")]
+        public IActionResult MarkAsDraft(int courseId)
+        {
+            try
+            {
+                courseService.MarkAsDraft(courseId);
+                return this.StatusCode(StatusCodes.Status200OK, Messages.CourseMarkedAsDraftSuccessfullyMessage);
+            }
+            catch (ApplicationException ex)
+            {
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+        }
+
+        //GET: api/courses/created
+        [AuthorizeApiUsers("teacher, admin")]
         [HttpGet("created")]
         public ActionResult<CourseTopicDto> GetCoursesCreated()
         // FromQuery has to be tested
@@ -189,14 +215,35 @@ namespace VirtualTeacher.Controllers.Api
                 var email = User.FindFirst(ClaimTypes.Email)?.Value;
                 if (email != null)
                 {
-                    var teacher = teacherService.GetTeacherByEmail(email);
-                    return Ok(teacherService.GetCoursesCreated(teacher));
+                    var teacher = teacherService.GetByEmail(email);
+                    var courses = teacherService.GetCoursesCreated(teacher);
+                    var courseDtos = courses.Select(course => modelMapper.MapToCourseResponseDto(course)).ToList();
+
+                    return Ok(courseDtos);
                 }
                 throw new InvalidOperationException();
             }
             catch (DuplicateEntityException ex)
             {
-                return Conflict(ex.Message);
+                return this.StatusCode(StatusCodes.Status409Conflict, ex.Message);
+            }
+        }
+
+        //POST: api/courses/courseId/lectures
+        [AuthorizeApiUsers("teacher, student")] 
+        [HttpPost("{courseId}/lectures")]
+        public IActionResult AddLectureToCourse(int courseId, [FromBody] LectureDto newLectureDto)
+        {
+            try
+            {
+                var newLecture = modelMapper.MapToLectue(newLectureDto);
+                courseService.AddLectureToCourse(courseId, newLecture);
+
+                return this.StatusCode(StatusCodes.Status200OK, Messages.LectureAddedSuccessfullyMessage);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
         }
     }

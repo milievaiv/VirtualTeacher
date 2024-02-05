@@ -1,6 +1,6 @@
 ﻿namespace VirtualTeacher.Models.DTO
 {
-    public class TeacherCandidate
+    public class TeacherCandidateDto
     {
         public string Title { get; set; }
         public string Message { get; set; }

@@ -1,16 +1,17 @@
-﻿using VirtualTeacher.Models.QueryParameters;
-using VirtualTeacher.Models;
-using VirtualTeacher.Services.Contracts;
-using VirtualTeacher.Repositories.Contracts;
-using VirtualTeacher.Repositories;
+﻿using System.Security.Cryptography;
+using VirtualTeacher.Constants;
 using VirtualTeacher.Data.Exceptions;
-using System.Security.Cryptography;
+using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.QueryParameters;
+using VirtualTeacher.Repositories.Contracts;
+using VirtualTeacher.Services.Contracts;
 
 namespace VirtualTeacher.Services
 {
     public class UserService : IUserService
     {
+        #region State
         private readonly IUserRepository userRepository;
         private readonly IVerificationService verificationService;
         private readonly IRegistrationService registrationService;
@@ -29,30 +30,32 @@ namespace VirtualTeacher.Services
             this.studentRepository = studentRepository;
             this.registrationService = registrationService;
         }
+        #endregion
 
-        public IList<BaseUser> GetAllUsers()
+        #region CRUD Methods
+        public IList<BaseUser> GetAll()
         {
-            return this.userRepository.GetAllUsers();
+            return this.userRepository.GetAll();
         }
 
-        public BaseUser GetUserById(int id)
+        public BaseUser GetById(int id)
         {
-            return this.userRepository.GetUserById(id);
+            return this.userRepository.GetById(id);
         }
 
-        public BaseUser GetUserByFirstName(string firstName)
+        public BaseUser GetByFirstName(string firstName)
         {
-            return this.userRepository.GetUserByFirstName(firstName);
+            return this.userRepository.GetByFirstName(firstName);
         }
 
-        public BaseUser GetUserByLastName(string lastName)
+        public BaseUser GetByLastName(string lastName)
         {
-            return this.userRepository.GetUserByLastName(lastName);
+            return this.userRepository.GetByLastName(lastName);
         }
 
-        public BaseUser GetUserByEmail(string firstName)
+        public BaseUser GetByEmail(string firstName)
         {
-            return this.userRepository.GetUserByEmail(firstName);
+            return this.userRepository.GetByEmail(firstName);
         }
 
         public IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters)
@@ -65,34 +68,10 @@ namespace VirtualTeacher.Services
             var userToUpdate = userRepository.Update(id, user);
             return userToUpdate;
         }
+        #endregion
 
-        public void ChangePassword(int userId, string oldPassword, string newPassword)
-        {
-            var user = userRepository.GetUserById(userId);
-            if (user == null)
-            {
-                throw new EntityNotFoundException($"User with Id {userId} not found.");
-            }
-
-            if (!verificationService.VerifyPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
-            {
-                throw new ArgumentException("Old password is incorrect.");
-            }
-
-            CreatePasswordHash(newPassword, out byte[] newPasswordHash, out byte[] newPasswordSalt);
-
-            userRepository.UpdateUserPassword(userId, newPasswordHash, newPasswordSalt);
-        }
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        public BaseUser Register(RegisterModel registerModel)
+        #region Additional Methods
+        public BaseUser Register(RegisterDto registerModel)
         {
             var passInfo = registrationService.GeneratePasswordHashAndSalt(registerModel);
 
@@ -108,7 +87,7 @@ namespace VirtualTeacher.Services
                     Role = UserRole.Teacher
                 };
 
-                teacherRepository.CreateTeacher(teacher);
+                teacherRepository.Create(teacher);
                 return teacher;
             }
             else
@@ -122,9 +101,39 @@ namespace VirtualTeacher.Services
                     LastName = registerModel.LastName
                 };
 
-                studentRepository.CreateStudent(student);
+                studentRepository.Create(student);
                 return student;
             }
         }
+
+        public void ChangePassword(int userId, string oldPassword, string newPassword)
+        {
+            var user = userRepository.GetById(userId);
+            if (user == null)
+            {
+                throw new EntityNotFoundException(Messages.UserNotFound);
+            }
+
+            if (!verificationService.VerifyPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
+            {
+                throw new ArgumentException(Messages.OldPasswordIncorrect);
+            }
+
+            CreatePasswordHash(newPassword, out byte[] newPasswordHash, out byte[] newPasswordSalt);
+
+            userRepository.UpdatePassword(userId, newPasswordHash, newPasswordSalt);
+        }
+        #endregion
+
+        #region Private Methods
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+        #endregion
     }
 }

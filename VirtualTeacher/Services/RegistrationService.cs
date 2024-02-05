@@ -3,6 +3,7 @@ using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Repositories.Contracts;
 using System.Security.Cryptography;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Services
 {
@@ -14,13 +15,13 @@ namespace VirtualTeacher.Services
             this.userRepository = userRepository;
         }
 
-        public PasswordHashInfo GeneratePasswordHashAndSalt(RegisterModel registerModel)
+        public PasswordHashInfo GeneratePasswordHashAndSalt(RegisterDto registerModel)
         {
             var existingUser = userRepository.UserExists(registerModel.Email);
 
             if (existingUser)
             {
-                throw new DuplicateEntityException("This email is taken.");
+                throw new DuplicateEntityException(Messages.EmailTaken);
             }
 
             CreatePasswordHash(registerModel.Password, out byte[] passwordHash, out byte[] passwordSalt);

@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Services;
 using VirtualTeacher.Services.Contracts;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using VirtualTeacher.Controllers.Data.Exceptions;
 using VirtualTeacher.Data.Exceptions;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Controllers
 {
@@ -21,15 +16,19 @@ namespace VirtualTeacher.Controllers
         private readonly ITokenService tokenService;
         private readonly IVerificationService verificationService;
 
-        public AuthApiController(ITokenService tokenService, IUserService userService, IVerificationService verificationService)
+        public AuthApiController(
+            ITokenService tokenService,
+            IUserService userService, 
+            IVerificationService verificationService)
         {
             this.tokenService = tokenService;
             this.userService = userService;
             this.verificationService = verificationService;
         }
 
+        //POST: api/auth/register
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterModel registerModel)
+        public IActionResult Register([FromBody] RegisterDto registerModel)
         {
             try
             {
@@ -38,16 +37,13 @@ namespace VirtualTeacher.Controllers
             }
             catch (DuplicateEntityException)
             {
-                return Conflict("That username is taken.Try another.");
-            }
-            catch (DuplicateEmailException ex)
-            {
-                return Conflict(ex.Message);
+                return this.StatusCode(StatusCodes.Status409Conflict, Messages.UsernameTakenMessage);
             }
         }
 
+        //POST: api/auth/login
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginModel loginModel)
+        public IActionResult Login([FromBody] LoginDto loginModel)
         {
             try
             {
@@ -56,13 +52,13 @@ namespace VirtualTeacher.Controllers
                 string token = tokenService.CreateToken(user, role);
                 return Ok(token);
             }
-            catch (UnauthorizedOperationException)
+            catch (UnauthorizedOperationException ex)
             {
-                return BadRequest("Invalid login attempt!");
+                return this.StatusCode(StatusCodes.Status401Unauthorized, Messages.InvalidLoginAttemptMessage);
             }
-            catch(EntityNotFoundException)
-            { 
-                return BadRequest("Invalid login attempt!");
+            catch (EntityNotFoundException)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, Messages.InvalidLoginAttemptMessage);
             }           
         }
 

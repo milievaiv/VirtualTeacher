@@ -2,7 +2,7 @@
 
 namespace VirtualTeacher.Models.DTO
 {
-    public class UserProfileUpdateModel
+    public class UserProfileUpdateDto
     {
         [Required]
         [MaxLength(20, ErrorMessage = "The {0} field must be less than {1} characters.")]

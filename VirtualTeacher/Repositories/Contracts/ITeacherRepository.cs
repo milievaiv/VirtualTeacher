@@ -4,9 +4,10 @@ namespace VirtualTeacher.Repositories.Contracts
 {
     public interface ITeacherRepository
     {
-        Teacher GetTeacherById(int id);
-        Teacher GetTeacherByEmail(string email);
-        Teacher CreateTeacher(Teacher teacher);
+        Teacher Create(Teacher teacher);
+        Teacher GetById(int id);
+        Teacher GetByEmail(string email);
+        bool Delete(int id);
         IList<ApprovedTeacher> GetApprovedTeachers();
         IList<Course> GetCoursesCreated(Teacher teacher);
     }

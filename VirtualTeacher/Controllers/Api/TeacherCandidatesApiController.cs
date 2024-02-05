@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Services.Contracts;
-using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Services;
 using VirtualTeacher.Exceptions;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Controllers.Api
 {
@@ -12,63 +10,67 @@ namespace VirtualTeacher.Controllers.Api
     [Route("api/teacher-candidates")]
     public class TeacherCandidatesController : ControllerBase
     {
-        private readonly ITeacherCandidateService _teacherCandidateService;
-        private readonly ITeacherService _teacherService;
-        private readonly IEmailService _emailService;
+        private readonly ITeacherCandidateService teacherCandidateService;
+        private readonly IUserService userService;
+        private readonly IEmailService emailService;
 
-        public TeacherCandidatesController(ITeacherCandidateService teacherCandidateService, IEmailService emailService, ITeacherService teacherService)
+        public TeacherCandidatesController(
+            ITeacherCandidateService teacherCandidateService,
+            IEmailService emailService,
+            IUserService userService)
         {
-            _teacherCandidateService = teacherCandidateService;
-            _emailService = emailService;
-            _teacherService = teacherService;
+            this.teacherCandidateService = teacherCandidateService;
+            this.emailService = emailService;
+            this.userService = userService;
         }
 
+        //POST: api/teacher-candidates/register
         [HttpPost("register")]
-        public IActionResult RegisterTeacher([FromBody] RegisterModel registerModel)
+        public IActionResult RegisterTeacher([FromBody] RegisterDto registerModel)
         {
             try
             {
-                var teacher = _teacherService.Register(registerModel);
+                var teacher = userService.Register(registerModel);
                 return Ok(teacher);
             }
             catch (DuplicateEntityException)
             {
-
-                return Conflict("That email is taken. Try another.");
+                return this.StatusCode(StatusCodes.Status409Conflict, Messages.EmailTakenErrorMessage);
             }
         }
 
-        [HttpPost]
-        public IActionResult SubmitApplication([FromBody] TeacherCandidate teacherCandidateDto)
+        //POST: api/teacher-candidates
+        [HttpPost("")]
+        public IActionResult SubmitApplication([FromBody] TeacherCandidateDto teacherCandidateDto)
         {
             try
             {
                 // Process submission and send verification email
-                var requestId = _teacherCandidateService.ProcessSubmission(teacherCandidateDto);
-                _emailService.SendVerificationEmail(requestId, teacherCandidateDto);
+                var requestId = teacherCandidateService.ProcessSubmission(teacherCandidateDto);
+                emailService.SendVerificationEmail(requestId, teacherCandidateDto);
 
-                return Ok("Verification email sent. Please check your email to complete the application process.");
+                return this.StatusCode(StatusCodes.Status200OK, Messages.VerificationEmailSentMessage);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        //localhost:5267/api/apply-for-teacher?requestId={requestId}
+        //GET: api/apply-for-teacher?requestId={requestId}
         [HttpGet]
         [Route("verify-submission")]
         public async Task<IActionResult> VerifyApplication([FromQuery] string requestId)
         {
             try
             {
-                await _emailService.VerifyApplication(requestId);
+                await emailService.VerifyApplication(requestId);
 
-                return Ok("Application has been verified for further processing.");
+                return this.StatusCode(StatusCodes.Status200OK, Messages.ApplicationVerifiedMessage);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return this.StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
     }

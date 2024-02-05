@@ -1,97 +1,129 @@
-﻿using VirtualTeacher.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Data.Exceptions;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
+        #region State
         private readonly VirtualTeacherContext context;
         public CourseRepository(VirtualTeacherContext context)
         {
             this.context = context;
         }
+        #endregion
 
-        public Course CreateCourse(Course course)
+        #region CRUD Methods
+        public Course Create(Course course)
         {
             context.Courses.Add(course);
             context.SaveChanges();
 
             return course;
         }
-        public Course DeleteCourse(Course course)
-        {
-            context.Courses.Remove(course);
-            context.SaveChanges();
 
-            return course;
-        }
-
-        public Course GetCourseById(int id)
-        {
-            var result = IQ_GetCourses().FirstOrDefault(c => c.Id == id);
-            if (result == null) 
-            {
-                throw new EntityNotFoundException($"Course with ID:{id} does not exist." );
-            }
-            return result;
-        }
-
-        public IList<Course> GetCoursesByTitle(string title)
-        {
-            var result = IQ_GetCourses().Where(c => c.Title == title).ToList();
-            if (result == null)
-            {
-                throw new EntityNotFoundException($"Course with the title: {title} does not exist.");
-            }
-            return result;
-        }
-        private IQueryable<Course> IQ_GetCourses()
-        {
-            var result = context.Courses.Include(x => x.Creator);
-            if (!result.Any())
-            {
-                throw new EntityNotFoundException("No available courses yet.");
-            }
-            return result;
-        }
-        public IList<Course> GetCourses()
+        public IList<Course> GetAll()
         {
             var result = IQ_GetCourses().ToList();
-            if (!result.Any()) 
+            if (!result.Any())
             {
-                throw new EntityNotFoundException("No available courses yet.");
+                throw new EntityNotFoundException(Messages.NoAvailableCoursesMessage);
             }
             return result;
         }
 
-        public CourseTopic CreateCourseTopic(CourseTopic courseTopic)
+        public Course GetById(int id)
         {
-            context.CoursesTopics.Add(courseTopic);
+            var result = IQ_GetCourses().FirstOrDefault(c => c.Id == id)
+                ?? throw new EntityNotFoundException(Messages.CourseNotFoundForUpdateMessage);
+
+            return result;
+        }
+        public IList<Course> GetByTitle(string title)
+        {
+            var result = IQ_GetCourses().Where(c => c.Title == title).ToList()
+                ?? throw new EntityNotFoundException(Messages.CourseNotFoundForUpdateMessage);
+
+            return result;
+        }
+        public void Update(int courseId, Course updatedCourse)
+        {
+            var course = GetById(courseId);
+
+            course.Title = updatedCourse.Title;
+            course.CourseTopic = updatedCourse.CourseTopic;
+            course.Description = updatedCourse.Description;
+            course.StartDate = updatedCourse.StartDate;
+
+            context.Update(course);
             context.SaveChanges();
-
-            return courseTopic;
         }
 
-        public CourseTopic Delete(int id)
+        public bool Delete(Course course)
         {
-            //TODO
-            throw new NotImplementedException();
-        }
+            context.Courses.Remove(course);
 
-        public CourseTopic GetCourseTopicById(int id)
+            return context.SaveChanges() > 0;
+        }
+        #endregion
+
+        #region Additional Methods
+        public void PublicizeCourse(int courseId)
         {
-            var courseTopic = context.CoursesTopics.FirstOrDefault(c => c.Id == id);
+            var course = GetById(courseId);
+            if (course == null)
+            {
+                throw new EntityNotFoundException(Messages.CourseNotFoundForUpdateMessage);
+            }
 
-            return courseTopic ?? throw new EntityNotFoundException($"Course Topic with id:{id} doesn't exist.");
+            course.IsPublic = true;
+            context.Update(course);
+            context.SaveChanges();
         }
 
-        public bool IsCourseTopicUnique(string courseTopic)
+        public void MarkAsDraft(int courseId)
         {
-            return context.CoursesTopics.Any(c => c.Topic == courseTopic);
+            var course = GetById(courseId);
+            if (course == null)
+            {
+                throw new EntityNotFoundException(Messages.CourseNotFoundForUpdateMessage);
+            }
+
+            course.IsPublic = false;
+            context.Update(course);
+            context.SaveChanges();
         }
+
+        public void AddLectureToCourse(int courseId, Lecture newLecture)
+        {
+            var course = GetById(courseId);
+            course.Lectures.Add(newLecture);
+            
+            context.Update(course);
+            context.SaveChanges();
+        }
+        #endregion
+
+        #region Private Methods
+        private IQueryable<Course> IQ_GetCourses()
+        {
+            var result = context.Courses
+                .Include(x => x.Lectures)
+                .Include(x => x.CourseTopic)
+                .Include(x => x.Teachers)
+                .Include(x => x.Students)
+                .Include(x => x.Ratings)
+                .Include(x => x.Creator);
+
+            if (!result.Any())
+                throw new EntityNotFoundException(Messages.NoAvailableCoursesMessage);
+
+            return result;
+        }
+        #endregion
     }
 }

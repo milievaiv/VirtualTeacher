@@ -1,44 +1,42 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using VirtualTeacher.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Exceptions;
+using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Controllers.Api
 {
-    [Route("api/Admin")]
+    [Route("api/admin")]
     [ApiController]
     public class AdminApiController : ControllerBase
     {
-        private readonly IStudentService studentService;
         private readonly IAdminService adminService;
-        public AdminApiController(IStudentService studentService, IAdminService adminService)
+        public AdminApiController(IAdminService adminService)
         {
-            this.studentService = studentService;
             this.adminService = adminService;
         }
 
+        //POST: api/admin/register
         [HttpPost("register")]
-        public IActionResult RegisterAdmin([FromBody] RegisterModel registerModel)
+        public IActionResult RegisterAdmin([FromBody] RegisterDto registerModel)
         {
             try
             {
                 var admin = adminService.Register(registerModel);
-                return Ok(admin);
+                return this.StatusCode(StatusCodes.Status200OK, admin);
             }
             catch (DuplicateEntityException)
             {
-
-                return Conflict("That email is taken. Try another.");
+                return this.StatusCode(StatusCodes.Status409Conflict, Messages.EmailTakenErrorMessage);
             }
         }
 
+        //POST: api/admin/approve-teacher
         [HttpPost("approve-teacher")]
         public IActionResult ApproveTeacher([FromBody] string email)
         {
             var approvedTeacher = adminService.ApproveTeacher(email);
-            return Ok(approvedTeacher);
+            return this.StatusCode(StatusCodes.Status200OK, approvedTeacher);
         }
     }
 }

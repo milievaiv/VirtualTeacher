@@ -6,14 +6,15 @@ namespace VirtualTeacher.Services.Contracts
 {
     public interface IUserService
     {
-        IList<BaseUser> GetAllUsers();
-        BaseUser Register(RegisterModel registerModel);
-        BaseUser GetUserById(int id);
-        BaseUser GetUserByEmail(string email);
-        BaseUser GetUserByFirstName(string firstName);
-        BaseUser GetUserByLastName(string firstName);
+        IList<BaseUser> GetAll();       
+        BaseUser GetById(int id);
+        BaseUser GetByEmail(string email);
+        BaseUser GetByFirstName(string firstName);
+        BaseUser GetByLastName(string firstName);
         BaseUser Update(int id, BaseUser user);
-        void ChangePassword(int userId, string oldPassword, string newPassword);
         IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters);
+        BaseUser Register(RegisterDto registerModel);
+        void ChangePassword(int userId, string oldPassword, string newPassword); 
+        
     }
 }
