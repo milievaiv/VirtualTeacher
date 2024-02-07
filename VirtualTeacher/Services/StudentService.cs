@@ -32,6 +32,10 @@ namespace VirtualTeacher.Services
         {
             return this.studentRepository.GetByEmail(email);
         }
+        public Student Update(Student student)
+        {
+            return this.studentRepository.Update(student);
+        }
 
         public bool Delete(int id)
         {
@@ -40,21 +44,34 @@ namespace VirtualTeacher.Services
         #endregion
 
         #region Additional Methods
-        public void EnrollInCourse(Student student, Course course)
+        //public void EnrollInCourse(Student student, Course course)
+        //{
+        //    if (course.StartDate <= DateTime.Now)
+        //    {
+        //        throw new InvalidOperationException(Messages.EnrollmentNotAllowedBeforeStartDate);
+        //    }
+        //    if (!studentRepository.IsEnrolled(student.Id, course.Id))
+        //    {
+        //        studentRepository.EnrollStudentInCourse(student.Id, course.Id);
+        //    }
+        //    else
+        //    {
+        //        throw new DuplicateEntityException(Messages.StudentAlreadyEnrolled);
+        //    }           
+        //}
+        public IList<Course> GetEnrolledCourses(Student student)
         {
-            if (course.StartDate <= DateTime.Now)
-            {
-                throw new InvalidOperationException(Messages.EnrollmentNotAllowedBeforeStartDate);
-            }
-            if (!studentRepository.IsEnrolled(student.Id, course.Id))
-            {
-                studentRepository.EnrollStudentInCourse(student.Id, course.Id);
-            }
-            else
-            {
-                throw new DuplicateEntityException(Messages.StudentAlreadyEnrolled);
-            }           
+            return studentRepository.GetEnrolledCourses(student);
         }
+
+        public IList<Course> GetCompletedCourses(Student student)
+        {
+            return studentRepository.GetCompletedCourses(student);
+        }
+        //public double CalculateProgress(Student student, Course course)
+        //{
+        //    throw new NotImplementedException();
+        //}
         #endregion
     }
 }

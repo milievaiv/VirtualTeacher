@@ -45,6 +45,13 @@ namespace VirtualTeacher.Repositories
 
             return student;
         }
+        public Student Update(Student student)
+        {
+            context.Students.Update(student);
+            context.SaveChanges();
+
+            return student;
+        }
 
         public bool Delete(int id)
         {
@@ -78,8 +85,12 @@ namespace VirtualTeacher.Repositories
             context.StudentsCourses.Add(studentCourse);
             context.SaveChanges();
         }
+        public IList<Course> GetEnrolledCourses(Student student)
+        {
+            return student.EnrolledCourses.Select(sc => sc.Course).ToList();
+        }
 
-        public double CalculateProgress(Student student, Course course)
+        public double? CalculateProgress(Student student, Course course)
         {
             var enrolledCourse = student.EnrolledCourses.FirstOrDefault(x => x.Course == course);
             enrolledCourse.Grade = student.Assignments.Count / (double)course.TotalAssignments * 100;
@@ -97,6 +108,12 @@ namespace VirtualTeacher.Repositories
                 .Include(s => s.EnrolledCourses)
             .ThenInclude(ec => ec.Course);
         }
-         #endregion
+
+        //TODO
+        public IList<Course> GetCompletedCourses(Student student)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

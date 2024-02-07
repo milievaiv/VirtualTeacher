@@ -36,6 +36,8 @@
 
         public const string StudentCourseNotFoundMessage = "Student or course not found.";
 
+        public const string InvalidStartingDate = "Invalid starting date. The starting date must be in the future.";
+
         public const string EnrollmentSuccessMessage = "Enrollment successful.";
 
         public const string EnrollmentNotAllowedBeforeStartDate = "Enrollment is not allowed before the course starting date.";

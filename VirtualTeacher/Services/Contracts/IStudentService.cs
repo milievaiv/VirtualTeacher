@@ -8,7 +8,12 @@ namespace VirtualTeacher.Services.Contracts
         Student GetById(int id);
         Student GetByEmail(string email);
         bool Delete(int id);
-        public void EnrollInCourse(Student student, Course course);
+        Student Update(Student student);
+        //public void EnrollInCourse(Student student, Course course);
+
+        //double CalculateProgress(Student student, Course course);
+        IList<Course> GetEnrolledCourses(Student student);
+        IList<Course> GetCompletedCourses(Student student);
 
     }
 }
