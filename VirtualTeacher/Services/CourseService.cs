@@ -1,4 +1,5 @@
-﻿using VirtualTeacher.Models;
+﻿using VirtualTeacher.Exceptions;
+using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
@@ -11,10 +12,17 @@ namespace VirtualTeacher.Services
         #region State
         private readonly ICourseRepository courseRepository;
         private readonly ICourseTopicRepository courseTopicRepository;
-        public CourseService(ICourseRepository courseRepository, ICourseTopicRepository courseTopicRepository)
+        private readonly ITeacherRepository teacherRepository;
+        private readonly IStudentService studentService;
+        public CourseService(ICourseRepository courseRepository, 
+            ICourseTopicRepository courseTopicRepository,
+            ITeacherRepository teacherRepository,
+            IStudentService studentService)
         {
             this.courseRepository = courseRepository;
             this.courseTopicRepository = courseTopicRepository;
+            this.teacherRepository = teacherRepository;
+            this.studentService = studentService;
         }
         #endregion
 
@@ -79,6 +87,32 @@ namespace VirtualTeacher.Services
         public void AddLectureToCourse(int courseId, Lecture newLecture)
         {
             courseRepository.AddLectureToCourse(courseId, newLecture);
+        }
+        public Course EnrollStudentInCourse(Student student, Course course)
+        {
+            if (course.StartDate is null || course.StartDate > DateTime.UtcNow)
+            {
+                throw new UnauthorizedOperationException(
+                    $"You cannot enroll in this course before {course.StartDate}");
+            }
+
+            var enrolledCourse = new StudentCourse()
+            {
+                StudentId = student.Id,
+                Student = student,
+                CourseId = course.Id,
+                Course = course,
+                Grade = null,
+                Progress = null,
+            };
+
+            course.Students.Add(enrolledCourse);
+            courseRepository.Update(course.Id, course);
+
+            student.EnrolledCourses.Add(enrolledCourse);
+            studentService.Update(student);
+
+            return course;
         }
         #endregion
     }

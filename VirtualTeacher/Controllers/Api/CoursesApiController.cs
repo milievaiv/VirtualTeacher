@@ -18,15 +18,19 @@ namespace VirtualTeacher.Controllers.Api
     {
         private readonly ICourseService courseService;
         private readonly ITeacherService teacherService;
+        private readonly IStudentService studentService;
         private readonly IModelMapper modelMapper;
+        
 
         public CoursesApiController(
             ICourseService courseService,
             ITeacherService teacherService,
+            IStudentService studentService,
             IModelMapper modelMapper)
         {
             this.courseService = courseService;
             this.teacherService = teacherService;
+            this.studentService = studentService;
             this.modelMapper = modelMapper;
         }
 
@@ -43,7 +47,7 @@ namespace VirtualTeacher.Controllers.Api
                 {
                     courses = courses.Where(x => x.IsPublic).ToList();
                 }
-                
+
                 var drafts = courses.Select(course => modelMapper.MapToCourseResponseDto(course)).ToList();
                 return Ok(drafts);
             }
@@ -104,7 +108,7 @@ namespace VirtualTeacher.Controllers.Api
             try
             {
                 var course = courseService.GetById(id);
-                var courseDto = modelMapper.MapToCourseResponseDto(course); 
+                var courseDto = modelMapper.MapToCourseResponseDto(course);
 
                 return Ok(courseDto);
             }
@@ -118,7 +122,7 @@ namespace VirtualTeacher.Controllers.Api
         [HttpDelete("{id}")]
         public IActionResult DeleteCourse(int id)
         {
-            
+
             try
             {
                 var course = courseService.GetById(id);
@@ -142,10 +146,17 @@ namespace VirtualTeacher.Controllers.Api
                 if (email != null)
                 {
                     var teacher = teacherService.GetByEmail(email);
-                    var course = courseService.Create(createCourseModel, teacher);
-                    var courseDto = modelMapper.MapToCourseResponseDto(course);
+                    if (createCourseModel.StartDate.HasValue && createCourseModel.StartDate > DateTime.Now)
+                    {
+                        var course = courseService.Create(createCourseModel, teacher);
+                        var courseDto = modelMapper.MapToCourseResponseDto(course);
+                        return Ok(courseDto);
+                    }
+                    else
+                    {
+                        return this.StatusCode(StatusCodes.Status400BadRequest, Messages.InvalidStartingDate);
+                    }
 
-                    return Ok(courseDto);
                 }
                 throw new InvalidOperationException();
             }
@@ -230,7 +241,7 @@ namespace VirtualTeacher.Controllers.Api
         }
 
         //POST: api/courses/courseId/lectures
-        [AuthorizeApiUsers("teacher, student")] 
+        [AuthorizeApiUsers("teacher, student")]
         [HttpPost("{courseId}/lectures")]
         public IActionResult AddLectureToCourse(int courseId, [FromBody] LectureDto newLectureDto)
         {
@@ -245,6 +256,43 @@ namespace VirtualTeacher.Controllers.Api
             {
                 return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
+        }
+        [AuthorizeApiUsers("student")]
+        [HttpPost("{id}/enroll")]
+        public ActionResult EnrollStudentInCourse(int id)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (email != null)
+                {
+                    var student = studentService.GetByEmail(email);
+                    var course = courseService.GetById(id);
+
+                    courseService.EnrollStudentInCourse(student, course);
+
+                    return Ok($"Student {student.FirstName} {student.LastName} enrolled in course {course.Title}.");
+                }
+
+                throw new InvalidOperationException();
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return this.StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, ex.Message);
+            }
+            catch (DuplicateEntityException ex)
+            {
+                return this.StatusCode(StatusCodes.Status409Conflict, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.StatusCode(StatusCodes.Status405MethodNotAllowed, ex.Message);
+            }
+
         }
     }
 }

@@ -15,5 +15,6 @@ namespace VirtualTeacher.Services.Contracts
         public void PublicizeCourse(int courseId);
         public void MarkAsDraft(int courseId);        
         void AddLectureToCourse(int courseId, Lecture newLecture);
+        Course EnrollStudentInCourse(Student student, Course course);
     }
 }
