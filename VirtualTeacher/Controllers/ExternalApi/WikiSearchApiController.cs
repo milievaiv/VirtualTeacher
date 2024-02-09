@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Services;
 
 namespace VirtualTeacher.Controllers.ExternalApi
 {
@@ -25,7 +26,7 @@ namespace VirtualTeacher.Controllers.ExternalApi
             try
             {
                 _wikiService.GetWikiMediaSearchRequest(query);
-                return Ok(); // Or return the search results
+                return Ok(); // Return the search results
             }
             catch (Exception ex)
             {
