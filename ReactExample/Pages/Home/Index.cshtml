@@ -1,0 +1,11 @@
+﻿@model List<ImageInfo>
+
+<h2>Image List</h2>
+
+@foreach (var image in Model)
+{
+    <div>
+        <p>Image name: @image.FileName</p>
+        <img style="height: 50vh;" src="@Url.Action("GetImage", "Home", new { imageName = image.FileName, folderPath="images/" })" alt="@image.FileName" contenttype="@image.ContentType" />
+    </div><br>
+}

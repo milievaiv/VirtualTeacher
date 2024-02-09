@@ -1,0 +1,84 @@
+﻿using ReactExample.Data;
+using ReactExample.Data.Exceptions;
+using ReactExample.Models;
+using ReactExample.Repositories.Contracts;
+using ReactExample.Constants;
+using Microsoft.EntityFrameworkCore;
+using ReactExample.Exceptions;
+
+namespace ReactExample.Repositories
+{
+    public class LectureRepository : ILectureRepository
+    {
+        #region State
+        private readonly VirtualTeacherContext context;
+        public LectureRepository(VirtualTeacherContext context)
+        {
+            this.context = context;
+        }
+        #endregion
+
+        #region CRUD Methods
+        public Lecture Create(Course course, Lecture lecture)
+        {
+            course.Lectures.Add(lecture);
+            context.SaveChanges();
+
+            return lecture;
+        }
+
+        public IList<Lecture> GetAll()
+        {
+            var lectures = IQ_GetAll().ToList()
+                ?? throw new EntityNotFoundException(Messages.NoLecturesMessage);
+
+            return lectures;
+        }    
+        
+        public Lecture GetById(int id)
+        {
+            var lecture = GetAll().FirstOrDefault(x => x.Id == id)
+                ?? throw new EntityNotFoundException(Messages.LectureNotFound);
+
+            return lecture;
+        }
+        
+        public Lecture Update(Lecture lecture)
+        {
+            context.Update(lecture);
+            context.SaveChanges();
+
+            return lecture;
+        }        
+
+        public bool Delete(Lecture lecture)
+        {
+            context.Remove(lecture);
+            return context.SaveChanges() > 0;
+        }
+        #endregion
+
+        #region Additional Methods
+        public void AddAssignmentToLecture(int lectureId, Assignment newAssignment)
+        {
+            var lecture = context.Lectures.FirstOrDefault(x => x.Id == lectureId)
+                ?? throw new EntityNotFoundException(Messages.LectureNotFound);
+
+            if (lecture.Assignment != null)
+                   throw new DuplicateEntityException(Messages.AssignmentAlreadyExist);
+
+            lecture.Assignment = newAssignment;
+
+            context.Update(lecture);
+            context.SaveChanges();
+        }
+        #endregion
+
+        #region Private Methods
+        private IQueryable<Lecture> IQ_GetAll()
+        {
+            return context.Lectures.Include(x => x.Assignment);
+        }
+        #endregion
+    }
+}
