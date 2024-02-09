@@ -76,7 +76,7 @@ namespace VirtualTeacher.Repositories
         #region Additional Methods
         public void UpdatePassword(int userId, byte[] passwordHash, byte[] passwordSalt)
         {
-            var user = context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = GetUsers().FirstOrDefault(u => u.Id == userId);
             if (user != null)
             {
                 user.PasswordHash = passwordHash;

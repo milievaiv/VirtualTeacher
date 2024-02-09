@@ -35,7 +35,7 @@ namespace VirtualTeacher.Repositories
 
         public Assignment GetById(int id)
         {
-            var assignment = GetAll().FirstOrDefault(x => x.Id == id);
+            var assignment = IQ_GetAll().FirstOrDefault(x => x.Id == id);
 
             return assignment;
         }

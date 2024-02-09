@@ -31,7 +31,7 @@ namespace VirtualTeacher.Repositories
 
         public Admin GetAdminByEmail(string email)
         {
-            var admin = GetAll().FirstOrDefault(a => a.Email == email);
+            var admin = IQ_GetAdmins().FirstOrDefault(a => a.Email == email);
 
             return admin;
         }

@@ -4,6 +4,7 @@ using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace VirtualTeacher.Repositories
 {
@@ -35,14 +36,14 @@ namespace VirtualTeacher.Repositories
 
         public IList<CourseTopic> GetAll()
         {
-            var courseTopics = context.CoursesTopics.ToList();
+            var courseTopics = IQ_GetAll().ToList();
 
             return courseTopics ?? throw new EntityNotFoundException(Messages.NoTopicsMessage);
         }
 
         public CourseTopic GetById(int id)
         {
-            var courseTopic = context.CoursesTopics.FirstOrDefault(c => c.Id == id);
+            var courseTopic = IQ_GetAll().FirstOrDefault(c => c.Id == id);
 
             return courseTopic ?? throw new EntityNotFoundException(Messages.CourseTopicNotFoundMessage);
         }                
@@ -65,7 +66,14 @@ namespace VirtualTeacher.Repositories
         #region Additional Methods
         public bool IsCourseTopicUnique(string courseTopic)
         {
-            return context.CoursesTopics.Any(c => c.Topic == courseTopic);
+            return IQ_GetAll().Any(c => c.Topic == courseTopic);
+        }
+        #endregion
+
+        #region Additional Methods
+        private IQueryable<CourseTopic> IQ_GetAll()
+        {
+            return context.CoursesTopics;
         }
         #endregion
     }

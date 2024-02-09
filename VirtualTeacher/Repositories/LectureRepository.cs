@@ -37,7 +37,7 @@ namespace VirtualTeacher.Repositories
         
         public Lecture GetById(int id)
         {
-            var lecture = GetAll().FirstOrDefault(x => x.Id == id)
+            var lecture = IQ_GetAll().FirstOrDefault(x => x.Id == id)
                 ?? throw new EntityNotFoundException(Messages.LectureNotFound);
 
             return lecture;
@@ -61,7 +61,7 @@ namespace VirtualTeacher.Repositories
         #region Additional Methods
         public void AddAssignmentToLecture(int lectureId, Assignment newAssignment)
         {
-            var lecture = context.Lectures.FirstOrDefault(x => x.Id == lectureId)
+            var lecture = IQ_GetAll().FirstOrDefault(x => x.Id == lectureId)
                 ?? throw new EntityNotFoundException(Messages.LectureNotFound);
 
             if (lecture.Assignment != null)

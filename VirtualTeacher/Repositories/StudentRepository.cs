@@ -34,14 +34,14 @@ namespace VirtualTeacher.Repositories
 
         public Student GetById(int id)
         {
-            var student = GetAll().FirstOrDefault(u => u.Id == id);
+            var student = GetStudents().FirstOrDefault(u => u.Id == id);
 
             return student;
         }
 
         public Student GetByEmail(string email)
         {
-            var student = GetAll().FirstOrDefault(u => u.Email == email);
+            var student = GetStudents().FirstOrDefault(u => u.Email == email);
 
             return student;
         }
