@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VirtualTeacher.Models.DTO
+namespace VirtualTeacher.Models.DTO.AuthenticationDTO
 {
     public class RegisterDto
     {
@@ -16,7 +16,7 @@ namespace VirtualTeacher.Models.DTO
         [Required]
         public string FirstName { get; set; }
         [Required]
-        public string LastName { get; set; }   
-        
+        public string LastName { get; set; }
+
     }
 }

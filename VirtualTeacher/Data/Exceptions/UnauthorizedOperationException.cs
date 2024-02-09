@@ -1,4 +1,4 @@
-﻿namespace VirtualTeacher.Exceptions
+﻿namespace VirtualTeacher.Data.Exceptions
 {
     public class UnauthorizedOperationException : ApplicationException
     {

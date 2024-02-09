@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Constants;
 using VirtualTeacher.Helpers.Contracts;
 using VirtualTeacher.Models.DTO.CourseDTO;
+using VirtualTeacher.Models.DTO.LectureDTO;
 
 namespace VirtualTeacher.Controllers.Api
 {

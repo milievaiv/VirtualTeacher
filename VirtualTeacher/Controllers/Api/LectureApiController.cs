@@ -2,7 +2,6 @@
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Constants;
 using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Helpers;
 using VirtualTeacher.Helpers.Contracts;
 using VirtualTeacher.Models;

@@ -1,4 +1,4 @@
-﻿namespace VirtualTeacher.Models.DTO
+﻿namespace VirtualTeacher.Models.DTO.CourseDTO
 {
     public class CourseResponseDto
     {

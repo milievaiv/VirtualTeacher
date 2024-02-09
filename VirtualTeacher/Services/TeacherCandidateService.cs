@@ -1,8 +1,8 @@
 ﻿using System.Net.Mail;
 using System.Net;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Models.DTO.TeacherDTO;
 
 namespace VirtualTeacher.Services
 {

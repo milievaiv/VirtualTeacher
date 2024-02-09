@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Models;
 using VirtualTeacher.Services.Contracts;

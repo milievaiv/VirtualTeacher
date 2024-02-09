@@ -4,14 +4,12 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Models.DTO;
 using HtmlAgilityPack;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
-
-
+using VirtualTeacher.Models.DTO.TeacherDTO;
 
 namespace VirtualTeacher.Services
 {

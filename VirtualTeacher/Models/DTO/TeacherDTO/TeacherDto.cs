@@ -1,4 +1,6 @@
-﻿namespace VirtualTeacher.Models.DTO
+﻿using VirtualTeacher.Models.DTO.UserDTO;
+
+namespace VirtualTeacher.Models.DTO.TeacherDTO
 {
     public class TeacherDto : UserDto
     {

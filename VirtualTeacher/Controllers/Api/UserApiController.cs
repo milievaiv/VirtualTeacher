@@ -2,11 +2,11 @@
 using System.Security.Claims;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Helpers.Contracts;
-using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Models.DTO.UserDTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 
 namespace VirtualTeacher.Controllers.Api
 {

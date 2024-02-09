@@ -1,7 +1,8 @@
-﻿using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Models;
+﻿using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.CourseDTO;
 using VirtualTeacher.Models.DTO.AssignmentDTO;
+using VirtualTeacher.Models.DTO.UserDTO;
+using VirtualTeacher.Models.DTO.LectureDTO;
 
 namespace VirtualTeacher.Helpers.Contracts
 {

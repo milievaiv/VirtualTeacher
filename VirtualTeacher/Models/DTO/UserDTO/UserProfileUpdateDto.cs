@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VirtualTeacher.Models.DTO
+namespace VirtualTeacher.Models.DTO.UserDTO
 {
     public class UserProfileUpdateDto
     {

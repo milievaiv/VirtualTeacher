@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Helpers.Contracts;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Controllers.Api
-{    
+{
     [ApiController]
     [Route("api/teachers")]
     public class TeacherController : ControllerBase

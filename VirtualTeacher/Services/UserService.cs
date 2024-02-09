@@ -2,7 +2,7 @@
 using VirtualTeacher.Constants;
 using VirtualTeacher.Data.Exceptions;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Models.QueryParameters;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;

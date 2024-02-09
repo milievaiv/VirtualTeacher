@@ -40,6 +40,8 @@ namespace VirtualTeacher
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
+            builder.Services.AddSingleton<MediaWikiActionService>();
+
             // Authentication
             builder.Services.AddAuthentication(options =>
             {
