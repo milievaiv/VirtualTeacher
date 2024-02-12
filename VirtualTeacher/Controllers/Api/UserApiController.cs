@@ -7,6 +7,8 @@ using VirtualTeacher.Models.DTO.UserDTO;
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Models.DTO.UserDTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 
 namespace VirtualTeacher.Controllers.Api
 {

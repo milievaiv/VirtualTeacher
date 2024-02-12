@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 
-namespace VirtualTeacher.Controllers
+namespace VirtualTeacher.Controllers.Api
 {
     [Route("api/auth")]
     [ApiController]
@@ -17,7 +17,7 @@ namespace VirtualTeacher.Controllers
 
         public AuthApiController(
             ITokenService tokenService,
-            IUserService userService, 
+            IUserService userService,
             IVerificationService verificationService)
         {
             this.tokenService = tokenService;
@@ -36,7 +36,7 @@ namespace VirtualTeacher.Controllers
             }
             catch (DuplicateEntityException)
             {
-                return this.StatusCode(StatusCodes.Status409Conflict, Messages.UsernameTakenMessage);
+                return StatusCode(StatusCodes.Status409Conflict, Messages.UsernameTakenMessage);
             }
         }
 
@@ -53,12 +53,12 @@ namespace VirtualTeacher.Controllers
             }
             catch (UnauthorizedOperationException ex)
             {
-                return this.StatusCode(StatusCodes.Status401Unauthorized, Messages.InvalidLoginAttemptMessage);
+                return StatusCode(StatusCodes.Status401Unauthorized, Messages.InvalidLoginAttemptMessage);
             }
             catch (EntityNotFoundException)
             {
-                return this.StatusCode(StatusCodes.Status404NotFound, Messages.InvalidLoginAttemptMessage);
-            }           
+                return StatusCode(StatusCodes.Status404NotFound, Messages.InvalidLoginAttemptMessage);
+            }
         }
 
         private string DetermineUserRole(BaseUser user)
@@ -66,14 +66,14 @@ namespace VirtualTeacher.Controllers
             switch (user)
             {
                 case Admin:
-                    return "admin";                
+                    return "admin";
                 case Student:
-                    return "student";                
+                    return "student";
                 case Teacher:
                     return "teacher";
                 default:
                     throw new InvalidOperationException();
             }
-        }    
+        }
     }
 }

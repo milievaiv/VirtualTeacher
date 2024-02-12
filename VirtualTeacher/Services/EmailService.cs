@@ -10,8 +10,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
-
-
+using VirtualTeacher.Models.DTO.TeacherDTO;
 
 namespace VirtualTeacher.Services
 {

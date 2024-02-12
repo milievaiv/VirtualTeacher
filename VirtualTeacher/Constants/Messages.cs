@@ -80,6 +80,8 @@
 
         public const string CourseUpdatedSuccessfullyMessage = "Course updated successfully.";
 
+        public const string WikiEmptySearchQuery = "Search query cannot be empty";
+
 
     }
 }

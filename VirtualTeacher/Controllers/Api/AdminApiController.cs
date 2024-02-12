@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Services.Contracts;
-using VirtualTeacher.Exceptions;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Data.Exceptions;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 
 namespace VirtualTeacher.Controllers.Api
 {

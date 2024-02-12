@@ -6,7 +6,7 @@ using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
 
 namespace VirtualTeacher.Controllers.Api
-{    
+{
     [ApiController]
     [Route("api/teachers")]
     public class TeacherController : ControllerBase

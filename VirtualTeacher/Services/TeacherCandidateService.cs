@@ -3,6 +3,7 @@ using System.Net;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.TeacherDTO;
 using VirtualTeacher.Services.Contracts;
+using VirtualTeacher.Models.DTO.TeacherDTO;
 
 namespace VirtualTeacher.Services
 {
