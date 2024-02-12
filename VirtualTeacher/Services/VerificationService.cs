@@ -5,7 +5,6 @@ using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
 using VirtualTeacher.Exceptions;
-using VirtualTeacher.Models.DTO.AuthenticationDTO;
 
 namespace VirtualTeacher.Services
 {

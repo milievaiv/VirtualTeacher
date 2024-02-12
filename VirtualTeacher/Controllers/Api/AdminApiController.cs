@@ -2,8 +2,7 @@
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
-using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Models.DTO.AuthenticationDTO;
+using VirtualTeacher.Exceptions;
 
 namespace VirtualTeacher.Controllers.Api
 {

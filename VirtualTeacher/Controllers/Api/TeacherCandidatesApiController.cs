@@ -4,9 +4,6 @@ using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Models.DTO.TeacherDTO;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Constants;
-using VirtualTeacher.Data.Exceptions;
-using VirtualTeacher.Models.DTO.AuthenticationDTO;
-using VirtualTeacher.Models.DTO.TeacherDTO;
 
 namespace VirtualTeacher.Controllers.Api
 {

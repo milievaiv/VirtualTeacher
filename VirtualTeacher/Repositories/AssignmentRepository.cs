@@ -1,5 +1,4 @@
-﻿
-using VirtualTeacher.Data;
+﻿using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 

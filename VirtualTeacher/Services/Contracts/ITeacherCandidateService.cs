@@ -1,5 +1,4 @@
-﻿using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO.TeacherDTO;
+﻿using VirtualTeacher.Models.DTO.TeacherDTO;
 
 namespace VirtualTeacher.Services.Contracts
 {
