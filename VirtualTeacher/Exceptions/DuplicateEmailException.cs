@@ -1,4 +1,4 @@
-﻿namespace VirtualTeacher.Controllers.Data.Exceptions
+﻿namespace VirtualTeacher.Exceptions
 {
 	public class DuplicateEmailException : ApplicationException
 	{

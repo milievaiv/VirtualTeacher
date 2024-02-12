@@ -1,10 +1,9 @@
 ﻿using VirtualTeacher.Data;
-using VirtualTeacher.Data.Exceptions;
+using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Constants;
 using Microsoft.EntityFrameworkCore;
-using VirtualTeacher.Exceptions;
 
 namespace VirtualTeacher.Repositories
 {

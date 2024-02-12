@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.CourseDTO;
 
 namespace VirtualTeacher.Services.Contracts
 {

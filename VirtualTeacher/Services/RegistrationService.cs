@@ -1,5 +1,5 @@
 ﻿using VirtualTeacher.Exceptions;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Repositories.Contracts;
 using System.Security.Cryptography;
 using VirtualTeacher.Services.Contracts;

@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;

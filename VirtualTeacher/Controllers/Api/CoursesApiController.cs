@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
 using VirtualTeacher.Attributes;
-using VirtualTeacher.Data.Exceptions;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Constants;
 using VirtualTeacher.Helpers.Contracts;
 using VirtualTeacher.Models.DTO.CourseDTO;
+using VirtualTeacher.Models.DTO.LectureDTO;
+
 
 namespace VirtualTeacher.Controllers.Api
 {
@@ -137,7 +137,7 @@ namespace VirtualTeacher.Controllers.Api
         //POST: api/courses
         [AuthorizeApiUsers("teacher, admin")]
         [HttpPost("")]
-        public IActionResult CreateCourse([FromBody] CreateCourseDto createCourseModel)
+        public IActionResult CreateCourse([FromBody] CreateCourseDto createCourseDto)
         {
 
             try
@@ -146,9 +146,9 @@ namespace VirtualTeacher.Controllers.Api
                 if (email != null)
                 {
                     var teacher = teacherService.GetByEmail(email);
-                    if (createCourseModel.StartDate.HasValue && createCourseModel.StartDate > DateTime.Now)
+                    if (createCourseDto.StartDate.HasValue && createCourseDto.StartDate > DateTime.Now)
                     {
-                        var course = courseService.Create(createCourseModel, teacher);
+                        var course = courseService.Create(createCourseDto, teacher);
                         var courseDto = modelMapper.MapToCourseResponseDto(course);
                         return Ok(courseDto);
                     }

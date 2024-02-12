@@ -1,4 +1,4 @@
-﻿namespace VirtualTeacher.Data.Exceptions
+﻿namespace VirtualTeacher.Exceptions
 {
     public class EntityNotFoundException : ApplicationException
     {

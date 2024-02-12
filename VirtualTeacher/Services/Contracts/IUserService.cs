@@ -1,5 +1,5 @@
 ﻿using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Services.Contracts

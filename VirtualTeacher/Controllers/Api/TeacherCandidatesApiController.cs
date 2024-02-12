@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Services.Contracts;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
+using VirtualTeacher.Models.DTO.TeacherDTO;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Constants;
 

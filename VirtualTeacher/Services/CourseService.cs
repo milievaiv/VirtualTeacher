@@ -1,6 +1,6 @@
 ﻿using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
-using VirtualTeacher.Models.DTO;
+using VirtualTeacher.Models.DTO.CourseDTO;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 

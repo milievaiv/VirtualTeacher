@@ -1,5 +1,6 @@
-﻿using VirtualTeacher.Models.DTO;
-using VirtualTeacher.Models;
+﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.DTO.LectureDTO;
+using VirtualTeacher.Models.DTO.UserDTO;
 using VirtualTeacher.Models.DTO.CourseDTO;
 using VirtualTeacher.Models.DTO.AssignmentDTO;
 
