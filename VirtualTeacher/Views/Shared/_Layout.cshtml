@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,44 +13,31 @@
 </head>
 <body>
     <header>
-        <div class="header-area ">
+        <div class="header-area">
             <div id="sticky-header" class="main-header-area">
                 <div class="container-fluid p-0">
                     <div class="row align-items-center no-gutters">
-                        <div class="col-xl-2 col-lg-2">
-                            <div class="logo-img">
-                                <a href="index.html">
-                                    <img src="img/logo.png" alt="">
-                                </a>
-                            </div>
-                        </div>
                         <div class="col-xl-7 col-lg-7">
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
                                         <li><a class="active" href="index.html">home</a></li>
-                                        <li><a href="Courses.html">Courses</a></li>
-                                        <li>
-                                            <a href="#">pages <i class="ti-angle-down"></i></a>
+@*                                         <li><a href="Courses.html">Courses</a></li>
+ *@                                        <li>
+                                            <a href="#">Courses <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
                                                 <li><a href="course_details.html">course details</a></li>
                                                 <li><a href="elements.html">elements</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="about.html">About</a></li>
-                                        <li>
-                                            <a href="#">blog <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="blog.html">blog</a></li>
-                                                <li><a href="single-blog.html">single-blog</a></li>
-                                            </ul>
-                                        </li>
                                         <li><a href="contact.html">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                        @if(!isLogged)
+                        {<div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="log_chat_area d-flex align-items-center">
                                 <a href="#test-form" class="login popup-with-form">
                                     <i class="flaticon-user"></i>
@@ -61,6 +51,7 @@
                                 </div>
                             </div>
                         </div>
+                        }
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -70,13 +61,16 @@
         </div>
     </header>
 
-    @RenderBody()
+    <div class="body-content">
+        @RenderBody()
+    </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - VirtualTeacher - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

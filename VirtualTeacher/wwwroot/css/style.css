@@ -16,13 +16,13 @@
 /* line 22, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_extend.scss */
 .header-area .main-header-area.sticky {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#a64eee+0,3c35ce+100 */
-  background: #a64eee;
+  /*background: #a64eee;*/
   /* Old browsers */
-  background: -moz-linear-gradient(left, #a64eee 0%, #3c35ce 100%);
+  /*background: -moz-linear-gradient(left, #a64eee 0%, #3c35ce 100%);*/
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, #a64eee 0%, #3c35ce 100%);
+  /*background: -webkit-linear-gradient(left, #a64eee 0%, #3c35ce 100%);*/
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #a64eee 0%, #3c35ce 100%);
+  /*background: linear-gradient(to right, #a64eee 0%, #3c35ce 100%);*/
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a64eee', endColorstr='#3c35ce',GradientType=1 );
   /* IE6-9 */
@@ -36,7 +36,6 @@
 /* 1. Theme default css */
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
 body {
-  font-family: "Crimson Text", serif;
   font-weight: normal;
   font-style: normal;
 }
@@ -120,7 +119,6 @@ p {
   line-height: 28px;
   color: #919191;
   margin-bottom: 13px;
-  font-family: "Crimson Text", serif;
 }
 
 /* line 67, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
@@ -511,7 +509,7 @@ h3 {
   background: #04D2C8;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
-  border-radius: 30px;
+  border-radius: 15px;
   border: 1px solid transparent;
   display: inline-block;
   -webkit-transition: 0.3s;
@@ -642,7 +640,6 @@ h3 {
 /* line 21, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_section_title.scss */
 .section_title p {
   font-size: 17px;
-  font-family: "Crimson Text", serif;
   font-weight: 400;
   line-height: 28px;
   color: #727272;
@@ -807,13 +804,14 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100%;
-  top: 0;
-  z-index: 99;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 0;
+    z-index: 99;
+    box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 767px) {
@@ -1118,18 +1116,18 @@ h3 {
 
 /* line 193, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .main-header-area.sticky {
-  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: -70px;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  transform: translateY(70px);
-  transition: transform 500ms ease, background 500ms ease;
-  -webkit-transition: transform 500ms ease, background 500ms ease;
-  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
-  padding: 0px 150px;
+    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+    position: fixed;
+    width: 100%;
+    top: -70px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    transform: translateY(70px);
+    transition: transform 500ms ease, background 500ms ease;
+    -webkit-transition: transform 500ms ease, background 500ms ease;
+    box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
+    padding: 0px 150px;
 }
 
 @media (max-width: 767px) {
@@ -1228,7 +1226,7 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_slider.scss */
 .slider_bg_1 {
-  background-image: url(../img/banner/banner.png);
+  background-image: url(../img/children-background.svg);
 }
 
 /* line 5, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_slider.scss */
@@ -1325,7 +1323,7 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_about.scss */
 .about_area {
-  padding: 200px 0 270px 0;
+  padding: 50px 0 270px 0;
 }
 
 @media (max-width: 767px) {
@@ -2377,7 +2375,6 @@ h3 {
 .subscribe_newsletter .newsletter_form .newsletter_form input::placeholder {
   font-size: 16px;
   font-weight: 400;
-  font-family: "Crimson Text", serif;
   color: #919191;
 }
 
