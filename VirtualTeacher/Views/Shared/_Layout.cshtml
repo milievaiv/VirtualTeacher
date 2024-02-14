@@ -1,79 +1,138 @@
 ﻿@{
     bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
 }
-<!DOCTYPE html>
-<html lang="en">
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - VirtualTeacher</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/VirtualTeacher.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Edumark</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/css/gijgo.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/course.css">
+    <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css">
+    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    <style>
+        .layout-header {
+            grid-area: header;
+        }
+
+        .layout-main {
+            grid-area: main;
+        }
+
+        .layout-footer {
+            grid-area: footer;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-areas:
+                'header'
+                'main'
+                'footer';
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div class="header-area">
-            <div id="sticky-header" class="main-header-area">
-                <div class="container-fluid p-0">
-                    <div class="row align-items-center no-gutters">
-                        <div class="col-xl-7 col-lg-7">
-                            <div class="main-menu  d-none d-lg-block">
-                                <nav>
-                                    <ul id="navigation">
-                                        <li><a class="active" href="index.html">home</a></li>
-@*                                         <li><a href="Courses.html">Courses</a></li>
- *@                                        <li>
-                                            <a href="#">Courses <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="course_details.html">course details</a></li>
-                                                <li><a href="elements.html">elements</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        @if(!isLogged)
-                        {<div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                            <div class="log_chat_area d-flex align-items-center">
-                                <a href="#test-form" class="login popup-with-form">
-                                    <i class="flaticon-user"></i>
-                                    <span>log in</span>
-                                </a>
-                                <div class="live_chat_btn">
-                                    <a class="boxed_btn_orange" href="#">
-                                        <i class="fa fa-phone"></i>
-                                        <span>+10 378 467 3672</span>
-                                    </a>
+
+<body style="    min-height: 100vh;
+    display: flex;
+    flex-direction: column;">
+    <div class="grid-container">
+        <div class="layout-header">
+            <header>
+            <div class="header-area">
+                <div id="sticky-header" class="main-header-area">
+                    <div class="container-fluid p-0">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col-xl-5 col-lg-7">
+                                <div class="main-menu  d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a class="active" href="/">Home</a></li>
+    @*                                         <li><a href="Courses.html">Courses</a></li>
+                                            *@
+                                            @if (ViewData["Title"] != null)
+                                            {
+                                                if (ViewData["Title"].ToString() != "Course")
+                                                {
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="#">Courses <i class="ti-angle-down"></i></a>
+                                                    <ul class="submenu">
+                                                        <li><a href="course_details.html">course details</a></li>
+                                                        <li><a href="elements.html">elements</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="about.html">About</a></li>
+                                                <li><a href="contact.html">Contact</a></li>
+                                            }
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
-                        </div>
-                        }
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
+                            @if(!isLogged)
+                            {<div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
+                                <div class="log_chat_area d-flex align-items-center">
+                                    <a href="/Auth/SignIn" class="login popup-with-form">
+                                        <i class="flaticon-user"></i>
+                                        <span>log in</span>
+                                    </a>
+                                    <div class="live_chat_btn">
+                                            <a class="boxed_btn_orange" href="/Auth/SignUp">
+                                            <span>Sign Up</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                            <div class="col-12">
+                                <div class="mobile_menu d-block d-lg-none"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </header>
         </div>
-    </header>
-
-    <div class="body-content">
-        @RenderBody()
+        <div class="layout-main">
+            @RenderBody()
+        </div>    
+        <div class="layout-footer">
+            <footer style="border-top: 1px solid black;opacity: 0.5; font-family: 'Poppins', sans-serif; position: relative; bottom: 0; width: 100%;">
+                <small>© Copyright @DateTime.Now.Year, VirtualTeacher in collaboration with Colorlib</small>
+            </footer>
+        </div>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - VirtualTeacher - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

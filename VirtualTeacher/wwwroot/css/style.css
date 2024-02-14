@@ -13,6 +13,68 @@
   justify-content: start;
 }
 
+.moving-image1 {
+    position: absolute;
+    left: 0;
+    width: 45%;
+    filter: drop-shadow(2px 2px 1px black);
+    animation: moveUp1 10s linear infinite;
+}
+
+.moving-image2 {
+    position: absolute;
+    left: 0;
+    width: 45%;
+    filter: drop-shadow(2px 2px 1px black);
+    animation: moveUp2 10s linear infinite;
+}
+
+@keyframes moveUp1 {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes moveUp2 {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+.auth-btn
+{
+    width:15vh;
+}
+
+.image1 {
+    animation-delay: 0s; /* Initially, image1 starts animating immediately */
+}
+
+.image2 {
+    animation-delay: 0s; /* Image2 starts animating after half of the animation duration */
+}
+/*@keyframes moveImage {
+    0% {
+        transform: translate(0, 0);*/ /* start position */
+    /*}
+
+    50% {
+        transform: translate(200px, 200px);*/ /* middle position */
+    /*}
+
+    100% {
+        transform: translate(0, 0);*/ /* end position (same as start) */
+    /*}
+}*/
+
 /* line 22, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_extend.scss */
 .header-area .main-header-area.sticky {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#a64eee+0,3c35ce+100 */
@@ -235,6 +297,14 @@ h3 {
   height: 100%;
   z-index: -1;
   opacity: .5;
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 /* line 156, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
@@ -555,7 +625,7 @@ h3 {
 /* line 148, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_btn.scss */
 .boxed_btn_orange {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   color: #fff;
   padding: 12px 30px;
   background: #FDAE5C;
@@ -829,9 +899,6 @@ h3 {
 }
 
 /* line 15, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
-.header-area .main-header-area {
-  padding: 0 150px;
-}
 
 @media (max-width: 767px) {
   /* line 15, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
@@ -973,7 +1040,7 @@ h3 {
 /* line 94, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul li a {
   color: #fff;
-  font-size: 16px;
+  font-size: 20px;
   text-transform: capitalize;
   font-weight: 400;
   display: inline-block;
@@ -986,14 +1053,12 @@ h3 {
 @media (min-width: 992px) and (max-width: 1200px) {
   /* line 94, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
   .header-area .main-header-area .main-menu ul li a {
-    font-size: 15px;
   }
 }
 
 @media (min-width: 1200px) and (max-width: 1500px) {
   /* line 94, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
   .header-area .main-header-area .main-menu ul li a {
-    font-size: 15px;
   }
 }
 
@@ -1195,7 +1260,7 @@ h3 {
 
 /* line 239, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .log_chat_area .login span {
-  font-size: 16px;
+  font-size: 20px;
 }
 
 /* line 244, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
@@ -1214,7 +1279,6 @@ h3 {
 @media (min-width: 1200px) and (max-width: 1500px) {
   /* line 244, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
   .header-area .log_chat_area .live_chat_btn a {
-    font-size: 13px;
     padding: 12px 25px;
   }
 }

@@ -1,0 +1,21 @@
+﻿.course-grid-container {
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    position: absolute;
+    width: 100%;
+    top: 10vh;
+    height:87vh;
+}
+
+.course-left-menu {
+    background-color: #f0f0f0; /* Left menu background color */
+    padding: 20px;
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds container height */
+}
+
+.course-right-menu {
+    background-color: #f0f0f0; /* Right menu background color */
+    padding: 20px;
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds container height */
+}

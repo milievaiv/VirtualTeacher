@@ -31,6 +31,10 @@ namespace VirtualTeacher.Controllers
 
             //return View(images);
         }
+        public async Task<IActionResult> Course()
+        {
+            return View("Course");
+        }
 
         // GET: /Home/Upload
         //public IActionResult Upload()
