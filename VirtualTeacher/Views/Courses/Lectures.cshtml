@@ -1,0 +1,70 @@
+﻿@model VirtualTeacher.Models.ViewModel.CourseViewModel.CourseViewModel
+@{
+    ViewBag.Title = "Lectures";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<style>
+    #navigation{
+        text-align: left;
+    margin-left: 5vh;
+}
+</style>
+
+@section Scripts
+{
+    <script>
+    $(document).ready(function() {
+        // This ensures event handlers are correctly bound to dynamically generated content
+        $(document).on('click', '.video-title', function () {
+            var videoUrl = $(this).next('.video-selector').data('video-url');
+            if (videoUrl) {
+                var videoId = videoUrl.split('v=')[1];
+                var ampersandPosition = videoId.indexOf('&');
+                if (ampersandPosition != -1) {
+                    videoId = videoId.substring(0, ampersandPosition);
+                }
+                var embedUrl = "https://www.youtube.com/embed/" + videoId;
+                $('#lectureVideo').attr('src', embedUrl);
+            }
+        });
+    });
+    </script>
+}
+
+<div class="row align-items-center justify-content-center g-0 min-vh-100 position-relative" style="overflow: hidden; height: 97vh; margin-left: unset; margin-right: unset;">
+    <div class="course-grid-container">
+        <!-- Left Menu -->
+        <div class="course-left-menu">
+            <div id="accordion">
+                @foreach (var lecture in Model.Lectures)
+                {
+                    <div class="card">
+                        <div class="card-header" id="heading@(lecture.Id)">
+                            <a class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">@lecture.Title</a>
+                        </div>
+
+                        <div id="description@(lecture.Id)" class="collapse" aria-labelledby="heading@(lecture.Id)" data-parent="#accordion">
+                            <div class="card-body">
+                                <h6>What you'll learn</h6>
+                                @Html.Raw(lecture.Description)
+                                <div class="list-group">
+                                </div>
+                                <h6 class="video-title" style="cursor:pointer;"><i class="fas fa-video"></i> Video</h6>
+                                <a href="#" class="video-selector" data-video-url="@lecture.VideoURL" style="display:none;">Watch Video</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+         <!-- Main Content -->
+        <div class="course-right-menu">
+            <main>
+                <div>                   
+                    <iframe id="lectureVideo" style="width:100%; height:80vh" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>

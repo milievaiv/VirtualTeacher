@@ -106,6 +106,20 @@ namespace VirtualTeacher.Repositories
             context.Update(course);
             context.SaveChanges();
         }
+
+        public void RateCourse(int courseId, int studentId, int ratingValue, string feedback)
+        {
+            var courseRating = new CourseRating
+            {
+                CourseId = courseId,
+                StudentId = studentId,
+                RatingValue = ratingValue,
+                Feedback = feedback
+            };
+
+            context.CoursesRatings.Add(courseRating);
+            context.SaveChanges();
+        }
         #endregion
 
         #region Private Methods

@@ -88,6 +88,7 @@ namespace VirtualTeacher.Services
         {
             courseRepository.AddLectureToCourse(courseId, newLecture);
         }
+
         public Course EnrollStudentInCourse(Student student, Course course)
         {
             if (course.StartDate is null || course.StartDate > DateTime.UtcNow)
@@ -113,6 +114,11 @@ namespace VirtualTeacher.Services
             studentService.Update(student);
 
             return course;
+        }
+
+        public void RateCourse(int courseId, int studentId, int ratingValue, string feedback)
+        {
+            this.courseRepository.RateCourse(courseId, studentId, ratingValue, feedback);
         }
         #endregion
     }

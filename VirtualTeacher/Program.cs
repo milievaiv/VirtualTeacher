@@ -112,6 +112,7 @@ namespace VirtualTeacher
 
             // Helpers
             builder.Services.AddScoped<IModelMapper, ModelMapper>();
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             // Swagger
             builder.Services.AddSwaggerGen(c =>

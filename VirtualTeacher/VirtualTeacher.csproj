@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Courses\Index.cshtml" />
     <None Include="wwwroot\css\reset.map" />
     <None Include="wwwroot\css\style.map" />
     <None Include="wwwroot\css\theme-default.map" />
@@ -92,6 +93,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Google.Apis.Auth" Version="1.66.0" />
     <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.66.0" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.66.0.3296" />

@@ -13,6 +13,7 @@ namespace VirtualTeacher.Repositories.Contracts
         bool Delete(Course course);
         public void PublicizeCourse(int courseId);
         public void MarkAsDraft(int courseId);            
-        void AddLectureToCourse(int courseId, Lecture newLecture);      
+        void AddLectureToCourse(int courseId, Lecture newLecture);
+        void RateCourse(int courseId, int studentId, int ratingValue, string feedback);
     }
 }
