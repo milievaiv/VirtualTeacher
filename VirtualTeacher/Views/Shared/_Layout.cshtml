@@ -2,35 +2,6 @@
     bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
 }
 
-@section Scripts {
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/isotope.pkgd.min.js"></script>
-    <script src="/js/ajax-form.js"></script>
-    <script src="/js/waypoints.min.js"></script>
-    <script src="/js/jquery.counterup.min.js"></script>
-    <script src="/js/imagesloaded.pkgd.min.js"></script>
-    <script src="/js/scrollIt.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/wow.min.js"></script>
-    <script src="/js/nice-select.min.js"></script>
-    <script src="/js/jquery.slicknav.min.js"></script>
-    <script src="/js/jquery.magnific-popup.min.js"></script>
-    <script src="/js/gijgo.min.js"></script>
-    <script src="/js/contact.js"></script>
-    <script src="/js/jquery.ajaxchimp.min.js"></script>
-    <script src="/js/jquery.form.js"></script>
-    <script src="/js/jquery.validate.min.js"></script>
-    <script src="/js/mail-script.js"></script>
-    <script src="/js/plugins.js"></script>
-    <script src="/js/main.js"></script>
-    <script src="/js/site.js" asp-append-version="true"></script>
-
-}
-
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -166,7 +137,32 @@
             </footer>
         </div>
     </div>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+@*     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="/js/ajax-form.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <script src="/js/jquery.counterup.min.js"></script>
+    <script src="/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/scrollIt.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/wow.min.js"></script>
+    <script src="/js/nice-select.min.js"></script> *@
+    <script src="/js/jquery.slicknav.min.js"></script>
+@*     <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/gijgo.min.js"></script>
+    <script src="/js/contact.js"></script>
+    <script src="/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/mail-script.js"></script> *@
+@*     <script src="/js/plugins.js"></script>
+ *@    
+    <script src="/js/main.js"></script>
+    <script src="/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
