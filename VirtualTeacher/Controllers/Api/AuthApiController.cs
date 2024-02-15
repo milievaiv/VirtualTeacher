@@ -49,7 +49,18 @@ namespace VirtualTeacher.Controllers.Api
                 var user = verificationService.AuthenticateUser(loginModel);
                 string role = DetermineUserRole(user); // Implement this method to determine the role
                 string token = tokenService.CreateToken(user, role);
-                return Ok(token);
+                Response.Cookies.Append("Authorization", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                });
+
+                if (role == "student")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
             }
             catch (UnauthorizedOperationException ex)
             {

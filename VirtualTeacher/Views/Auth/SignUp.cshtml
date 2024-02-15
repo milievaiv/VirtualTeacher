@@ -1,15 +1,17 @@
-﻿<div style="/* background-image:url('/img/signin-bg.svg');  */overflow: hidden; height: 100vh; margin-left: unset; margin-right: unset;" class="row align-items-center justify-content-center g-0 min-vh-100 position-relative">
+﻿@model VirtualTeacher.Models.DTO.AuthenticationDTO.RegisterDto
+
+<div style="/* background-image:url('/img/signin-bg.svg');  */overflow: hidden; height: 100vh; margin-left: unset; margin-right: unset;" class="row align-items-center justify-content-center g-0 min-vh-100 position-relative">
     <video autoplay="" muted="" loop="" id="myVideo" class="position-absolute top-0 start-0 translate-middle">
         <source src="/img/bg-video.mp4" type="video/mp4">
     </video>
-    <img src="/img/stars.svg" alt="Image" class="moving-image1 image1" style="z-index: 0;width: 45%;filter: drop-shadow(2px 2px 1px black);">
-    <img src="/img/stars.svg" alt="Image" class="moving-image2 image2" style="z-index: 0;width: 45%;filter: drop-shadow(2px 2px 1px black);">
-    <div class="col-lg-6 col-md-5 py-8 py-xl-0 position-relative">
+    <img src="/img/stars.svg" alt="Image" class="moving-image1 image1" style="transform: rotate(45deg); z-index: 0;width: 45%;filter: drop-shadow(2px 2px 1px black);">
+    <img src="/img/stars.svg" alt="Image" class="moving-image2 image2" style="transform: rotate(45deg); z-index: 0;width: 45%;filter: drop-shadow(2px 2px 1px black);">
+    <div style="top:5vh" class="col-lg-6 col-md-5 py-8 py-xl-0 position-relative">
         <img src="/img/rocket.svg" alt="Image" class="position-absolute top-0 start-0 translate-middle mt-3 ms-3" style=" z-index: 0; top: -20vh; right: -105vh; width: 150vh; filter: drop-shadow(2px 2px 1px black);">
         <div class="row align-items-center justify-content-center g-0 min-vh-100">
             <div class="col-lg-6 col-md-5 py-8 py-xl-0">
                 <div style="border-radius: 27px; filter: drop-shadow(2px 4px 6px black); font-family: 'Poppins';" class="card">
-                    <div class="card-body p-6">
+                    <div style="padding:30px" class="card-body p-6">
                         <div class="mb-4">
                             <a href="/">
                                 <img src="assets/images/brand/logo/logo-icon.svg" class="mb-4" alt="">
@@ -20,41 +22,59 @@
                             </span>
                         </div>
                         <!-- Form -->
-                        <form>
+                        <form action="/Auth/SignUp" method="post">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 mb-3">
                                     <!-- User Name -->
                                     <label for="firstName" class="form-label">First name</label>
-                                    <input type="text" id="firstName" class="form-control" placeholder="Enter first name" required>
+                                    <input asp-for="FirstName" type="text" id="firstName" class="form-control" placeholder="Enter first name" required>
+
                                 </div>
                                 <div class="col-lg-12 col-md-12 mb-3">
                                     <!-- User Name -->
                                     <label for="lastName" class="form-label">Last name</label>
-                                    <input type="text" id="lastName" class="form-control" placeholder="Enter last name" required>
+                                    <input asp-for="LastName" type="text" id="lastName" class="form-control" placeholder="Enter last name" required>
                                 </div>
                                 <div class="col-lg-12 col-md-12 mb-3">
                                     <!-- Email -->
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" id="email" class="form-control" placeholder="Enter email address" required>
-                                    <span style="font-size: 13px; color: red;">*This will suit as your username.</span>
+                                    <input asp-for="Email" type="email" id="email" class="form-control" placeholder="Enter email address" required>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                                 <div class="col-lg-12 col-md-12 mb-3">
                                     <!-- Password -->
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" id="password" class="form-control" placeholder="**************" required>
+                                    <input asp-for="Password" type="password" id="password" class="form-control" placeholder="**************" required>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                                 <div class="col-lg-12 col-md-12 mb-3">
-                                    <!-- Checkbox -->
-                                    <div class="form-check">
+                                    <!-- Password -->
+                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                    <input asp-for="ConfirmPassword" type="password" id="password" class="form-control" placeholder="**************" required>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                @{
+                                    bool? registrationSuccess = TempData["registrationSuccess"] as bool?;
+                                }
+
+                                @if (registrationSuccess ?? false)
+                                {
+                                    <div class="col-lg-12 col-md-12 mb-3">
+                                        <div class="alert alert-success" role="alert">
+                                            <strong>Registration success!</strong><br /> You can now enroll in courses.
+                                        </div>
+                                        <!-- Checkbox -->
+                                        @*                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="check-api-checkbox">
                                         <label class="form-check-label" for="check-api-checkbox">
                                             I agree to the <a href="/pages/terms-and-conditions">Terms of Service</a> and <a href="/pages/terms-and-conditions">Privacy Policy.</a>
                                         </label>
+                                    </div> *@
                                     </div>
-                                </div>
+                                }
                                 <div class="col-lg-12 col-md-12 mb-0 d-grid gap-2">
                                     <!-- Button -->
-                                    <button class="auth-btn btn btn-primary" type="submit">Sign up</button>
+                                    <button class="auth-btn btn btn-primary" style="padding:10px; border-radius: 10px; width: 15vh;" type="submit">Sign up</button>
                                 </div>
                             </div>
                         </form>

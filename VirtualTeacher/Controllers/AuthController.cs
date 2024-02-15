@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Services;
 using VirtualTeacher.Services.Contracts;
 
@@ -27,12 +28,99 @@ namespace PhotoForum.Controllers.MVC
             return View("SignIn");
         }
 
+        [HttpPost]
+        public IActionResult SignIn([FromForm] LoginDto model)
+        {
+            try
+            {
+                var user = verificationService.AuthenticateUser(model);
+                string role = DetermineUserRole(user);
+                string token = tokenService.CreateToken(user, role);
+
+                Response.Cookies.Append("Authorization", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                });
+
+                if (role == "admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (UnauthorizedOperationException)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt!");
+            }
+            catch (EntityNotFoundException)
+            {
+                ModelState.AddModelError("Username", "This username is not registered.");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult SignOut([FromForm] LoginDto model)
+        {
+            if (Request.Cookies["Authorization"] != null)
+            {
+                Response.Cookies.Delete("Authorization");
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult SignUp()
         {
             return View("SignUp");
         }
 
+        [HttpPost]
+        public IActionResult SignUp([FromForm] RegisterDto _model)
+        {
+            RegisterDto model = _model;
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                if ( model.Password != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
+
+                    return View(model);
+                }
+
+                _ = userService.Register(model);
+                bool registrationSuccess = true;
+                TempData["registrationSuccess"] = registrationSuccess;
+
+                return View();
+            }
+            catch (DuplicateEntityException)
+            {
+                ModelState.AddModelError("Email", "This email is already taken.");
+            }
+            return View(model);
+
+        }
+        private string DetermineUserRole(BaseUser user)
+        {
+            switch (user)
+            {
+                case Admin:
+                    return "admin";
+                case Student:
+                    return "student";
+                case Teacher:
+                    return "teacher";
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
         //[HttpGet]
         //public IActionResult Logout()
         //{
