@@ -2,6 +2,35 @@
     bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
 }
 
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="/js/ajax-form.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <script src="/js/jquery.counterup.min.js"></script>
+    <script src="/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/scrollIt.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/wow.min.js"></script>
+    <script src="/js/nice-select.min.js"></script>
+    <script src="/js/jquery.slicknav.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/gijgo.min.js"></script>
+    <script src="/js/contact.js"></script>
+    <script src="/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/mail-script.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/site.js" asp-append-version="true"></script>
+
+}
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -53,81 +82,80 @@
     </style>
 </head>
 
-<body style="    min-height: 100vh;
-    display: flex;
-    flex-direction: column;">
-    <div class="grid-container">
-        <div class="layout-header">
-            <header>
-            <div class="header-area">
-                <div id="sticky-header" class="main-header-area">
-                    <div class="container-fluid p-0">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col-xl-5 col-lg-7">
-                                <div class="main-menu  d-none d-lg-block">
-                                    <nav>
-                                        <ul id="navigation">
-                                            <li><a class="active" href="/">Home</a></li>
-    @*                                         <li><a href="Courses.html">Courses</a></li>
-                                            *@
-                                            @if (ViewData["Title"] != null)
+<body>
+    <header>
+        <div class="header-area">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-5 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="active" href="/">Home</a></li>
+                                        @*                                         <li><a href="Courses.html">Courses</a></li>
+                                        *@
+                                        @if (ViewData["Title"] != null)
+                                        {
+                                            if (ViewData["Title"].ToString() != "Course")
                                             {
-                                                if (ViewData["Title"].ToString() != "Course")
-                                                {
 
-                                                }
                                             }
-                                            else
-                                            {
-                                                <li>
-                                                    <a href="#">Courses <i class="ti-angle-down"></i></a>
-                                                    <ul class="submenu">
-                                                        <li><a href="course_details.html">course details</a></li>
-                                                        <li><a href="elements.html">elements</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="about.html">About</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                            }
-                                        </ul>
-                                    </nav>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="#">Courses <i class="ti-angle-down"></i></a>
+                                                <ul class="submenu">
+                                                    <li><a href="course_details.html">course details</a></li>
+                                                    <li><a href="elements.html">elements</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="about.html">About</a></li>
+                                            <li><a href="contact.html">Contact</a></li>
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        @if (!isLogged)
+                        {
+                            <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
+                                <div class="log_chat_area d-flex align-items-center">
+                                    <a href="/Auth/SignIn" class="login popup-with-form">
+                                        <i class="flaticon-user"></i>
+                                        <span>Sign in</span>
+                                    </a>
+                                    <div class="live_chat_btn">
+                                        <a class="boxed_btn_orange" style="text-align:center; width:15vh" href="/Auth/SignUp">
+                                            <span>Sign Up</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                                @if (!isLogged)
-                                {
-                                    <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
-                                        <div class="log_chat_area d-flex align-items-center">
-                                            <a href="/Auth/SignIn" class="login popup-with-form">
-                                                <i class="flaticon-user"></i>
-                                                <span>Sign in</span>
-                                            </a>
-                                            <div class="live_chat_btn">
-                                                <a class="boxed_btn_orange" style="text-align:center; width:15vh" href="/Auth/SignUp">
-                                                    <span>Sign Up</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
-                                        <div class="log_chat_area d-flex align-items-center">
-                                            <a href="/Auth/SignOut" class="login popup-with-form">
-                                                <i class="flaticon-user"></i>
-                                                <span>Sign out</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                }
-                                <div class="col-12">
-                                    <div class="mobile_menu d-block d-lg-none"></div>
+                        }
+                        else
+                        {
+                            <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
+                                <div class="log_chat_area d-flex align-items-center">
+                                    <a href="/Auth/SignOut" class="login popup-with-form">
+                                        <i class="flaticon-user"></i>
+                                        <span>Sign out</span>
+                                    </a>
                                 </div>
+                            </div>
+                        }
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
+    <div class="grid-container">
+        <div class="layout-header">
+            
         </div>
         <div class="layout-main">
             @RenderBody()
@@ -138,31 +166,7 @@
             </footer>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    @* <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/isotope.pkgd.min.js"></script>
-    <script src="/js/ajax-form.js"></script>
-    <script src="/js/waypoints.min.js"></script>
-    <script src="/js/jquery.counterup.min.js"></script>
-    <script src="/js/imagesloaded.pkgd.min.js"></script>
-    <script src="/js/scrollIt.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/wow.min.js"></script>
-    <script src="/js/nice-select.min.js"></script> *@
-    <script src="/js/jquery.slicknav.min.js"></script>
-@*     <script src="/js/jquery.magnific-popup.min.js"></script>
-    <script src="/js/gijgo.min.js"></script>
-    <script src="/js/contact.js"></script>
-    <script src="/js/jquery.ajaxchimp.min.js"></script>
-    <script src="/js/jquery.form.js"></script>
-    <script src="/js/jquery.validate.min.js"></script>
-    <script src="/js/mail-script.js"></script>
-    <script src="/js/plugins.js"></script> *@
-    <script src="/js/main.js"></script>
-    <script src="/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

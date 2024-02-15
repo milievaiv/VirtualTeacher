@@ -7,11 +7,11 @@
     <!-- slider_area_start -->
     <div class="slider_area">
         <div class="single_slider d-flex align-items-center justify-content-center slider_bg_1">
-            <div class="container">
+            <div class="container animated-image">
                 <div class="row align-items-center">
                     <div class="col-xl-5 col-md-5">
                         <div style="position: unset" class="illastrator_png">
-                            <img src="img/index-star.svg" alt="">
+                            <img src="img/index-star.svg" class="animated-star" alt="">
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6">
@@ -28,7 +28,8 @@
             </div>
         </div>
     </div>
-    <section style = "border-top: solid; padding-top: 5vh"class="py-lg-14 pb-8 bg-white">
+
+    <section style="border-top: solid; padding-top: 5vh" class="py-lg-14 pb-8 bg-white animated-image">
         <div class="container rounded-3">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-xs-12 d-none d-lg-block">
@@ -45,7 +46,7 @@
                             Instructors from around the world teach millions of students on
                             Geeks. We provide the tools and skills to teach what you love.
                         </p>
-                            <a href="#" class="boxed_btn">
+                            <a style="font-family:'Poppins'" href="#" class="boxed_btn">
                             Start Teaching Today
                         </a>
                     </div>
@@ -56,7 +57,7 @@
 
     <!-- slider_area_end -->
     <!-- about_area_start -->
-    <div class="about_area">
+    <div class="about_area animated-image">
         <div class="container">
             <div class="row">
                 <div class="col-xl-5 col-lg-6">
@@ -2171,3 +2172,24 @@
             </div>
         </div>
     </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Define separate observers for each animated image
+        var animatedImages = document.querySelectorAll('.animated-image');
+
+        animatedImages.forEach(function (animatedImage) {
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        animatedImage.classList.add('animate');
+                    }
+                });
+            }, {
+                threshold: 0.5 // Adjust the threshold as needed
+            });
+
+            observer.observe(animatedImage);
+        });
+    });
+</script>
