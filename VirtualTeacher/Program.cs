@@ -12,6 +12,7 @@ using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Services;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Repositories;
+using System.Security.Claims;
 
 namespace VirtualTeacher
 {
@@ -57,7 +58,8 @@ namespace VirtualTeacher
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Secret"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Secret"])),
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
 
@@ -73,6 +75,14 @@ namespace VirtualTeacher
                 string connectionString = @"Data Source=127.0.0.1,1435;Initial Catalog=VirtualTeacher;User Id=sqlserver;Password=D?3F&>#(}HAmCOi%;";
                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly(typeof(VirtualTeacher.Data.VirtualTeacherContext).Assembly.FullName));
                 options.EnableSensitiveDataLogging();
+            });
+
+            //Http Session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); 
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true; 
             });
 
             // Cloud Storage
@@ -113,6 +123,7 @@ namespace VirtualTeacher
             // Helpers
             builder.Services.AddScoped<IModelMapper, ModelMapper>();
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            builder.Services.AddHttpContextAccessor();
 
             // Swagger
             builder.Services.AddSwaggerGen(c =>
@@ -123,6 +134,14 @@ namespace VirtualTeacher
 
             var app = builder.Build();
 
+            app.UseSwagger();            
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "VirtualTeacher API V1");
+                options.RoutePrefix = "api/swagger";
+            });
+            app.UseHttpsRedirection();
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -130,6 +149,7 @@ namespace VirtualTeacher
             }
 
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
@@ -137,18 +157,14 @@ namespace VirtualTeacher
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-            });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "VirtualTeacher API V1");
-                options.RoutePrefix = "api/swagger";
-            });
-
+            });            
+           
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.UseDeveloperExceptionPage();
+
 
             app.Run();
         }

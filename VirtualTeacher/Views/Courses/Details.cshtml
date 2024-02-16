@@ -4,6 +4,9 @@
 @{
     ViewBag.Title = "Details";
 }
+@{
+    bool isEnrolled = TempData["IsEnrolled"] as string == "true";
+}
 
     <style>
         .highlighted {
@@ -28,7 +31,7 @@
                         <i class="flaticon-mark-as-favorite-star"></i>
                         <i class="flaticon-mark-as-favorite-star"></i>
                         <i class="flaticon-mark-as-favorite-star"></i>
-                        <span>(@Model.AverageRating)</span>
+                    <span>@(Model.AverageRating?.ToString("F1") ?? "N/A")</span>
                     </div>
                     <div class="hours">
                         <div class="video">
@@ -54,35 +57,25 @@
                 <div class="col-xl-7 col-lg-7">
                     <div class="single_courses">
                         <h3>What you'll learn</h3>
-                        <p>@Model.Description</p> <!-- Display course description -->
-                        <h3 class="second_title">Course Content</h3>
+                        <p>@Model.Description</p> 
+                        <h3 class="second_title" style="cursor: pointer;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='initial'">Course Content</h3>
                         <div class="outline_courses_info">
                             <div id="accordion">
-                                @foreach (var lecture in Model.Lectures)
-                                {
-                                    <div class="card">
-                                        <div class="card-header" id="heading@lecture.Id">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse@lecture.Id" aria-expanded="false" aria-controls="collapse@lecture.Id">
-                                                    @lecture.Title
-                                                </button>
-                                            </h5>
-                                        </div>
+                @foreach (var lecture in Model.Lectures)
+                {
+                    <div class="card">
+                        <div class="card-header" id="heading@(lecture.Id)">
+                            <a class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">@lecture.Title</a>
+                        </div>
 
-                                        <div id="collapse@lecture.Id" class="collapse" aria-labelledby="heading@lecture.Id" data-parent="#accordion">
-                                            <div class="card-body">
-                                                @Html.Raw(lecture.Description)
-                                                <!-- Check if VideoURL is not empty or null -->
-                                                @if (!string.IsNullOrEmpty(lecture.VideoURL))
-                                                {
-                                                    <iframe width="560" height="315" src="@VideoUrlFormatter.FormatYouTubeUrl(lecture.VideoURL)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                        <div id="description@(lecture.Id)" class="collapse" aria-labelledby="heading@(lecture.Id)" data-parent="#accordion">
+                            <div class="card-body">
+                                <p>@Html.Raw(lecture.Description)</p>                               
                             </div>
+                        </div>
+                    </div>
+                }
+            </div>
                         </div>
                     </div>
                 </div>
@@ -105,7 +98,7 @@
                                     </div>
                                     <div class="name">
                                         <h3>@Model.Creator.FirstName @Model.Creator.LastName</h3>
-                                        <p>UI/UX Designer</p>
+                                        <p>Teacher</p>
                                     </div>
                                 </div>
                                 <p class="text_info">
@@ -119,7 +112,17 @@
                                     <li><a href="#"> <i class="ti-linkedin"></i> </a></li>
                                 </ul>
                             </div>
-                            <a href="#" class="boxed_btn">Enroll</a>
+                           @*  <a href="#" class="boxed_btn">Enroll</a> *@
+                        @* <a asp-controller="Courses" asp-action="Enroll" asp-route-id="@Model.CourseId" class="boxed_btn">Enroll</a> *@
+                             @if (ViewBag.IsEnrolled as bool? == true)
+                             {
+                                 <button class="boxed_btn disabled" disabled>Enrolled</button>
+                             }
+                             else
+                             {
+                                 <a asp-controller="Courses" asp-action="Enroll" asp-route-id="@Model.CourseId" class="boxed_btn">Enroll</a>
+                             }
+
                             <div class="feedback_info">
                                 <h3>Write your feedback</h3>
                                 <p>Your rating</p>
@@ -130,12 +133,19 @@
                                     <i class="flaticon-mark-as-favorite-star" onclick="rate(4)"></i>
                                     <i class="flaticon-mark-as-favorite-star" onclick="rate(5)"></i>
                                 </div>
-                                <form action="#" onsubmit="event.preventDefault();">
+                                
+                            <form method="post" action="/details/@Model.CourseId/rate">
+                                <input type="hidden" name="rating" id="ratingValue" value="0" />
+                                <textarea name="feedback" id="feedback" cols="30" rows="10" placeholder="Write your feedback.."></textarea>
+                                <button type="submit" class="boxed_btn">Submit</button>
+                            </form>
+
+@*                                 <form action="#" onsubmit="event.preventDefault();">
                                     <textarea id="feedback" cols="30" rows="10" placeholder="Write your feedback.."></textarea>
                                     <button type="submit" class="boxed_btn" data-courseid="@Model.CourseId" onclick="submitRating(this); return false;">Submit</button>
 
 
-                                </form>
+                                </form> *@
                             </div>
 
                         </div>
@@ -439,6 +449,30 @@
     <!-- form itself end -->
     <!-- JS here -->
     <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var isEnrolled = @Html.Raw(Json.Serialize(ViewBag.IsEnrolled));
+    var courseId = @Html.Raw(Json.Serialize(ViewBag.CourseId));
+
+    document.querySelector('.second_title').addEventListener('click', function() {
+        if (isEnrolled) {
+            window.location.href = '/courses/' + courseId + '/lectures';
+        }
+    });
+});
+</script>
+
+<script>
+// Function to handle rating by clicking stars
+function rate(rating) {
+    document.querySelectorAll('#rating i').forEach((star, index) => {
+        star.style.color = index < rating ? '#FFD700' : '#ccc'; // Change color based on rating
+    });
+    // Store the rating value in a hidden form field to be submitted
+    document.getElementById('ratingValue').value = rating;
+}
+</script>
+
+ @*    <script>
         function submitRating(button) {
             var courseId = $(button).data('courseid'); // Retrieve the course ID from the button
             var feedback = $('#feedback').val(); // Retrieve the feedback from the textarea
@@ -460,4 +494,4 @@
             });
         }
         
-    </script>
+    </script> *@

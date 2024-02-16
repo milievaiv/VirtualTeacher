@@ -12,10 +12,11 @@ namespace VirtualTeacher.Services.Contracts
         IList<Course> GetByTitle(string courseName);
         void Update(int courseId, Course updatedCourse);
         bool Delete(Course course); 
-        public void PublicizeCourse(int courseId);
-        public void MarkAsDraft(int courseId);        
+        void PublicizeCourse(int courseId);
+        void MarkAsDraft(int courseId);        
         void AddLectureToCourse(int courseId, Lecture newLecture);
-        Course EnrollStudentInCourse(Student student, Course course);
+        // Course EnrollStudentInCourse(Student student, Course course);
+        void EnrollStudentInCourse(int studentId, int courseId);
         void RateCourse(int courseId, int studentId, int ratingValue, string feedback);
     }
 }
