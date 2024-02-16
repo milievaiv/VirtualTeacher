@@ -1,0 +1,96 @@
+﻿@model VirtualTeacher.Models.BaseUser
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <img src="~/img/sidelines.svg" class="" alt="">
+    <style>
+        .profile-header {
+            background: rgb(97,94,152);
+            background: linear-gradient(90deg, rgba(97,94,152,1) 0%, rgba(182,165,226,1) 0%, rgba(172,237,209,1) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+            .profile-header h1 {
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+            .profile-header p {
+                font-size: 18px;
+                margin-bottom: 0;
+                color: black; /* Change email font color to black */
+            }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        /* Adjust card-body width */
+        .card-body {
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <!-- Center the content -->
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        Profile Edit
+                    </div>
+                    <div class="card-body">
+                        <div class="profile-header">
+                            <img src="path_to_your_profile_picture" alt="Profile Picture" class="profile-picture">
+                            <h1>@Model.FirstName @Model.LastName</h1>
+                            <p>@Model.Email</p>
+                        </div>
+                        <form>
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter password">
+                                @*<span asp-validation-for=""*@
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="file" name="ProfileImage" accept="image/png, image/gif, image/jpeg" />
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

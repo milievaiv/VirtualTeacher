@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace VirtualTeacher.Attributes
 {
@@ -19,15 +20,19 @@ namespace VirtualTeacher.Attributes
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            
             var user = context.HttpContext.User;
+            var tokenAsStr = context.HttpContext.Request.Cookies["Authorization"];
+            var handler = new JwtSecurityTokenHandler();
+            var role = handler.ReadJwtToken(tokenAsStr).Claims.First(claim=>claim.Type==ClaimTypes.Role).Value;
 
-            if (!user.Identity.IsAuthenticated)
+            if (tokenAsStr==null)
             {
                 context.Result = new RedirectToRouteResult(new { controller = "Auth", action = "Login" });
                 return;
             }
 
-            if (!allowedRoles.Any(role => user.IsInRole(role)))
+            if (!allowedRoles.Any(r=>r==role))
             {
                 context.Result = new RedirectToRouteResult(new { controller = "Home", action = "Index" });
             }
