@@ -11,9 +11,10 @@ namespace VirtualTeacher.Repositories.Contracts
         IList<Course> GetByTitle(string courseTitle);
         void Update(int courseId, Course updatedCourse);
         bool Delete(Course course);
-        public void PublicizeCourse(int courseId);
-        public void MarkAsDraft(int courseId);            
+        void PublicizeCourse(int courseId);
+        void MarkAsDraft(int courseId);            
         void AddLectureToCourse(int courseId, Lecture newLecture);
         void RateCourse(int courseId, int studentId, int ratingValue, string feedback);
+        void EnrollStudentInCourse(int studentId, int courseId);
     }
 }

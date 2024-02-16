@@ -89,31 +89,35 @@ namespace VirtualTeacher.Services
             courseRepository.AddLectureToCourse(courseId, newLecture);
         }
 
-        public Course EnrollStudentInCourse(Student student, Course course)
+        //public Course EnrollStudentInCourse(Student student, Course course)
+        //{
+        //    if (course.StartDate is null || course.StartDate > DateTime.UtcNow)
+        //    {
+        //        throw new UnauthorizedOperationException(
+        //            $"You cannot enroll in this course before {course.StartDate}");
+        //    }
+
+        //    var enrolledCourse = new StudentCourse()
+        //    {
+        //        StudentId = student.Id,
+        //        Student = student,
+        //        CourseId = course.Id,
+        //        Course = course,
+        //        Grade = null,
+        //        Progress = null,
+        //    };
+
+        //    course.Students.Add(enrolledCourse);
+        //    //courseRepository.Update(course.Id, course);
+
+        //    student.EnrolledCourses.Add(enrolledCourse);
+        //    studentService.Update(student);
+
+        //    return course;
+        //}
+        public void EnrollStudentInCourse(int studentId, int courseId)
         {
-            if (course.StartDate is null || course.StartDate > DateTime.UtcNow)
-            {
-                throw new UnauthorizedOperationException(
-                    $"You cannot enroll in this course before {course.StartDate}");
-            }
-
-            var enrolledCourse = new StudentCourse()
-            {
-                StudentId = student.Id,
-                Student = student,
-                CourseId = course.Id,
-                Course = course,
-                Grade = null,
-                Progress = null,
-            };
-
-            course.Students.Add(enrolledCourse);
-            courseRepository.Update(course.Id, course);
-
-            student.EnrolledCourses.Add(enrolledCourse);
-            studentService.Update(student);
-
-            return course;
+            this.courseRepository.EnrollStudentInCourse(studentId, courseId);
         }
 
         public void RateCourse(int courseId, int studentId, int ratingValue, string feedback)

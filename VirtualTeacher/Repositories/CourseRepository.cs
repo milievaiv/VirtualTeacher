@@ -120,6 +120,18 @@ namespace VirtualTeacher.Repositories
             context.CoursesRatings.Add(courseRating);
             context.SaveChanges();
         }
+        public void EnrollStudentInCourse(int studentId, int courseId)
+        {
+            var studentCourse = new StudentCourse
+            {
+                StudentId = studentId,
+                CourseId = courseId
+            };
+
+            context.StudentsCourses.Add(studentCourse);
+            context.SaveChanges();
+        }
+
         #endregion
 
         #region Private Methods

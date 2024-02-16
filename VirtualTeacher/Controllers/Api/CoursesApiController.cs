@@ -269,7 +269,7 @@ namespace VirtualTeacher.Controllers.Api
                     var student = studentService.GetByEmail(email);
                     var course = courseService.GetById(id);
 
-                    courseService.EnrollStudentInCourse(student, course);
+                    courseService.EnrollStudentInCourse(student.Id, course.Id);
 
                     return Ok($"Student {student.FirstName} {student.LastName} enrolled in course {course.Title}.");
                 }
