@@ -53,9 +53,9 @@ namespace VirtualTeacher.Services
             return this.userRepository.GetByLastName(lastName);
         }
 
-        public BaseUser GetByEmail(string firstName)
+        public BaseUser GetByEmail(string email)
         {
-            return this.userRepository.GetByEmail(firstName);
+            return this.userRepository.GetByEmail(email);
         }
 
         public IList<BaseUser> FilterBy(UserQueryParameters userQueryParameters)

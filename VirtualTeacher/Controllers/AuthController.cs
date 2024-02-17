@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
@@ -36,6 +37,14 @@ namespace PhotoForum.Controllers.MVC
                 var user = verificationService.AuthenticateUser(model);
                 string role = DetermineUserRole(user);
                 string token = tokenService.CreateToken(user, role);
+                var claims = new List<Claim>
+                {
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, role)
+                 };
+                var identity = new ClaimsIdentity(claims, "Bearer");
+                var principal = new ClaimsPrincipal(identity);
+                HttpContext.User = principal;
 
                 Response.Cookies.Append("Authorization", token, new CookieOptions
                 {
@@ -87,7 +96,7 @@ namespace PhotoForum.Controllers.MVC
                 {
                     return View(model);
                 }
-                if ( model.Password != model.ConfirmPassword)
+                if (model.Password != model.ConfirmPassword)
                 {
                     ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
 
