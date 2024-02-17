@@ -14,18 +14,19 @@
         }
 
         .main-container {
-            /* Keep main content on top of SVG */
+            
             position: relative;
             z-index: 1;
+            margin-bottom:230px;
         }
 
         .svg-container {
-            /* Position SVG behind main content */
+            
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 0; /* Ensure SVG is behind main content */
+            z-index: 0; 
         }
 
         .profile-header {
@@ -33,6 +34,7 @@
             background: linear-gradient(90deg, rgba(97,94,152,1) 0%, rgba(182,165,226,1) 0%, rgba(172,237,209,1) 100%);
             color: white;
             padding: 40px;
+            border-radius: 5px;
             text-align: center;
         }
 
@@ -44,7 +46,7 @@
             .profile-header p {
                 font-size: 18px;
                 margin-bottom: 0;
-                color: black; /* Change email font color to black */
+                color: black; 
             }
 
         .profile-picture {
@@ -58,30 +60,30 @@
         /* Adjust card-body width */
         .card-body {
             padding: 40px;
+            margin-top:200px;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="svg-container">
-            <!-- SVG container with your SVG image -->
             <img src="~/img/sidelines.svg" class="" alt="">
         </div>
         <div class="container mt-5 main-container">
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <!-- Center the content -->
-                    <div class="card">
-                        <div class="card-header bg-dark text-white">
-                            Profile Edit
+                    <div class="p-4 rounded" style="background-color:rgba(255, 255, 255, 0.6); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+                        <div class="card-header text-center bg-light text-black" style="font-size:17px; font-weight:600">
+                            Edit Profile
                         </div>
-                        <div class="card-body">
+                        <div>
                             <div class="profile-header">
                                 <img src="path_to_your_profile_picture" alt="Profile Picture" class="profile-picture">
-                                <h1>@Model.FirstName @Model.LastName</h1>
+                                <h1 style="text-shadow: 2px 2px 4px rgba(0,0,0,0.4);">@Model.FirstName @Model.LastName</h1>
                                 <p>@Model.Email</p>
                             </div>
-                            <form>
+                            <form class="bg-opacity-10">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
                                     <input type="text" class="form-control" id="firstName" placeholder="Enter first name" autocomplete="given-name">
