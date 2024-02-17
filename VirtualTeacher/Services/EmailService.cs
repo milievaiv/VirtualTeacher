@@ -10,11 +10,14 @@ using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
+using VirtualTeacher.Repositories.Contracts;
+using VirtualTeacher.Models;
 
 namespace VirtualTeacher.Services
 {
     public class EmailService : IEmailService
     {
+        private readonly ITeacherRepository teacherRepository;
         private readonly SmtpSettings _smtpSettings;
         private const string Submissions = "Submissions";
         private HashSet<string> UserFlags
@@ -24,9 +27,10 @@ namespace VirtualTeacher.Services
                 return new HashSet<string>() { Submissions };
             }
         }
-        public EmailService(IOptions<SmtpSettings> smtpSettings)
+        public EmailService(ITeacherRepository teacherRepository, IOptions<SmtpSettings> smtpSettings)
         {
             _smtpSettings = smtpSettings.Value;
+            this.teacherRepository = teacherRepository;
         }
 
         public void SendVerificationEmail(string requestId, TeacherCandidateDto contents)
@@ -43,7 +47,7 @@ namespace VirtualTeacher.Services
                     {
                         mailMessage.From = new MailAddress(_smtpSettings.Username);
                         mailMessage.To.Add(contents.Email);
-                        mailMessage.Subject = $"Your Application #{requestId}";
+                        mailMessage.Subject = $"Verify your application";
 
                         StringBuilder sb = new StringBuilder();
                         sb.AppendLine("<div>");
@@ -94,6 +98,8 @@ namespace VirtualTeacher.Services
 
         public async Task VerifyApplication(string requestId)
         {
+            //if (teacherRepository.ApplicationExists(requestId)) { throw new DuplicateEntityException("Application already verified."); }
+            Application application = new Application();
             MimeMessage message = new MimeMessage();
             using (var client = new ImapClient())
             {
@@ -102,10 +108,13 @@ namespace VirtualTeacher.Services
 
                 // Select the Inbox folder
                 var sentFolder = client.GetFolder(SpecialFolder.Sent);
+                var receivedFolder = client.Inbox;
+
+                await receivedFolder.OpenAsync(FolderAccess.ReadOnly);
                 await sentFolder.OpenAsync(FolderAccess.ReadWrite);
 
                 // Search for emails with a specific subject and from the application's email address
-                var searchQuery = SearchQuery.SubjectContains(requestId)
+                var searchQuery = SearchQuery.BodyContains(requestId)
                                 .And(SearchQuery.FromContains(_smtpSettings.Username));
 
                 var results = await sentFolder.SearchAsync(searchQuery);
@@ -116,8 +125,20 @@ namespace VirtualTeacher.Services
                     throw new EntityNotFoundException("Email with given id does not exist.");
                 }
 
+                //mailId = results[0].ToString();
+
                 var messageId = results[0];
                 message = sentFolder.GetMessage(messageId);
+                
+                var receiver = (message.To).ToString();
+
+                if (!teacherRepository.FiveDaysPastApplication(receiver))
+                {
+                    throw new DuplicateEntityException("Please wait at least 5 days until your next submission.");
+                }
+
+                application = new Application { Date = DateTime.Now, Email = receiver, VerifKey = requestId };
+                teacherRepository.Create(application);
 
                 sentFolder.AddFlags(messageId, MessageFlags.Flagged, false);
 
@@ -147,7 +168,7 @@ namespace VirtualTeacher.Services
                 {
                     forwardedMessage.From = new MailAddress(_smtpSettings.Username);
                     forwardedMessage.To.Add("virtualteacher.official@gmail.com");
-                    forwardedMessage.Subject = $"Application #{requestId}";
+                    forwardedMessage.Subject = $"Application #{application.Id}";
 
 
 

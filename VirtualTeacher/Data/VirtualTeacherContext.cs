@@ -29,6 +29,7 @@ namespace VirtualTeacher.Data
         public DbSet<SubmittedAssignment> SubmittedAssignments { get; set; }
         public DbSet<StudentCourse> StudentsCourses { get; set; }
         public DbSet<ApprovedTeacher> ApprovedTeachers { get; set; }
+        public DbSet<Application> Applications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

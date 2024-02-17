@@ -65,6 +65,35 @@ namespace VirtualTeacher.Repositories
         {
             return teacher.CoursesCreated.ToList();
         }
+
+        public void Create(Application application)
+        {
+            context.Applications.Add(application);
+            context.SaveChanges();
+        }
+
+        public bool ApplicationExists(string requestId)
+        {
+            return context.Applications.Any(x => x.VerifKey == requestId);
+        }
+
+        public bool FiveDaysPastApplication(string email)
+        {
+            var application = context.Applications.FirstOrDefault(x => x.Email == email);
+
+            if (application != null)
+            {
+                // Assuming application.Date is of type DateTime
+                DateTime fiveDaysAgo = DateTime.Now.AddDays(-5); // Calculate the date five days ago
+
+                // Check if the application's date is at least five days old
+                if (application.Date <= fiveDaysAgo)
+                {
+                    return true; // Application's date is at least five days old
+                }
+            }
+            return false;
+        }
         #endregion
 
         private IQueryable<Teacher> GetTeachers()

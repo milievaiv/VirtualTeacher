@@ -10,5 +10,8 @@ namespace VirtualTeacher.Repositories.Contracts
         bool Delete(int id);
         IList<ApprovedTeacher> GetApprovedTeachers();
         IList<Course> GetCoursesCreated(Teacher teacher);
+        void Create(Application application);
+        bool ApplicationExists(string requestId);
+        bool FiveDaysPastApplication(string email);
     }
 }
