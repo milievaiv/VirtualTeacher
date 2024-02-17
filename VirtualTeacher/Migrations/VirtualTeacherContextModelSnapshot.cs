@@ -281,7 +281,6 @@ namespace VirtualTeacher.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Feedback")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Grade")
@@ -291,7 +290,6 @@ namespace VirtualTeacher.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SubmittedFile")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

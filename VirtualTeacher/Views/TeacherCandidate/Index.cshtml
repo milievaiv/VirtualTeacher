@@ -1,0 +1,76 @@
+﻿@model VirtualTeacher.Models.DTO.TeacherDTO.TeacherCandidateDto
+<div style="background-image: url(/img/colorful.svg); background-size: cover; overflow-y: auto; height: 100vh; margin-left: unset; margin-right: unset;" class="row align-items-center justify-content-center g-0 min-vh-100 position-relative">
+    <div class="col-lg-10 col-md-10 py-8 py-xl-0 position-relative" style="top: 5vh;">
+        <div class="row align-items-center justify-content-center g-0 min-vh-100">
+            <div class="col-lg-9 col-md-9 py-8 py-xl-0">
+                <div style="border-radius: 27px; filter: drop-shadow(2px 4px 6px black); font-family: 'Poppins';" class="card">
+                    <div style="padding:60px" class="card-body p-6">
+                        <div style="display:flex; align-items: center;">
+                            <div style="flex-grow: 1;">
+                                <h1 class="mb-1 fw-bold" style="font-size: 2rem;">Become a teacher</h1>
+                                <p>Tell us about yourself and why should we accept you as part of our team!</p>
+                            </div>
+                            <img src="~/img/teachers-bg.svg" style="width: 40%; margin-left: 20px;" />
+                        </div>
+                        <!-- Form -->
+                        <form asp-controller="TeacherCandidate" asp-action="Apply" method="post">
+                            <div class="row">
+                                <div style="display:flex">
+                                    <div class="mb-3" style="flex: 1; padding-left:15px; margin-right:15px">
+                                        <!-- Email -->
+                                        <label for="email" class="form-label">Email</label>
+                                        <input asp-for="Email" type="email" id="email" class="form-control" style="font-family:&quot;Arial&quot;" placeholder="Your Email" required>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                 </div>
+                                <div style="display:flex">
+                                    <div class="mb-3" style="width:40vh; flex: 1;">
+                                        <label for="title" class="form-label">Title</label>
+                                        <input asp-for="Title" type="text" class="form-control" id="title" placeholder="Enter your title" style="font-family:&quot;Arial&quot;" width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mb-3">
+                                    <label for="message" class="form-label">Content</label>
+                                    <textarea asp-for="Message" class="form-control" style="font-family:&quot;Arial&quot;; padding:10px;" id="exampleFormControlTextarea1" rows="7" placeholder="Enter your message here"></textarea>
+                                </div>
+                            </div>
+                            @{
+                                bool? applicationSuccess = TempData["applicationSuccess"] as bool?;
+                            }
+
+                            @if (applicationSuccess == true)
+                            {
+                                <div class="col-lg-12 col-md-12 mb-3">
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>Application Success!</strong><br /> Please, check your email to verify your application.
+                                    </div>
+                                    <!-- Checkbox -->
+                                    @*                                     <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="check-api-checkbox">
+                                <label class="form-check-label" for="check-api-checkbox">
+                                I agree to the <a href="/pages/terms-and-conditions">Terms of Service</a> and <a href="/pages/terms-and-conditions">Privacy Policy.</a>
+                                </label>
+                                </div> *@
+                                </div>
+                            }
+                            else if (applicationSuccess == false)
+                            {
+                                <div class="col-lg-12 col-md-12 mb-3">
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>Error:</strong><br />You've already applied. Please wait at least 5 days before your next application.                                  
+                                    </div>
+                                </div>
+                            }
+                            <!-- Button -->
+                            <div class="col-lg-12 mb-0 d-grid" style="padding-left:unset">
+                                <button class="auth-btn btn btn-primary" style="padding:10px; border-radius: 10px; width: 15vh;" type="submit">Apply</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

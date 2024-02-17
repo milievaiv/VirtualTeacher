@@ -91,8 +91,9 @@ namespace VirtualTeacher.Repositories
                 {
                     return true; // Application's date is at least five days old
                 }
+                return false;
             }
-            return false;
+            return true;
         }
         #endregion
 

@@ -68,21 +68,21 @@
 
 @keyframes moveUp1 {
     0% {
-        transform: translateY(-100%);
+        transform: translateY(-100%) rotate(0deg);
     }
 
     100% {
-        transform: translateY(0%);
+        transform: translateY(0%) rotate(360deg);
     }
 }
 
 @keyframes moveUp2 {
     0% {
-        transform: translateY(0%);
+        transform: translateY(0%) rotate(0deg);
     }
 
     100% {
-        transform: translateY(100%);
+        transform: translateY(100%) rotate(360deg);
     }
 }
 
@@ -911,7 +911,9 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area {
-    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+/*    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+*/  
+    background-color:black;
     position: absolute;
     left: 0;
     right: 0;
@@ -1218,7 +1220,9 @@ h3 {
 
 /* line 193, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .main-header-area.sticky {
-    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+/*    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+*/  
+    background-color:black;
     position: fixed;
     width: 100%;
     top: -70px;

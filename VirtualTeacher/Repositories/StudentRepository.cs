@@ -105,8 +105,9 @@ namespace VirtualTeacher.Repositories
         private IQueryable<Student> GetStudents()
         {
             return context.Students
+                .Include(s => s.Assignments)
                 .Include(s => s.EnrolledCourses)
-            .ThenInclude(ec => ec.Course);
+                .ThenInclude(ec => ec.Course);
         }
 
         //TODO

@@ -1,5 +1,28 @@
 ﻿@model VirtualTeacher.Models.DTO.AuthenticationDTO.RegisterDto
 
+@section Scripts
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Define separate observers for each animated image
+            var animatedImages = document.querySelectorAll('.animated-image');
+
+            animatedImages.forEach(function (animatedImage) {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            animatedImage.classList.add('animate');
+                        }
+                    });
+                }, {
+                    threshold: 0.5 // Adjust the threshold as needed
+                });
+
+                observer.observe(animatedImage);
+            });
+        });
+    </script>
+}
 <div style="/* background-image:url('/img/signin-bg.svg');  */overflow: hidden; height: 100vh; margin-left: unset; margin-right: unset;" class="row align-items-center justify-content-center g-0 min-vh-100 position-relative">
     <video autoplay="" muted="" loop="" id="myVideo" class="position-absolute top-0 start-0 translate-middle">
         <source src="/img/bg-video.mp4" type="video/mp4">
@@ -10,7 +33,7 @@
     <img src="/img/stars.svg" alt="Image" class="moving-image2 image2" style="left: 0;transform: rotate(45deg); z-index: 0;width: 45%;filter: drop-shadow(2px 2px 1px black);">
     <div style="top:5vh" class="col-lg-6 col-md-5 py-8 py-xl-0 position-relative">
         <img src="/img/rocket.svg" alt="Image" class="position-absolute top-0 start-0 translate-middle mt-3 ms-3" style=" z-index: 0; top: -20vh; right: -105vh; width: 150vh; filter: drop-shadow(2px 2px 1px black);">
-        <div class="row align-items-center justify-content-center g-0 min-vh-100">
+        <div class="animated-image row align-items-center justify-content-center g-0 min-vh-100">
             <div class="col-lg-6 col-md-5 py-8 py-xl-0">
                 <div style="border-radius: 27px; filter: drop-shadow(2px 4px 6px black); font-family: 'Poppins';" class="card">
                     <div style="padding:30px" class="card-body p-6">

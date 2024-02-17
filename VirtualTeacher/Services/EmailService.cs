@@ -53,8 +53,8 @@ namespace VirtualTeacher.Services
                         sb.AppendLine("<div>");
                         sb.AppendLine("    <p>Hello,</p>");
                         sb.AppendLine("    <p>We're glad to know that you have interest in becoming a part of our team.</p>");
-                        sb.AppendLine("    <p>Please, verify your application by clicking on the following link:</p>");
-                        sb.AppendLine($"   <p><a href=\"http://localhost:5267/api/teacher-candidates/verify-submission?requestId={requestId}\" target=\"_blank\">http://localhost:5267/api/teacher-candidates/verify-submission?requestId={requestId}</a></p>");
+                        sb.AppendLine("    <p>Please, verify your application by clicking on the following link.</p>");
+                        sb.AppendLine($"   <p><a href=\"http://localhost:5267/verify-application?requestId={requestId}\" target=\"_blank\">http://localhost:5267/verify-application?requestId={requestId}</a></p>");
                         // Add more lines as needed
                         sb.AppendLine(" <div id=\"applicationInformation\">");
                         sb.AppendLine("    <h3>Application Information:</h3>");
