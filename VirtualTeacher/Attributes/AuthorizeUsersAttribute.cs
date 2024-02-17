@@ -46,33 +46,30 @@ namespace VirtualTeacher.Attributes
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            
-            var user = context.HttpContext.User;
-            var tokenAsStr = context.HttpContext.Request.Cookies["Authorization"];
-            var handler = new JwtSecurityTokenHandler();
-            var role = handler.ReadJwtToken(tokenAsStr).Claims.First(claim=>claim.Type==ClaimTypes.Role).Value;
 
-            if (tokenAsStr==null)
             {
-                // Redirect to the login page if the token is missing
-                context.Result = new RedirectToRouteResult(new { controller = "Auth", action = "SignIn" });
-                return;
-            }
+                var tokenAsStr = context.HttpContext.Request.Cookies["Authorization"];
 
-            if (!allowedRoles.Any(r=>r==role))
-            // Perform token validation and decoding (using a JWT library like System.IdentityModel.Tokens.Jwt)
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+                if (tokenAsStr == null)
+                {
+                    // Redirect to the login page if the token is missing
+                    context.Result = new RedirectToRouteResult(new { controller = "Auth", action = "SignIn" });
+                    return;
+                }
 
-            // Retrieve the roles claim from the token
-            var rolesClaim = jsonToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            context.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(jsonToken?.Claims, "jwt"));
+                // Perform token validation and decoding (using a JWT library like System.IdentityModel.Tokens.Jwt)
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(tokenAsStr) as JwtSecurityToken;
 
-            // Check if the user has any of the allowed roles
-            //if (!allowedRoles.Any(r=>r==role))
-            if (!IsAuthorized(rolesClaim))
-            {
-                context.Result = new RedirectToRouteResult(new { controller = "Home", action = "Index" });
+                // Retrieve the roles claim from the token
+                var rolesClaim = jsonToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+                context.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(jsonToken?.Claims, "jwt"));
+
+                // Check if the user has any of the allowed roles
+                //if (!IsAuthorized(rolesClaim))
+                //{
+                //    context.Result = new RedirectToRouteResult(new { controller = "Home", action = "Index" });
+                //}
             }
         }
 
