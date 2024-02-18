@@ -22,6 +22,30 @@ namespace VirtualTeacher.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("VirtualTeacher.Models.Application", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VerifKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Applications");
+                });
+
             modelBuilder.Entity("VirtualTeacher.Models.ApprovedTeacher", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +154,9 @@ namespace VirtualTeacher.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("TotalAssignments")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseTopicId");
@@ -229,6 +256,12 @@ namespace VirtualTeacher.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<double?>("Grade")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Progress")
+                        .HasColumnType("float");
+
                     b.HasKey("StudentId", "CourseId");
 
                     b.HasIndex("CourseId");
@@ -248,7 +281,6 @@ namespace VirtualTeacher.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Feedback")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Grade")
@@ -258,7 +290,6 @@ namespace VirtualTeacher.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SubmittedFile")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

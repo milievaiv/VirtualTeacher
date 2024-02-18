@@ -1,6 +1,7 @@
 ﻿@model VirtualTeacher.Models.ViewModel.CourseViewModel.CourseViewModel
 @{
     ViewBag.Title = "Lectures";
+    //int progress = 5;
 }
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -18,23 +19,7 @@
 
 @section Scripts
 {
-    <script>
-        $(document).ready(function () {
-            // This ensures event handlers are correctly bound to dynamically generated content
-            $(document).on('click', '.video-link', function () {
-                var videoUrl = $(this).data('video-url');
-                if (videoUrl) {
-                    var videoId = videoUrl.split('v=')[1];
-                    var ampersandPosition = videoId.indexOf('&');
-                    if (ampersandPosition != -1) {
-                        videoId = videoId.substring(0, ampersandPosition);
-                    }
-                    var embedUrl = "https://www.youtube.com/embed/" + videoId;
-                    $('#lectureVideo').attr('src', embedUrl);
-                }
-            });
-        });
-    </script>
+    <script src="/js/lectures.js"></script>
 }
 
 <div class="row align-items-center justify-content-center g-0 min-vh-100 position-relative" style="overflow: hidden; height: 97vh; margin-left: unset; margin-right: unset;">
@@ -42,11 +27,19 @@
         <!-- Left Menu -->
         <div class="course-left-menu">
             <div id="accordion">
+                <!--int count = 0-->
                 @foreach (var lecture in Model.Lectures)
                 {
+                    //if(count < progress) set to available lecture
+                    //{count++}
+                    //if(count > progress) set to unavailable lecture
+                    //{count++}
+                    //If button "next lecture" is clicked then increment progress by 1 until it reaches lectures.Count
                     <div class="card">
                         <div class="card-header" id="heading@(lecture.Id)">
-                            <a class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">@lecture.Title</a>
+                            <a class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">
+                                @lecture.Title
+                            </a>
                         </div>
 
                         <div id="description@(lecture.Id)" class="collapse" aria-labelledby="heading@(lecture.Id)" data-parent="#accordion">
@@ -57,23 +50,25 @@
                                     <a href="#" class="list-group-item list-group-item-action video-link" data-video-url="@lecture.VideoURL">
                                         <i class="fas fa-video"></i> Video
                                     </a>
-                                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                                    <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                                    @if (lecture.Assignment != null)
+                                    {
+                                        <a href="#" class="list-group-item list-group-item-action assignment-link" data-assignment-id="@lecture.Assignment.Id" data-assignment-content="@lecture.Assignment.Content">
+                                            <i class="fas fa-file-alt"></i> Assignment
+                                        </a>
+                                    }
                                 </div>
-
                             </div>
                         </div>
                     </div>
+
                 }
             </div>
         </div>
          <!-- Main Content -->
         <div class="course-right-menu">
             <main>
-                <div>                   
-                    <iframe id="lectureVideo" style="width:100%; height:80vh" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div id="lectureContent">
+                    <!-- Content will be dynamically loaded here -->
                 </div>
             </main>
         </div>

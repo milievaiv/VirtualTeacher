@@ -1,4 +1,5 @@
-﻿using VirtualTeacher.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 
@@ -59,23 +60,33 @@ namespace VirtualTeacher.Repositories
         {
             var submittedAssignment = new SubmittedAssignment
             {
-                Assignment = assignment,
-                Student = student,                
+                Student = student,
+                Assignment = assignment
             };
 
+            //context.SubmittedAssignments.Add(submittedAssignment);
             student.Assignments.Add(submittedAssignment);
-            context.Update(student);
-
+            context.ChangeTracker.Entries();
             context.SaveChanges();
 
             return assignment;
         }
+
+        public bool IsAssignmentSubmitted(Student student, Assignment assignment)
+        {
+            bool isSubmitted = context.SubmittedAssignments.Any(x => x.Assignment == assignment && x.Student == student);
+            context.SaveChanges();
+            return isSubmitted;
+        }
+
         #endregion
 
         #region Private Methods
         private IQueryable<Assignment> IQ_GetAll()
         {
-            var assignments = context.Assignments;
+            var assignments = context.Assignments
+                .Include(x => x.Lecture)
+                .ThenInclude(x => x.Course);
 
             return assignments;
         }

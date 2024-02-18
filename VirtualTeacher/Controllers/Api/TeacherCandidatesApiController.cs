@@ -65,6 +65,8 @@ namespace VirtualTeacher.Controllers.Api
         {
             try
             {
+                //teacherCandidateService.SaveVerifiedApplication(requestId);
+
                 await emailService.VerifyApplication(requestId);
 
                 return this.StatusCode(StatusCodes.Status200OK, Messages.ApplicationVerifiedMessage);

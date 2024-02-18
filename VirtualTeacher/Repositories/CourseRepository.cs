@@ -139,6 +139,7 @@ namespace VirtualTeacher.Repositories
         {
             var result = context.Courses
                 .Include(x => x.Lectures)
+                .ThenInclude(x => x.Assignment)
                 .Include(x => x.CourseTopic)
                 .Include(x => x.Teachers)
                 .Include(x => x.Students)

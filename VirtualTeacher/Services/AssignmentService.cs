@@ -45,6 +45,12 @@ namespace VirtualTeacher.Services
         {
             return assignmentRepository.SubmitAssignment(student, assignment);
         }
+
+        public bool IsAssignmentSubmitted(Student student, Assignment assignment)
+        {
+            return assignmentRepository.IsAssignmentSubmitted(student, assignment);
+        }
+
         #endregion
     }
 }
