@@ -354,7 +354,7 @@ h3 {
 .overlay2::before {
   position: absolute;
   content: "";
-  background-color: #2E004B;
+  /*background-color: #2E004B;*/
   top: 0;
   left: 0;
   width: 100%;
@@ -473,7 +473,7 @@ h3 {
   border: 1px solid #04D2C8;
   letter-spacing: 3px;
   text-align: center;
-  color: #04D2C8 !important;
+  color: #04D2C8;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -1979,7 +1979,8 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
 .breadcam_bg {
-  background-image: url(../img/banner/bradcam.png);
+    /* background-image: url(../img/banner/bradcam.png);*/
+    background-image: linear-gradient(to top, #2e1753, #1f1746, #131537, #0d1028, #050819);
 }
 
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
@@ -1990,7 +1991,7 @@ h3 {
 /* line 7, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
 .bradcam_area {
   padding: 170px;
-  background-repeat: no-repeat;
+  /*background-repeat: no-repeat;*/
   background-size: cover;
   background-position: center center;
   text-align: center;
@@ -3020,12 +3021,13 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_banner {
-  background-image: url(../img/banner/bradcam2.png);
-  padding-top: 286px;
-  padding-bottom: 186px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+    /*background-image: url(../img/course_new.jpg);*/
+    background-image: linear-gradient(to top, #2e1753, #1f1746, #131537, #0d1028, #050819);
+    padding-top: 286px;
+    padding-bottom: 90px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 @media (max-width: 767px) {
@@ -3087,12 +3089,12 @@ h3 {
 /* line 44, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_banner .course_text .rating i {
   color: #FD8E5E;
-  font-size: 17px;
+  font-size: 100px;
 }
 
 /* line 48, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_banner .course_text .rating span {
-  font-size: 14px;
+  font-size: 50px;
   color: #fff;
 }
 
@@ -3131,8 +3133,8 @@ h3 {
 
 /* line 82, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_info .single_courses h3 {
-  font-size: 36px;
-  font-weight: 400;
+ /* font-size: 36px;
+  font-weight: 400;*/
   color: #1F1F1F;
   margin-bottom: 30px;
 }
@@ -3203,7 +3205,7 @@ h3 {
 .courses_details_info .courses_sidebar .author_info {
   border: 1px solid #E8E8E8;
   padding: 30px;
-  margin-top: 40px;
+  margin-top: 70px;
   margin-bottom: 40px;
 }
 
@@ -3318,7 +3320,8 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_testmonial.scss */
 .testimonial_bg_1 {
-  background-image: url(../img/testmonial/testmonial.png);
+    /*background-image: url(../img/testmonial/testmonial.png);*/
+    background-image: linear-gradient(to top, #2e1753, #1f1746, #131537, #0d1028, #050819);
 }
 
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_testmonial.scss */

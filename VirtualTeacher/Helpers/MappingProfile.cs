@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using VirtualTeacher.Models.ViewModel.CourseViewModel;
 using VirtualTeacher.Models;
+using System.Security.AccessControl;
 
 namespace VirtualTeacher.Helpers
 {
@@ -17,6 +18,9 @@ namespace VirtualTeacher.Helpers
                 .ForMember(dest => dest.Lectures, opt => opt.MapFrom(src => src.Lectures))
                 .ForMember(dest => dest.Ratings, opt => opt.MapFrom(src => src.Ratings))
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator));
+
+
+
         }
     }
 }

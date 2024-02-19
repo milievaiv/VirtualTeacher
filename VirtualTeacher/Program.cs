@@ -143,9 +143,20 @@ namespace VirtualTeacher
             app.UseHttpsRedirection();
 
             // Configure the HTTP request pipeline.
+            //if (!app.Environment.IsDevelopment())
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
+            //app.UseExceptionHandler("/Error/InternalServerError");
+            //app.UseStatusCodePagesWithReExecute("/Error/{0}");
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             app.UseRouting();

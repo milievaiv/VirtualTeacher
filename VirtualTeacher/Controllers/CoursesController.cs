@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Exceptions;
+using VirtualTeacher.Models;
 using VirtualTeacher.Models.ViewModel.CourseViewModel;
 using VirtualTeacher.Services;
 using VirtualTeacher.Services.Contracts;
@@ -34,9 +36,12 @@ namespace VirtualTeacher.Controllers
             this.studentService = studentService;
             this.mapper = mapper;
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            List<Course> courses = courseService.GetAll().ToList();
+            return View(courses);
         }
 
         [AuthorizeUsers("student")]
@@ -55,7 +60,13 @@ namespace VirtualTeacher.Controllers
                 {
                     return NotFound();
                 }
+
+                var topCourses = courseService.GetAll()
+                .OrderByDescending(x => x.Ratings.Any() ? x.Ratings.Average(r => r.RatingValue) : 0)
+                .ToList();
+
                 var courseViewModel = mapper.Map<CourseViewModel>(course);
+                courseViewModel.TopCourses = mapper.Map<IEnumerable<CourseViewModel>>(topCourses);
 
                 bool isEnrolled = student.EnrolledCourses.Any(x => x.CourseId == id);
                 ViewBag.IsEnrolled = isEnrolled;
@@ -151,5 +162,6 @@ namespace VirtualTeacher.Controllers
             //}          
 
         }
+       
     }
 }

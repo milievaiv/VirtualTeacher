@@ -627,13 +627,13 @@ pre code {
 }
 
 .row {
-    display: -webkit-box;
-    display: -ms-flexbox;
+    /* display: -webkit-box;
+    display: -ms-flexbox;*/
     display: flex;
-    -ms-flex-wrap: wrap;
+    /*-ms-flex-wrap: wrap;*/
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px
+    margin-right: -150px;
+    margin-left: -150px
 }
 
 .no-gutters {
@@ -4789,8 +4789,8 @@ tbody.collapse.show {
         -webkit-box-direction: normal;
         -ms-flex-flow: row wrap;
         flex-flow: row wrap;
-        margin-right: -15px;
-        margin-left: -15px
+        margin-right: -150px;
+        margin-left: -150px
     }
     .card-deck .card {
         display: -webkit-box;

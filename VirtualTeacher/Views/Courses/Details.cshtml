@@ -2,496 +2,406 @@
 @using VirtualTeacher.Helpers
 
 @{
-    ViewBag.Title = "Details";
+    ViewData["Title"] = "Course Details";
 }
 @{
     bool isEnrolled = TempData["IsEnrolled"] as string == "true";
 }
 
-    <style>
-        .highlighted {
-            color: gold;
+<style scoped>
+    .courses_details_info {
+        padding-top: 100px;
+        padding-bottom: 0px;
+    }
+
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+
+    @@media (min-width: 576px) {
+        .container {
+            max-width: 540px;
         }
-    </style>
+    }
 
-    <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
-    <!-- bradcam_area_start -->
-    <div class="courses_details_banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="course_text">
-                        <h3> @Model.Title <br> ...</h3>
-                    </div>
-                    <div class="rating">
-                        <i class="flaticon-mark-as-favorite-star"></i>
-                        <i class="flaticon-mark-as-favorite-star"></i>
-                        <i class="flaticon-mark-as-favorite-star"></i>
-                        <i class="flaticon-mark-as-favorite-star"></i>
-                        <i class="flaticon-mark-as-favorite-star"></i>
-                    <span>@(Model.AverageRating?.ToString("F1") ?? "N/A")</span>
-                    </div>
-                    <div class="hours">
-                        <div class="video">
-                            <div class="single_video">
-                                <i class="fa fa-clock-o"></i> <span>@Model.Lectures.Count()</span>
-                            </div>
-                            <div class="single_video">
-                                <i class="fa fa-play-circle-o"></i> <span>9 Hours</span>
-                            </div>
+    @@media (min-width: 768px) {
+        .container {
+            max-width: 720px;
+        }
+    }
 
+    @@media (min-width: 992px) {
+        .container {
+            max-width: 960px;
+        }
+
+        @@media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+
+        @@media (min-width: 1400px) {
+            .container {
+                max-width: 1320px;
+            }
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
+
+    .popular_courses.plus_padding {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+</style>
+<div class="astronaut">
+    <img src="https://images.vexels.com/media/users/3/152639/isolated/preview/506b575739e90613428cdb399175e2c8-space-astronaut-cartoon-by-vexels.png" alt="" class="src">
+</div>
+<!-- bradcam_area_start -->
+<div class="courses_details_banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="course_text">
+                    <h3 style="color: white; font-size: 60px;">@Model.Title</h3>
+                </div>
+                <div class="rating" style="color: gold; font-size: 30px;">
+                    @{
+                        var fullStars = (int)Math.Round(Model.AverageRating ?? 0, MidpointRounding.AwayFromZero);
+                        var totalStars = 5; // Total stars to display
+                    }
+
+                    @for (int i = 0; i < fullStars; i++)
+                    {
+                        <i class="flaticon-mark-as-favorite-star"></i>
+                    }
+
+                    @for (int i = 0; i < totalStars - fullStars; i++)
+                    {
+                        <i class="flaticon-mark-as-favorite-star" style="color: gray;"></i> 
+                    }
+
+                    <span style="color: white;">@(Model.AverageRating?.ToString("F1") ?? "N/A")</span>
+                </div>
+                <div class="hours">
+                    <div class="video">
+                        <div class="single_video" style="color: white; font-size: 30px;">
+                            <i class="far fa-play-circle"></i> <span>@Model.Lectures.Count() Videos</span>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    <!-- bradcam_area_end -->
+</div>
+<!-- bradcam_area_end -->
 
-    <div class="courses_details_info">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-7 col-lg-7">
-                    <div class="single_courses">
-                        <h3>What you'll learn</h3>
-                        <p>@Model.Description</p> 
-                        <h3 class="second_title" style="cursor: pointer;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='initial'">Course Content</h3>
-                        <div class="outline_courses_info">
-                            <div id="accordion">
-                @foreach (var lecture in Model.Lectures)
-                {
-                    <div class="card">
-                        <div class="card-header" id="heading@(lecture.Id)">
-                            <a class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">@lecture.Title</a>
-                        </div>
+<div class="courses_details_info">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7">
+                <div class="single_courses">
+                    <h3 style="font-size: 7vh">What you'll learn</h3>
+                    <p style="font-size: 25px;">@Model.Description</p>
+                    <h3 class="second_title" style="cursor: pointer; font-size: 40px;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='initial'">Course Content</h3>
+                    <div class="outline_courses_info">
+                        <div id="accordion">
 
-                        <div id="description@(lecture.Id)" class="collapse" aria-labelledby="heading@(lecture.Id)" data-parent="#accordion">
-                            <div class="card-body">
-                                <p>@Html.Raw(lecture.Description)</p>                               
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+                            @foreach (var lecture in Model.Lectures)
+                            {
+                                <div class="card" style=" border: 1px solid #7B1FA2">
+                                    <div class="card-header" id="heading@(lecture.Id)">
+                                        <a style="font-size: 1.5rem;" class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">@lecture.Title</a>
+                                    </div>
+
+                                    <div id="description@(lecture.Id)" class="collapse" aria-labelledby="heading@(lecture.Id)" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <p style="font-size: 20px;">@Html.Raw(lecture.Description)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-5">
-                    <!-- Sidebar content (unchanged) -->
+            </div>
+            <div class="col-xl-5 col-lg-5">
+                <!-- Sidebar content (unchanged) -->
+                <div class="courses_sidebar">
                     <div class="courses_sidebar">
-                        <div class="courses_sidebar">
-                            <div class="video_thumb">
-                                <img src="/img/latest_blog/video.png" alt="">
-                                <a class="popup-video" href="https://www.youtube.com/watch?v=mKBbP4T5fbk">
-                                    @* <iframe class="popup-video" width="560" height="315" src="https://www.youtube.com/embed/mKBbP4T5fbk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> *@
-
-                                    <i class="fa fa-play"></i>
-                                </a>
-                            </div>
-                            <div class="author_info">
-                                <div class="auhor_header">
-                                    <div class="thumb">
-                                        <img src="/img/testmonial/author_img.png" alt="">
-                                    </div>
-                                    <div class="name">
-                                        <h3>@Model.Creator.FirstName @Model.Creator.LastName</h3>
-                                        <p>Teacher</p>
-                                    </div>
+                        <div class="video_thumb" style="background-image: url('/img/astronaut.webp'); height: 300px; width: 580px; "></div>
+                        <div class="author_info" style="border: 1px solid #7B1FA2; border-radius: 1vh;">
+                            <div class="auhor_header">
+                                <div class="thumb">
+                                    <img src="/img/testmonial/author_img.png" alt="author">
                                 </div>
-                                <p class="text_info">
-                                    Our set he for firmament morning sixth subdue darkness creeping gathered divide our let
-                                    god moving. Moving in fourth air night bring upon you’re it beast let you dominion
-                                    likeness open place day
-                                </p>
-                                <ul>
-                                    <li><a href="#"> <i class="fa fa-envelope"></i> </a></li>
-                                    <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-linkedin"></i> </a></li>
-                                </ul>
-                            </div>
-                           @*  <a href="#" class="boxed_btn">Enroll</a> *@
-                        @* <a asp-controller="Courses" asp-action="Enroll" asp-route-id="@Model.CourseId" class="boxed_btn">Enroll</a> *@
-                             @if (ViewBag.IsEnrolled as bool? == true)
-                             {
-                                 <button class="boxed_btn disabled" disabled>Enrolled</button>
-                             }
-                             else
-                             {
-                                 <a asp-controller="Courses" asp-action="Enroll" asp-route-id="@Model.CourseId" class="boxed_btn">Enroll</a>
-                             }
-
-                            <div class="feedback_info">
-                                <h3>Write your feedback</h3>
-                                <p>Your rating</p>
-                                <div id="rating">
-                                    <i class="flaticon-mark-as-favorite-star" onclick="rate(1)"></i>
-                                    <i class="flaticon-mark-as-favorite-star" onclick="rate(2)"></i>
-                                    <i class="flaticon-mark-as-favorite-star" onclick="rate(3)"></i>
-                                    <i class="flaticon-mark-as-favorite-star" onclick="rate(4)"></i>
-                                    <i class="flaticon-mark-as-favorite-star" onclick="rate(5)"></i>
+                                <div class="name">
+                                    <h3 style="font-size: 28px;">@Model.Creator.FirstName @Model.Creator.LastName</h3>
+                                    <p style="font-size: 20px;">Teacher</p>
                                 </div>
-                                
+                            </div>
+                        </div>
+
+                        @if (ViewBag.IsEnrolled as bool? == true)
+                        {
+                            <button class="boxed_btn disabled" disabled>Enrolled</button>
+                        }
+                        else
+                        {
+                            <a asp-controller="Courses" asp-action="Enroll" asp-route-id="@Model.CourseId" class="boxed_btn">Enroll</a>
+                        }
+
+                        <div class="feedback_info" style=" border: 1px solid #7B1FA2; border-radius: 1vh;">
+                            <h3 style="font-size: 30px;">Write your feedback</h3>
+                            <p style="font-size: 20px;">Your rating</p>
+                            <div id="rating">
+                                <i style="color: lightgray; font-size: 30px" class="flaticon-mark-as-favorite-star" onclick="rate(1)"></i>
+                                <i style="color: lightgray; font-size: 30px" class="flaticon-mark-as-favorite-star" onclick="rate(2)"></i>
+                                <i style="color: lightgray; font-size: 30px" class="flaticon-mark-as-favorite-star" onclick="rate(3)"></i>
+                                <i style="color: lightgray; font-size: 30px" class="flaticon-mark-as-favorite-star" onclick="rate(4)"></i>
+                                <i style="color: lightgray; font-size: 30px" class="flaticon-mark-as-favorite-star" onclick="rate(5)"></i>
+                            </div>
+
                             <form method="post" action="/details/@Model.CourseId/rate">
                                 <input type="hidden" name="rating" id="ratingValue" value="0" />
-                                <textarea name="feedback" id="feedback" cols="30" rows="10" placeholder="Write your feedback.."></textarea>
+                                <textarea style="border: 1px solid #7B1FA2" name="feedback" id="feedback" cols="30" rows="5" placeholder="Write your feedback.."></textarea>
                                 <button type="submit" class="boxed_btn">Submit</button>
                             </form>
-
-@*                                 <form action="#" onsubmit="event.preventDefault();">
-                                    <textarea id="feedback" cols="30" rows="10" placeholder="Write your feedback.."></textarea>
-                                    <button type="submit" class="boxed_btn" data-courseid="@Model.CourseId" onclick="submitRating(this); return false;">Submit</button>
-
-
-                                </form> *@
-                            </div>
-
                         </div>
-                        @*  <!-- Sidebar content such as video thumb, author info, etc. -->
-                        <div class="feedback_info">
-                        <h3>Course Rating</h3>
-                        <!-- Display average rating -->
-                        <p>Average Rating: @Model.AverageRating</p>
-                        <!-- Display stars based on the average rating -->
-                        @for (int i = 0; i < (Model.AverageRating ?? 0); i++)
-                        {
-                        <i class="flaticon-mark-as-favorite-star"></i>
-                        }
-                        <!-- Feedback form (unchanged) --> *@
                     </div>
                 </div>
+                @* <div class="video_thumb" style="background-image: url('/img/two-astronauts.png'); height: 300px; width: 580px; "></div> *@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 
-    <!-- testimonial_area_start -->
-    <div class="testimonial_area testimonial_bg_1 overlay">
-        <div class="testmonial_active owl-carousel">
-            <div class="single_testmoial">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="testmonial_text text-center">
-                                <div class="author_img">
-                                    <img src="img/testmonial/author_img.png" alt="">
-                                </div>
-                                <p>
-                                    "Working in conjunction with humanitarian aid <br> agencies we have supported
-                                    programmes to <br>
-                                    alleviate.
-                                    human suffering.
-
-                                </p>
-                                <span>- Jquileen</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_testmoial">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="testmonial_text text-center">
-                                <div class="author_img">
-                                    <img src="img/testmonial/author_img.png" alt="">
-                                </div>
-                                <p>
-                                    "Working in conjunction with humanitarian aid <br> agencies we have supported
-                                    programmes to <br>
-                                    alleviate.
-                                    human suffering.
-
-                                </p>
-                                <span>- Jquileen</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- testimonial_area_end -->
-    <!-- our_courses_start -->
-    <div class="our_courses">
+<div class="popular_courses plus_padding">
+    <div class="all_courses">
         <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="section_title text-center mb-100">
-                        <h3>Our Course Speciality</h3>
-                        <p>
-                            Your domain control panel is designed for ease-of-use and <br>
-                            allows for all aspects of your domains.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="single_course text-center">
-                        <div class="icon">
-                            <i class="flaticon-art-and-design"></i>
-                        </div>
-                        <h3>Premium Quality</h3>
-                        <p>
-                            Your domain control panel is designed for ease-of-use <br> and <br>
-                            allows for all aspects of
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="single_course text-center">
-                        <div class="icon blue">
-                            <i class="flaticon-business-and-finance"></i>
-                        </div>
-                        <h3>Premium Quality</h3>
-                        <p>
-                            Your domain control panel is designed for ease-of-use <br> and <br>
-                            allows for all aspects of
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="single_course text-center">
-                        <div class="icon">
-                            <i class="flaticon-premium"></i>
-                        </div>
-                        <h3>Premium Quality</h3>
-                        <p>
-                            Your domain control panel is designed for ease-of-use <br> and <br>
-                            allows for all aspects of
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="single_course text-center">
-                        <div class="icon gradient">
-                            <i class="flaticon-crown"></i>
-                        </div>
-                        <h3>Premium Quality</h3>
-                        <p>
-                            Your domain control panel is designed for ease-of-use <br> and <br>
-                            allows for all aspects of
-                        </p>
+            <h2 style="font-size: 40px; margin-bottom:30px">Popular Courses</h2>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" role="tabpanel">
+                    <div class="row">
+                        @foreach (var course in Model.TopCourses
+                        .OrderByDescending(x => x.Ratings.Any() ? x.Ratings.Average(r => r.RatingValue) : 0)
+                        .Take(10))
+
+                        {
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/img/back-to-school.jpg" alt="course-img">
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <h3><a asp-controller="Courses" asp-action="Details" asp-route-id="@course.CourseId" style="font-size: 20px;">@course.Title</a></h3>
+                                        <div class="single_video" style="color: black; font-size: 20px;">
+                                            <i class="far fa-play-circle"></i> <span>@course.Lectures.Count() Video lessons</span>
+                                        </div>
+                                        <div style="margin-bottom: 10px">
+                                            @{
+                                                var averageRating = course.Ratings.Any() ? course.Ratings.Average(x => x.RatingValue) : 0.0;
+                                                var fullStars1 = Math.Floor(averageRating);
+                                                var halfStar = Math.Round(averageRating % 1, 1) >= 0.5;
+                                                var emptyStars = course.Ratings.Any() ? 5 - (int)fullStars1 - (halfStar ? 1 : 0) : 5;
+                                            }
+
+                                            @for (int i = 0; i < fullStars1; i++)
+                                            {
+                                                <i class="fas fa-star" style="color: gold;"></i> <!-- Full stars -->
+                                            }
+                                            @if (halfStar && course.Ratings.Any())
+                                            {
+                                                <i class="fas fa-star-half-alt" style="color: gold;"></i> <!-- Half star -->
+                                            }
+                                            @for (int i = 0; i < emptyStars; i++)
+                                            {
+                                                <i class="far fa-star" style="color: gold;"></i> <!-- Empty stars -->
+                                            }
+
+                                            <span>@(course.Ratings.Any() ? averageRating.ToString("0.0") : "N/A")</span>
+                                        </div>
+                                        <div class="star_prise d-flex justify-content-between">
+                                            Teacher - @course.Creator.FirstName @course.Creator.LastName
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- our_courses_end -->
-    <!-- footer -->
-    <footer class="footer footer_bg_1">
-        <div class="footer_top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-4 col-md-6 col-lg-4">
-                        <div class="footer_widget">
-                            <div class="footer_logo">
-                                <a href="#">
-                                    <img src="img/logo.png" alt="">
-                                </a>
-                            </div>
-                            <p>
-                                Firmament morning sixth subdue darkness creeping gathered divide our let god moving.
-                                Moving in fourth air night bring upon it beast let you dominion likeness open place day
-                                great.
-                            </p>
-                            <div class="socail_links">
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti-twitter-alt"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-youtube-play"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+</div>
+<!-- our_courses_end -->
+<!-- JS here -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var isEnrolled = @Html.Raw(Json.Serialize(ViewBag.IsEnrolled));
+        var courseId = @Html.Raw(Json.Serialize(ViewBag.CourseId));
 
-                        </div>
-                    </div>
-                    <div class="col-xl-2 offset-xl-1 col-md-6 col-lg-3">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Courses
-                            </h3>
-                            <ul>
-                                <li><a href="#">Wordpress</a></li>
-                                <li><a href="#"> Photoshop</a></li>
-                                <li><a href="#">Illustrator</a></li>
-                                <li><a href="#">Adobe XD</a></li>
-                                <li><a href="#">UI/UX</a></li>
-                            </ul>
-
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-lg-2">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Resourches
-                            </h3>
-                            <ul>
-                                <li><a href="#">Free Adobe XD</a></li>
-                                <li><a href="#">Tutorials</a></li>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#"> About</a></li>
-                                <li><a href="#"> Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 col-lg-3">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Address
-                            </h3>
-                            <p>
-                                200, D-block, Green lane USA <br>
-                                +10 367 467 8934 <br>
-                                edumark@contact.com
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copy-right_text">
-            <div class="container">
-                <div class="footer_border"></div>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <p class="copy_right text-center">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- footer -->
-    <!-- form itself end-->
-    <form id="test-form" class="white-popup-block mfp-hide">
-        <div class="popup_box ">
-            <div class="popup_inner">
-                <div class="logo text-center">
-                    <a href="#">
-                        <img src="img/form-logo.png" alt="">
-                    </a>
-                </div>
-                <h3>Sign in</h3>
-                <form action="#">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12">
-                            <input type="email" placeholder="Enter email">
-                        </div>
-                        <div class="col-xl-12 col-md-12">
-                            <input type="password" placeholder="Password">
-                        </div>
-                        <div class="col-xl-12">
-                            <button type="submit" class="boxed_btn_orange">Sign in</button>
-                        </div>
-                    </div>
-                </form>
-                <p class="doen_have_acc">
-                    Don’t have an account? <a class="dont-hav-acc" href="#test-form2">Sign Up</a>
-                </p>
-            </div>
-        </div>
-    </form>
-    <!-- form itself end -->
-    <!-- form itself end-->
-    <form id="test-form2" class="white-popup-block mfp-hide">
-        <div class="popup_box ">
-            <div class="popup_inner">
-                <div class="logo text-center">
-                    <a href="#">
-                        <img src="img/form-logo.png" alt="">
-                    </a>
-                </div>
-                <h3>Resistration</h3>
-                <form action="#">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12">
-                            <input type="email" placeholder="Enter email">
-                        </div>
-                        <div class="col-xl-12 col-md-12">
-                            <input type="password" placeholder="Password">
-                        </div>
-                        <div class="col-xl-12 col-md-12">
-                            <input type="Password" placeholder="Confirm password">
-                        </div>
-                        <div class="col-xl-12">
-                            <button type="submit" class="boxed_btn_orange">Sign Up</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
-    <!-- form itself end -->
-    <!-- JS here -->
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var isEnrolled = @Html.Raw(Json.Serialize(ViewBag.IsEnrolled));
-    var courseId = @Html.Raw(Json.Serialize(ViewBag.CourseId));
-
-    document.querySelector('.second_title').addEventListener('click', function() {
-        if (isEnrolled) {
-            window.location.href = '/courses/' + courseId + '/lectures';
-        }
+        document.querySelector('.second_title').addEventListener('click', function () {
+            if (isEnrolled) {
+                window.location.href = '/courses/' + courseId + '/lectures';
+            }
+        });
     });
-});
 </script>
 
 <script>
-// Function to handle rating by clicking stars
-function rate(rating) {
-    document.querySelectorAll('#rating i').forEach((star, index) => {
-        star.style.color = index < rating ? '#FFD700' : '#ccc'; // Change color based on rating
+    // Function to handle rating by clicking stars
+    function rate(rating) {
+        document.querySelectorAll('#rating i').forEach((star, index) => {
+            star.style.color = index < rating ? '#FFD700' : '#ccc'; // Change color based on rating
+        });
+        // Store the rating value in a hidden form field to be submitted
+        document.getElementById('ratingValue').value = rating;
+    }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var body = document.body;
+        setInterval(createStar, 100);
+
+        function createStar() {
+            var right = Math.random() * window.innerWidth;
+            var top = Math.random() * window.innerHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            body.appendChild(star);
+            star.style.top = top + "px";
+
+            function runStar() {
+                if (right >= window.innerWidth) {
+                    star.remove();
+                } else {
+                    right += 3;
+                    star.style.right = right + "px";
+                }
+            }
+            setInterval(runStar, 10);
+        }
     });
-    // Store the rating value in a hidden form field to be submitted
-    document.getElementById('ratingValue').value = rating;
-}
 </script>
 
- @*    <script>
-        function submitRating(button) {
-            var courseId = $(button).data('courseid'); // Retrieve the course ID from the button
-            var feedback = $('#feedback').val(); // Retrieve the feedback from the textarea
-            $.ajax({
-                url: `/Courses/Details/${courseId}`, // Use the course ID in the URL
-                type: 'POST',
-                data: {
-                    courseId: courseId, // This might be redundant depending on how you handle the route
-                    rating: window.selectedRating,
-                    feedback: feedback
-                },
-                success: function (response) {
-                    alert('Thanks for your rating!');
-                },
-                error: function (error) {
-                    console.log(error);
-                    alert('Error occurred. Try again.');
-                }
-            });
+ <style scoped>
+    #navigation {
+        text-align: left;
+        margin-left: 5vh;
+    }
+
+    .highlighted {
+        color: gold;
+    }
+
+    .boxed_btn, boxed_btn disabled {
+        font-size: 22px;
+        padding: 0.5em 1em;
+        letter-spacing: 1px;
+        font-family: "Lato", sans-serif;
+        color: white;
+        background-color: #AFEEEE;
+        /* background-image: linear-gradient(45deg, #9370DB,  #AFEEEE); */
+        border: 0;
+        cursor: pointer;
+        z-index: 999;
+        /* border: 2px solid black; */
+        border-radius: 5px;
+        text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.2s ease;
+    }
+
+        .boxed_btn:hover {
+            /* background: transparent; */
+            color: #2e1753;
+            border: 1px solid #2e1753;
         }
-        
-    </script> *@
+
+    /*  .row {
+                            margin-right: -150px;
+                            margin-left: -150px
+                        } */
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        right: 0;
+        animation: starTwinkle 3s infinite linear;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .astronaut img {
+        width: 100px;
+        position: absolute;
+        top: 55%;
+        animation: astronautFly 6s infinite linear;
+    }
+
+    @@keyframes astronautFly {
+        0% {
+            left: -100px;
+        }
+
+        25% {
+            top: 50%;
+            transform: rotate(30deg);
+        }
+
+        50% {
+            transform: rotate(45deg);
+            top: 55%;
+        }
+
+        75% {
+            top: 60%;
+            transform: rotate(30deg);
+        }
+
+        100% {
+            left: 110%;
+            transform: rotate(45deg);
+        }
+    }
+
+    @@keyframes starTwinkle {
+        0% {
+            background: rgba(255,255,255,0.4);
+        }
+
+        25% {
+            background: rgba(255,255,255,0.8);
+        }
+
+        50% {
+            background: rgba(255,255,255,1);
+        }
+
+        75% {
+            background: rgba(255,255,255,0.8);
+        }
+
+        100% {
+            background: rgba(255,255,255,0.4);
+        }
+    }
+</style>

@@ -3013,7 +3013,7 @@ h3 {
 /* line 75, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_info {
   padding-top: 100px;
-  padding-bottom: 200px;
+  /*padding-bottom: 200px;*/
 }
 
 @media (max-width: 767px) {
@@ -3083,8 +3083,8 @@ h3 {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   background: #FD8E5E;
-  width: 90px;
-  height: 90px;
+  width: 200px;
+  height: 200px;
   color: #fff;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
