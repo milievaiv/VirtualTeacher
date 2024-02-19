@@ -37,12 +37,32 @@ namespace VirtualTeacher.Controllers
             this.mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
-            List<Course> courses = courseService.GetAll().ToList();
-            return View(courses);
+            var courses = courseService.GetAll().ToList();
+            List<CourseViewModel> viewModels = mapper.Map<List<Course>, List<CourseViewModel>>(courses);
+            return View(viewModels);
         }
+
+        [HttpGet]
+        public IActionResult GetCoursesByTopic(string topic)
+        {
+            Console.WriteLine($"Received topic: {topic}");
+            if (topic.Equals("All Courses", StringComparison.OrdinalIgnoreCase))
+            {
+                var courses = courseService.GetAll().ToList();
+                return PartialView("_CoursesByTopicPartial", courses);
+            }
+            else
+            {
+                var courses = courseService.GetAll().Where(course => course.CourseTopic.Topic.Equals(topic, StringComparison.OrdinalIgnoreCase)).ToList();
+                return PartialView("_CoursesByTopicPartial", courses);
+            }
+            
+        }
+
 
         [AuthorizeUsers("student")]
         [HttpGet("courses/{id}/details")]

@@ -10,7 +10,13 @@ namespace VirtualTeacher.Controllers
         {
             _cloudStorageService = cloudStorageService;
         }
-      
+
+        [HttpGet]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        
         // GET: /Home/Index
         public async Task<IActionResult> Index()
         {

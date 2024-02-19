@@ -67,9 +67,6 @@
     }
 
 </style>
-<div class="astronaut">
-    <img src="https://images.vexels.com/media/users/3/152639/isolated/preview/506b575739e90613428cdb399175e2c8-space-astronaut-cartoon-by-vexels.png" alt="" class="src">
-</div>
 <!-- bradcam_area_start -->
 <div class="courses_details_banner">
     <div class="container">
@@ -253,7 +250,7 @@
 </div>
 <!-- our_courses_end -->
 <!-- JS here -->
-<script>
+ <script>
     document.addEventListener('DOMContentLoaded', function () {
         var isEnrolled = @Html.Raw(Json.Serialize(ViewBag.IsEnrolled));
         var courseId = @Html.Raw(Json.Serialize(ViewBag.CourseId));
@@ -266,7 +263,7 @@
     });
 </script>
 
-<script>
+ <script>
     // Function to handle rating by clicking stars
     function rate(rating) {
         document.querySelectorAll('#rating i').forEach((star, index) => {
@@ -276,7 +273,7 @@
         document.getElementById('ratingValue').value = rating;
     }
 </script>
-<script>
+ <script>
     document.addEventListener("DOMContentLoaded", function () {
         var body = document.body;
         setInterval(createStar, 100);

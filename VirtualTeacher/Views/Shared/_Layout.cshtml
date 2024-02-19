@@ -2,6 +2,7 @@
     bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
 }
 
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -85,31 +86,17 @@
                                 <nav>
                                     <ul id="navigation">
                                         <li><a class="active" href="/">Home</a></li>
-                                        @* <li><a href="Courses.html">Courses</a></li> *@
-                                        @if (ViewData["Title"] != null)
-                                        {
-                                            if (ViewData["Title"].ToString() != "Course")
-                                            {
-
-                                            }
-                                        }
-                                        else
+                                        @if (ViewData["Title"]?.ToString() != "Lectures")
                                         {
                                             <li>
                                                 <a href="#">Courses <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a asp-controller="Courses" asp-action="Index">Courses</a></li>
+                                                    <li><a href="/Courses/Index">Courses</a></li>
                                                     <li><a href="elements.html">elements</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="about.html">About</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li class="nav-item search-bar">
-                                                <form class="form-inline">
-                                                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                                                </form>
-                                            </li>
+                                            <li><a href="/Home/Contact">Contact</a></li>
                                         }
                                     </ul>
                                 </nav>

@@ -1,0 +1,192 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<style scoped>
+    .body {
+        font-family: Poppins;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        right: 0;
+        z-index: 1;
+        animation: starTwinkle 3s infinite linear;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .astronaut img {
+        width: 100px;
+        position: absolute;
+        top: 55%;
+        animation: astronautFly 6s infinite linear;
+    }
+
+    .bradcam_area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 60vh;
+        padding: 0 20px;
+    }
+
+        .bradcam_area > * {
+            /* flex: 1;*/
+            margin: 0 20px;
+        }
+
+    @@media (max-width: 768px) {
+        .bradcam_area {
+            flex-direction: column;
+        }
+
+            .bradcam_area p {
+                margin-bottom: 20px;
+            }
+
+            .bradcam_area img {
+                width: 80%;
+                max-width: 300px;
+            }
+
+        @@keyframes astronautFly {
+            0% {
+                left: -100px;
+            }
+
+            25% {
+                top: 50%;
+                transform: rotate(30deg);
+            }
+
+            50% {
+                transform: rotate(45deg);
+                top: 55%;
+            }
+
+            75% {
+                top: 60%;
+                transform: rotate(30deg);
+            }
+
+            100% {
+                left: 110%;
+                transform: rotate(45deg);
+            }
+        }
+
+        @@keyframes starTwinkle {
+            0% {
+                background: rgba(255,255,255,0.4);
+            }
+
+            25% {
+                background: rgba(255,255,255,0.8);
+            }
+
+            50% {
+                background: rgba(255,255,255,1);
+            }
+
+            75% {
+                background: rgba(255,255,255,0.8);
+            }
+
+            100% {
+                background: rgba(255,255,255,0.4);
+            }
+        }
+    }
+</style>
+
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay2">
+    <p style="margin: 0; font-size:10vh; color: white">Contact us</p>
+    <img src="~/img/moon-astronaut.webp" alt="Astronaut on the Moon" style="max-width: 250px; height: auto;" />
+</div>
+<!-- bradcam_area_end -->
+<!-- ================ contact section start ================= -->
+<section class="contact-section">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div style="flex: 1; margin-right: 20px;">
+            <div id="map" style="height: 400px; width: 100%;"></div>
+        </div>
+
+        <div style="flex: 1;">
+            <div class="media contact-info">
+                <span class="contact-info__icon"><i class="ti-home"></i></span>
+                <div class="media-body">
+                    <h3>Sofia, Bulgaria</h3>
+                    <p> Sofia center, 1000</p>
+                </div>
+            </div>
+            <div class="media contact-info">
+                <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                <div class="media-body">
+                    <h3>+359888888888 </h3>
+                    <p>Mon to Fri 9am to 6pm</p>
+                </div>
+            </div>
+            <div class="media contact-info">
+                <span class="contact-info__icon"><i class="ti-email"></i></span>
+                <div class="media-body">
+                    <h3>virtualteacher.official@gmail.com</h3>
+                    <p>Send us your query anytime!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ contact section end ================= -->
+
+<script>
+    function initMap() {
+        var sofia = { lat: 42.6977, lng: 23.3219 };
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: sofia,
+            zoom: 12,
+            streetViewControl: true // This line enables the Street View "Pegman" control
+        });
+
+        var marker = new google.maps.Marker({
+            position: sofia,
+            map: map,
+            title: 'Sofia, Bulgaria'
+        });
+
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbxcdGDjJ9k57fLhJ4dTb2jUi8wCtZ8Qk&callback=initMap"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var body = document.body;
+        setInterval(createStar, 100);
+
+        function createStar() {
+            var right = Math.random() * window.innerWidth;
+            var top = Math.random() * window.innerHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            body.appendChild(star);
+            star.style.top = top + "px";
+
+            function runStar() {
+                if (right >= window.innerWidth) {
+                    star.remove();
+                } else {
+                    right += 3;
+                    star.style.right = right + "px";
+                }
+            }
+            setInterval(runStar, 10);
+        }
+    });
+</script>
