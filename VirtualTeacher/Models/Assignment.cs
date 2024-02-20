@@ -12,5 +12,6 @@ namespace VirtualTeacher.Models
         [Required]
         public string Content { get; set; } // File Path or URL
         public ICollection<SubmittedAssignment> Submissions { get; set; }
+        public ICollection<AssignmentContent> AssignmentContents { get; set; }
     }
 }

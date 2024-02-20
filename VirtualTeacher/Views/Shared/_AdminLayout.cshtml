@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+    <title>Dashboard &mdash; Stisla</title>
+    
+    <link rel="stylesheet" href="~/admin/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/admin/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/admin/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/admin/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="~/admin/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="~/admin/css/demo.css">
+    <link rel="stylesheet" href="~/admin/css/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="main-wrapper">
+            <nav class="navbar navbar-expand-lg main-navbar" style="height:inherit; background-color: #574b90; width: 100%; left: 0px; right: 0px;">
+                <div class="ml-auto">
+                    <!-- Align content to the right -->
+                    <div class="dropdown">
+                        <!-- Wrap dropdown toggle and menu inside a div with dropdown class -->
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg">
+                            <i class="ion ion-android-person d-lg-none"></i>
+                            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="margin-left: -58px;">
+                            <!-- Added style for left margin -->
+                            <a href="profile.html" class="dropdown-item has-icon">
+                                <i class="ion ion-android-person"></i> Profile
+                            </a>
+                            <a href="#" class="dropdown-item has-icon">
+                                <i class="ion ion-log-out"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="main-content" style="padding-left: 0px; padding-right: 0px">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/admin/modules/jquery.min.js"></script>
+    <script src="~/admin/modules/popper.js"></script>
+    <script src="~/admin/modules/tooltip.js"></script>
+    <script src="~/admin/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/admin/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="~/admin/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+    <script src="~/admin/js/sa-functions.js"></script>
+    <script src="~/admin/modules/chart.min.js"></script>
+    <script src="~/admin/modules/summernote/summernote-lite.js"></script>
+
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [{
+                    label: 'Statistics',
+                    data: [460, 458, 330, 502, 430, 610, 488],
+                    borderWidth: 2,
+                    backgroundColor: 'rgb(87,75,144)',
+                    borderColor: 'rgb(87,75,144)',
+                    borderWidth: 2.5,
+                    pointBackgroundColor: '#ffffff',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 150
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                },
+            }
+        });
+    </script>
+
+    <script src="~/admin/js/scripts.js"></script>
+    <script src="~/admin/js/custom.js"></script>
+    <script src="~/admin/js/demo.js"></script>
+</body>
+</html>

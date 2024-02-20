@@ -12,7 +12,7 @@ namespace VirtualTeacher.Repositories.Contracts
         IList<Course> GetEnrolledCourses(Student student);
         Student Update(Student student);
         bool Delete(int id);
-       // double CalculateProgress(Student student, Course course);
+        double? CalculateProgress(Student student, Course course);
         public bool IsEnrolled(int studentId, int courseId);
         public void EnrollStudentInCourse(int studentId, int courseId);
         IList<Course> GetCompletedCourses(Student student);

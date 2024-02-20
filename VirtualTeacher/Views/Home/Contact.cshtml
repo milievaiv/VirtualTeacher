@@ -167,26 +167,22 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var body = document.body;
+        // Select the specific div with all three classes
+        var bradcamArea = document.querySelector(".bradcam_area.breadcam_bg.overlay2");
         setInterval(createStar, 100);
 
         function createStar() {
-            var right = Math.random() * window.innerWidth;
-            var top = Math.random() * window.innerHeight;
+            var right = Math.random() * bradcamArea.offsetWidth;
+            var top = Math.random() * bradcamArea.offsetHeight;
             var star = document.createElement("div");
             star.classList.add("star");
-            body.appendChild(star);
+            bradcamArea.appendChild(star); // Append the star to the targeted div
             star.style.top = top + "px";
+            star.style.left = Math.random() * bradcamArea.offsetWidth + "px"; // Adjust to use left for horizontal positioning
 
-            function runStar() {
-                if (right >= window.innerWidth) {
-                    star.remove();
-                } else {
-                    right += 3;
-                    star.style.right = right + "px";
-                }
-            }
-            setInterval(runStar, 10);
+            // Adjust or remove the function below based on your animation needs
+            setTimeout(function () { star.remove(); }, 3000); // Remove the star after 3 seconds
         }
     });
+
 </script>

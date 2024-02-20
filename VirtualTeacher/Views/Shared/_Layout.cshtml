@@ -1,4 +1,9 @@
-﻿<!doctype html>
+﻿@{
+    bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
+}
+
+
+<!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
@@ -12,10 +17,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
     <!-- CSS here -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/magnific-popup.css">    
+    <link rel="stylesheet" href="/css/magnific-popup.css">
     @* <link rel="stylesheet" href="/css/font-awesome.min.css"> *@
     <link rel="stylesheet" href="/css/themify-icons.css">
     <link rel="stylesheet" href="/css/nice-select.css">
@@ -60,6 +65,100 @@
             .nav-item.search-bar input {
                 margin-right: 5px;
             }
+
+        /*  media (max-width: 767px) {
+                                    .nav-item.search-bar {
+                                        display: none;
+                        }
+                        } */
+
+        .row {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            align-items: stretch; 
+        }
+
+        .footer-about, .footer-links, .footer-contact {
+            flex: 1; 
+            padding: 0 15px; 
+        }
+
+        @@media (max-width: 768px) {
+            .row {
+                flex-direction: column; 
+            }
+
+            .footer-about, .footer-links, .footer-contact {
+                padding: 15px 0; 
+            }
+        }
+
+        .site-footer {
+            background-color: #8d88cc;
+            color: #fff;
+            padding: 20px 0;
+            font-size: 16px;
+        }
+
+            .site-footer a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                .site-footer a:hover {
+                    text-decoration: underline;
+                }
+
+            .site-footer h6 {
+                color: #fff;
+                margin-top: 0;
+                margin-bottom: 15px;
+            }
+
+        .footer-about, .footer-links, .footer-contact, .footer-social {
+            margin-bottom: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid white;
+            color: white;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        @@media (max-width: 768px) {
+            .site-footer .container {
+                width: 100%;
+                padding: 0 15px;
+            }
+
+            .site-footer .row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-about, .footer-links, .footer-contact, .footer-social {
+                text-align: center;
+            }
+
+                .footer-links ul, .footer-social {
+                    display: flex;
+                    justify-content: center;
+                    padding: 0;
+                }
+
+                .footer-links li {
+                    padding: 0 10px;
+                }
+        }
+
+        p {
+            color: white;
+        }
+        h6{
+            font-size: 20px;
+        }
     </style>
 </head>
 @{
@@ -76,40 +175,25 @@
                                 <nav>
                                     <ul id="navigation">
                                         <li><a class="active" href="/">Home</a></li>
-                                        @if (ViewData["Title"]?.ToString() != "Lectures")
-                                        {
-                                            if (ViewData["Title"].ToString() != "Course")
-                                            {
-
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <li>
-                                                <a href="#">Courses <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="/Courses/Index">Courses</a></li>
-                                                    <li><a href="elements.html">elements</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="/Home/Contact">Contact</a></li>
-                                            <li class="nav-item search-bar">
+                                        <li><a href="/Courses/Index">Courses</a></li>
+                                        <li><a href="/Home/About">About</a></li>
+                                        <li><a href="/Home/Contact">Contact</a></li>
+                                        <li class="nav-item search-bar">
                                                 <form class="form-inline" id="searchForm" action="/wiki-search" method="GET">
-                                                    <!-- Updated action and method -->
-                                                    <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search"> <!-- Added name attribute -->
+                                                    <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search"> 
                                                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                                                 </form>
                                                 <div id="searchResults"></div>
-                                            </li>
-                                        }
+                                        @*   @if (ViewData["Title"]?.ToString() != "Lectures")
+                                        {
+                                        } *@
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        <div class="col-xl-7 col-lg-3 d-none d-lg-block">
-                            @if (!isLogged)
-                            {
+                        @if (!isLogged)
+                        {
+                            <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
                                 <div class="log_chat_area d-flex align-items-center">
                                     <a href="/Auth/SignIn" style="font-family: 'Poppins'" class="login popup-with-form">
                                         <i class="flaticon-user"></i>
@@ -129,6 +213,9 @@
                                         <i class="flaticon-user"></i>
                                         <span>Sign out</span>
                                     </a>
+                                    <a href="/User/Profile" class="login popup-with-form">
+                                        <span>My profile</span>
+                                    </a>
                                 </div>
                             }
                         </div>
@@ -146,17 +233,52 @@
         <div class="layout-main">
             @RenderBody()
         </div>
-        <div class="layout-footer">
-            <footer style="border-top: 1px solid black;opacity: 0.5; font-family: 'Poppins', sans-serif; position: relative; bottom: 0; width: 100%;">
-                <small>© Copyright @DateTime.Now.Year, VirtualTeacher in collaboration with Colorlib</small>
-            </footer>
-        </div>
+        <footer class="site-footer">
+            <div class="container" style="color: white">
+                <div class="row">
+                    <div class="footer-about">
+                        <h6>About SmartyStars</h6>
+                        <p>High-quality, interactive courses designed to make learning enjoyable for kids.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h6>Quick Links</h6>
+                        <ul>
+                            <li><a href="/Home/About">About Us</a></li>
+                            <li><a href="/Courses/Index">Courses</a></li>
+                             <li><a href=#>FAQ</a></li>
+                            <li><a href=#>Pricing</a></li> 
+                        </ul>
+                    </div>
+                    <div class="footer-contact">
+                        <h6>Contact Us</h6>
+                        <p><strong>Email:</strong> virtualteacher.official@gmail.com</p>
+                        <p><strong>Phone:</strong> +359888888888</p>
+                        <p><strong>Address:</strong> Sofia, Bulgaria</p>
+                    </div>
+                    @*   <div class="footer-social">
+                    <h6>Follow Us</h6>
+                    <!-- Icons or links to social media -->
+                    </div> *@
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2024 SmartyStars. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        @*  <div class="layout-footer">
+        <footer style="background-color: #8d88cc; font-family: 'Poppins', sans-serif; position: relative; bottom: 0; width: 100%; height: 100px;">
+        <
+
+        <small>© Copyright @DateTime.Now.Year, VirtualTeacher in collaboration with Colorlib</small>
+        </footer>
+        </div> *@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+    @*     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/isotope.pkgd.min.js"></script>
     <script src="/js/ajax-form.js"></script>
@@ -168,15 +290,15 @@
     <script src="/js/wow.min.js"></script>
     <script src="/js/nice-select.min.js"></script> 
     <script src="/js/jquery.slicknav.min.js"></script>
-     <script src="/js/jquery.magnific-popup.min.js"></script>
+    @*     <script src="/js/jquery.magnific-popup.min.js"></script>
     <script src="/js/gijgo.min.js"></script>
     <script src="/js/contact.js"></script>
     <script src="/js/jquery.ajaxchimp.min.js"></script>
     <script src="/js/jquery.form.js"></script>
     <script src="/js/jquery.validate.min.js"></script>
-    <script src="/js/mail-script.js"></script> 
-@*     <script src="/js/plugins.js"></script>
- *@    
+    <script src="/js/mail-script.js"></script> *@
+    @*     <script src="/js/plugins.js"></script>
+    *@
     <script src="/js/main.js"></script>
     <script src="/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false) -->

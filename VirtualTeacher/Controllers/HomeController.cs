@@ -16,7 +16,13 @@ namespace VirtualTeacher.Controllers
         {
             return View();
         }
-        
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
+        }
+
         // GET: /Home/Index
         public async Task<IActionResult> Index()
         {
