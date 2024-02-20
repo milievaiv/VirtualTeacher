@@ -1,0 +1,195 @@
+
+<style scoped>
+    .body {
+        font-family: Poppins;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        right: 0;
+        z-index: 1;
+        animation: starTwinkle 3s infinite linear;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    @@keyframes astronautFly {
+        0% {
+            left: -100px;
+        }
+
+        25% {
+            top: 50%;
+            transform: rotate(30deg);
+        }
+
+        50% {
+            transform: rotate(45deg);
+            top: 55%;
+        }
+
+        75% {
+            top: 60%;
+            transform: rotate(30deg);
+        }
+
+        100% {
+            left: 110%;
+            transform: rotate(45deg);
+        }
+    }
+
+    @@keyframes starTwinkle {
+        0% {
+            background: rgba(255,255,255,0.4);
+        }
+
+        25% {
+            background: rgba(255,255,255,0.8);
+        }
+
+        50% {
+            background: rgba(255,255,255,1);
+        }
+
+        75% {
+            background: rgba(255,255,255,0.8);
+        }
+
+        100% {
+            background: rgba(255,255,255,0.4);
+        }
+    }
+</style>
+
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay2">
+    <h3>About Us</h3>
+</div>
+<!-- bradcam_area_end -->
+
+<!-- about_area_start -->
+<div class="about_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-6">
+                <div class="single_about_info">
+                    <h3>Our Mission</h3>
+                    <p>
+                        Our mission is to ignite a lifelong love for learning in children.
+                        We aim to do this by providing high-quality, interactive courses that cater to the diverse needs and interests of kids.
+                        Our virtual classroom is not just a place to learn; it's a place to grow, explore, and discover new passions.
+                    </p>
+                    <h3>Why Choose Us?</h3>
+                    <p>
+                        <strong>Innovative Learning Methods</strong>: We constantly explore new ways to make learning more effective and enjoyable.<br>
+                        <strong>Flexible & Convenient</strong>: Learn anytime, anywhere. Our platform is accessible on various devices, allowing kids to learn at their own pace and schedule.
+                    </p>
+
+                </div>
+            </div>
+            <img style="width: 650px" src="/img/about-photo.webp" alt="astronaut" />
+        </div>
+    </div>
+</div>
+<!-- about_area_end -->
+
+<!-- our_team_member_start -->
+<div class="our_team_member">
+    <h1 style="text-align:center">Our Team</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-md-6 col-lg-3">
+                <div class="single_team">
+                    <div class="thumb">
+                        <img src="/img/team/2.png" alt="">
+                        <div class="social_link">
+                            <a href="#"><i class="fa fa-envelope"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="master_name text-center">
+                        <h3>Anastasia Petrova</h3>
+                        <p>CEO</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-lg-3">
+                <div class="single_team">
+                    <div class="thumb">
+                        <img src="/img/team/1.png" alt="">
+                        <div class="social_link">
+                            <a href="#"><i class="fa fa-envelope"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="master_name text-center">
+                        <h3>David Dimitrov</h3>
+                        <p>Software Engineer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-lg-3">
+                <div class="single_team">
+                    <div class="thumb">
+                        <img src="/img/team/3.png" alt="">
+                        <div class="social_link">
+                            <a href="#"><i class="fa fa-envelope"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="master_name text-center">
+                        <h3>Alessia Bianchi</h3>
+                        <p>Soft Skills Trainer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-lg-3">
+                <div class="single_team">
+                    <div class="thumb">
+                        <img src="/img/team/4.png" alt="">
+                        <div class="social_link">
+                            <a href="#"><i class="fa fa-envelope"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="master_name text-center">
+                        <h3>Kristian Ivanov</h3>
+                        <p>Marketing Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- our_team_member_end -->
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select the specific div with all three classes
+        var bradcamArea = document.querySelector(".bradcam_area.breadcam_bg.overlay2");
+        setInterval(createStar, 100);
+
+        function createStar() {
+            var right = Math.random() * bradcamArea.offsetWidth;
+            var top = Math.random() * bradcamArea.offsetHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            bradcamArea.appendChild(star); // Append the star to the targeted div
+            star.style.top = top + "px";
+            star.style.left = Math.random() * bradcamArea.offsetWidth + "px"; // Adjust to use left for horizontal positioning
+
+            // Adjust or remove the function below based on your animation needs
+            setTimeout(function () { star.remove(); }, 3000); // Remove the star after 3 seconds
+        }
+    });
+
+</script>
+

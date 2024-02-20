@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <None Include="Views\Courses\Index.cshtml" />
+    <None Include="Views\Home\About.cshtml" />
     <None Include="Views\Home\Contact.cshtml" />
     <None Include="wwwroot\css\reset.map" />
     <None Include="wwwroot\css\style.map" />

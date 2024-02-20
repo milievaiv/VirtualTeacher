@@ -98,6 +98,19 @@
                         <div class="single_video" style="color: white; font-size: 30px;">
                             <i class="far fa-play-circle"></i> <span>@Model.Lectures.Count() Videos</span>
                         </div>
+                        <div class="single_video" style="color: white; font-size: 30px;">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>
+                                @if (Model.StartDate.HasValue)
+                                {
+                                    @Model.StartDate.Value.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    @:N/A
+                                }
+                            </span>
+                        </div>
 
                     </div>
                 </div>
@@ -197,7 +210,7 @@
                     <div class="row">
                         @foreach (var course in Model.TopCourses
                         .OrderByDescending(x => x.Ratings.Any() ? x.Ratings.Average(r => r.RatingValue) : 0)
-                        .Take(10))
+                        .Take(9))
 
                         {
                             <div class="col-xl-4 col-lg-4 col-md-6">
@@ -315,7 +328,7 @@
         letter-spacing: 1px;
         font-family: "Lato", sans-serif;
         color: white;
-        background-color: #AFEEEE;
+        background-color: #8d88cc;
         /* background-image: linear-gradient(45deg, #9370DB,  #AFEEEE); */
         border: 0;
         cursor: pointer;

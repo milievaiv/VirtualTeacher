@@ -911,9 +911,9 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area {
-/*    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
-*/  
-    background-color:black;
+    /*    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+*/
+    background-color: #8d88cc;
     position: absolute;
     left: 0;
     right: 0;
@@ -1122,20 +1122,20 @@ h3 {
 
 /* line 122, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul li a::before {
-  position: absolute;
-  content: "";
-  background: #04D2C8;
-  width: 100%;
-  height: 3px;
-  bottom: -1px;
-  left: 0;
-  opacity: 0;
-  z-index: 9;
-  transform: scaleX(0);
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
+    position: absolute;
+    content: "";
+    background: #8d88cc;
+    width: 100%;
+    height: 3px;
+    bottom: -1px;
+    left: 0;
+    opacity: 0;
+    z-index: 9;
+    transform: scaleX(0);
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 
 /* line 135, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
@@ -1220,9 +1220,9 @@ h3 {
 
 /* line 193, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .main-header-area.sticky {
-/*    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
-*/  
-    background-color:black;
+    /*    background: linear-gradient(90deg, rgb(141 136 204) 0%, rgb(148 218 202) 100%);
+*/
+    background-color: #8d88cc;
     position: fixed;
     width: 100%;
     top: -70px;
@@ -1428,7 +1428,7 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_about.scss */
 .about_area {
-  padding: 50px 0 270px 0;
+  padding: 50px 0 0 0;
 }
 
 @media (max-width: 767px) {
@@ -3567,7 +3567,7 @@ h3 {
   -ms-justify-content: space-between;
   justify-content: space-between;
   -ms-flex-pack: space-between;
-  margin-bottom: 100px;
+  /*margin-bottom: 100px;*/
   border-bottom: 1px solid #E8E8E8;
 }
 

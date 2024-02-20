@@ -68,10 +68,11 @@ namespace VirtualTeacher.Services
         {
             return studentRepository.GetCompletedCourses(student);
         }
-        //public double CalculateProgress(Student student, Course course)
-        //{
-        //    throw new NotImplementedException();
-        //}
+
+        public double? CalculateProgress(Student student, Course course)
+        {
+            return studentRepository.CalculateProgress(student, course);
+        }
         #endregion
     }
 }

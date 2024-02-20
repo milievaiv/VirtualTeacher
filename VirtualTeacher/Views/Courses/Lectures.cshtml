@@ -6,19 +6,18 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <style>
-    #navigation
-    {
+    #navigation {
         text-align: left;
         margin-left: 5vh;
     }
-    .card
-    {
-      margin:10px;
+
+    .card {
+        margin: 10px;
     }
 </style>
 
 @section Scripts
-{
+    {
     <script src="/js/lectures.js"></script>
 }
 
@@ -30,7 +29,7 @@
                 <!--int count = 0-->
                 @foreach (var lecture in Model.Lectures)
                 {
-                    //if(count < progress) set to available lecture
+                //if(count < progress) set to available lecture
                     //{count++}
                     //if(count > progress) set to unavailable lecture
                     //{count++}
@@ -64,7 +63,7 @@
                 }
             </div>
         </div>
-         <!-- Main Content -->
+        <!-- Main Content -->
         <div class="course-right-menu">
             <main>
                 <div id="lectureContent">
