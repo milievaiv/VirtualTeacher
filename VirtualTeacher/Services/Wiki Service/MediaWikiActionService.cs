@@ -2,6 +2,7 @@
 using RestSharp;
 using Serilog;
 using System;
+using VirtualTeacher.Models.ViewModel.Search;
 
 namespace VirtualTeacher.Services
 {
@@ -16,13 +17,13 @@ namespace VirtualTeacher.Services
                 .CreateLogger();
         }
 
-        public void GetWikiMediaSearchRequest(string searchQuery, string action = "query", string list = "search", string format = "json")
+        public WikiMediaSearchResponse? GetWikiMediaSearchRequest(string searchQuery, string action = "query", string list = "search", string format = "json")
         {
             // Check if the search query is empty
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
                 _logger.Warning("Search query is empty. Please provide a valid search query.");
-                return;
+                return null;
             }
 
             string apiUrl = "https://en.wikipedia.org/w/api.php";
@@ -32,7 +33,7 @@ namespace VirtualTeacher.Services
             var request = new RestRequest();
             request.AddParameter("action", action);
             request.AddParameter("list", list);
-            request.AddParameter("srsearch", searchQuery); 
+            request.AddParameter("srsearch", searchQuery);
             request.AddParameter("format", format);
 
             var response = client.Execute(request);
@@ -46,41 +47,28 @@ namespace VirtualTeacher.Services
                 if (result == null || result.Query == null || result.Query.Search == null || result.Query.Search.Length == 0)
                 {
                     _logger.Warning("Search response is null or empty.");
-                    return;
+                    return null;
                 }
 
-                ProcessSearchResponse(result, 4);
+                // Include snippet in each search result
+                //foreach (var item in result.Query.Search)
+                //{
+                //    item.Snippet = GetSnippet(item.PageId); // Assuming you have a method to get the snippet based on pageId
+                //}
+
+                return result;
             }
             else
             {
                 _logger.Error("Error: {StatusCode} - {StatusDescription}", response.StatusCode, response.StatusDescription);
+                return null;
             }
         }
 
-        private void ProcessSearchResponse(WikiMediaSearchResponse response, int maxResults)
-        {
-
-            for (int i = 0; i < Math.Min(maxResults, response.Query.Search.Length); i++)
-            {
-                var searchResult = response.Query.Search[i];
-                _logger.Information("Title: {Title}, PageId: {PageId}", searchResult.Title, searchResult.PageId);
-            }
-        }
-    }
-
-    public class WikiMediaSearchResponse
-    {
-        public Query Query { get; set; }
-    }
-
-    public class Query
-    {
-        public SearchResult[] Search { get; set; }
-    }
-
-    public class SearchResult
-    {
-        public int PageId { get; set; }
-        public string Title { get; set; }
+        //private string GetSnippet(int pageId)
+        //{
+        //    // Implement logic to fetch snippet based on pageId
+        //    return "Sample snippet for pageId " + pageId;
+        //}
     }
 }

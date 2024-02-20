@@ -18,19 +18,24 @@ namespace VirtualTeacher.Controllers.ExternalApi
         [HttpGet]
         public IActionResult Search(string query)
         {
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                return BadRequest(Messages.WikiEmptySearchQuery);
-            }
-
             try
             {
-                _wikiService.GetWikiMediaSearchRequest(query);
-                return Ok(); // Return the search results
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    return BadRequest(Messages.WikiEmptySearchQuery);
+                }
+
+                var searchResponse = _wikiService.GetWikiMediaSearchRequest(query);
+                if (searchResponse == null || searchResponse.Query == null || searchResponse.Query.Search == null || searchResponse.Query.Search.Length == 0)
+                {
+                    return NotFound("No search results found.");
+                }
+
+                return Ok(searchResponse.Query.Search); // Return search results as JSON data
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

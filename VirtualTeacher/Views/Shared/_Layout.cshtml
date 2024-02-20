@@ -67,30 +67,30 @@
             }
 
         /*  media (max-width: 767px) {
-                                    .nav-item.search-bar {
-                                        display: none;
-                        }
-                        } */
+                                            .nav-item.search-bar {
+                                                display: none;
+                                }
+                                } */
 
         .row {
             display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between; 
-            align-items: stretch; 
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
         }
 
         .footer-about, .footer-links, .footer-contact {
-            flex: 1; 
-            padding: 0 15px; 
+            flex: 1;
+            padding: 0 15px;
         }
 
         @@media (max-width: 768px) {
             .row {
-                flex-direction: column; 
+                flex-direction: column;
             }
 
             .footer-about, .footer-links, .footer-contact {
-                padding: 15px 0; 
+                padding: 15px 0;
             }
         }
 
@@ -156,7 +156,8 @@
         p {
             color: white;
         }
-        h6{
+
+        h6 {
             font-size: 20px;
         }
 
@@ -195,13 +196,18 @@
                                 <nav>                                    
                                     <ul id="navigation">
                                         @* <li class="navbar-brand" href="">
-                                            <span class="smart">Smarty</span><span class="stars">Stars</span>
-                                            <img src="img/star.webp" alt="SmartyStars Icon">
+                                        <span class="smart">Smarty</span><span class="stars">Stars</span>
+                                        <img src="img/star.webp" alt="SmartyStars Icon">
                                         </li> *@
                                         <li><a class="active" href="/">Home</a></li>
                                         <li><a href="/Courses/Index">Courses</a></li>
                                         <li><a href="/Home/About">About</a></li>
                                         <li><a href="/Home/Contact">Contact</a></li>
+                                        <li class="nav-item search-bar">
+                                            <form class="form-inline" id="searchForm" action="/wiki-search" method="GET">
+                                                <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search">
+                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                            </form>
                                         @*   @if (ViewData["Title"]?.ToString() != "Lectures")
                                         {
                                         } *@
@@ -265,8 +271,8 @@
                         <ul>
                             <li><a href="/Home/About">About Us</a></li>
                             <li><a href="/Courses/Index">Courses</a></li>
-                             <li><a href=#>FAQ</a></li>
-                            <li><a href=#>Pricing</a></li> 
+                            <li><a href=#>FAQ</a></li>
+                            <li><a href=#>Pricing</a></li>
                         </ul>
                     </div>
                     <div class="footer-contact">
