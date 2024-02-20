@@ -1,0 +1,57 @@
+﻿@model List<VirtualTeacher.Models.ViewModel.CourseViewModel.CourseViewModel>
+
+<div class="popular_courses plus_padding" style="padding-bottom: 5px; padding-top: 5px">
+    <div class="all_courses">
+        <div class="container">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" role="tabpanel">
+                    <div class="row">
+                        @foreach (var course in Model)
+                        {
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <img src="@Url.Content("~/img/back-to-school.jpg")" alt="course-img">
+                                    </div>
+                                    <div class="courses_info">
+                                        <h3><a asp-controller="Courses" asp-action="Details" asp-route-id="@course.CourseId">@course.Title</a></h3>
+                                        <div class="single_video">
+                                            <i class="far fa-play-circle"></i> <span>@course.Lectures.Count() Video lessons</span>
+                                        </div>
+                                        <div style="margin-bottom: 10px">
+                                            @{
+                                                var averageRating = course.Ratings.Any() ? course.Ratings.Average(x => x.RatingValue) : 0.0;
+                                                var fullStars1 = Math.Floor(averageRating);
+                                                var halfStar = Math.Round(averageRating % 1, 1) >= 0.5;
+                                                var emptyStars = course.Ratings.Any() ? 5 - (int)fullStars1 - (halfStar ? 1 : 0) : 5;
+                                            }
+
+                                            @for (int i = 0; i < fullStars1; i++)
+                                            {
+                                                <i class="fas fa-star" style="color: gold;"></i> <!-- Full stars -->
+                                            }
+                                            @if (halfStar && course.Ratings.Any())
+                                            {
+                                                <i class="fas fa-star-half-alt" style="color: gold;"></i> <!-- Half star -->
+                                            }
+                                            @for (int i = 0; i < emptyStars; i++)
+                                            {
+                                                <i class="far fa-star" style="color: gold;"></i> <!-- Empty stars -->
+                                            }
+
+                                            <span>@(course.Ratings.Any() ? averageRating.ToString("0.0") : "N/A")</span>
+                                        </div>
+                                        <div class="star_prise d-flex justify-content-between">
+                                            Teacher - @course.Creator.FirstName @course.Creator.LastName
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

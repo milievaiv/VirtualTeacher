@@ -11,7 +11,7 @@ namespace VirtualTeacher.Services.Contracts
         Student Update(Student student);
         //public void EnrollInCourse(Student student, Course course);
 
-        //double CalculateProgress(Student student, Course course);
+        double? CalculateProgress(Student student, Course course);
         IList<Course> GetEnrolledCourses(Student student);
         IList<Course> GetCompletedCourses(Student student);
 

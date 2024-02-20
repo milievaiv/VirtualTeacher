@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Exceptions;
+using VirtualTeacher.Models;
 using VirtualTeacher.Models.ViewModel.CourseViewModel;
 using VirtualTeacher.Services;
 using VirtualTeacher.Services.Contracts;
@@ -25,7 +27,7 @@ namespace VirtualTeacher.Controllers
             ITeacherService teacherService,
             IUserService userService,
             IStudentService studentService,
-        IMapper mapper)
+            IMapper mapper)
         {
             this.courseService = courseService;
             this.lectureService = lectureService;
@@ -34,9 +36,32 @@ namespace VirtualTeacher.Controllers
             this.studentService = studentService;
             this.mapper = mapper;
         }
+
+        [AllowAnonymous]
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var courses = courseService.GetAll().ToList();
+            List<CourseViewModel> viewModels = mapper.Map<List<Course>, List<CourseViewModel>>(courses);
+
+            return View(viewModels);
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("courses/GetCoursesByTopic")]
+        public IActionResult GetCoursesByTopic(string topic)
+        {
+            var allCourses = courseService.GetAll();
+
+            IEnumerable<Course> filteredCourses = allCourses
+                .Where(course => string.Equals(topic, "All Courses", StringComparison.OrdinalIgnoreCase) ||
+                                 course.CourseTopic.Topic.Equals(topic, StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(course => course.Ratings.Any() ? course.Ratings.Average(r => r.RatingValue) : 0);
+
+            var viewModels = mapper.Map<List<CourseViewModel>>(filteredCourses.ToList());
+
+            return PartialView("_CoursesByTopicPartial", viewModels);
         }
 
         [AuthorizeUsers("student")]
@@ -49,13 +74,18 @@ namespace VirtualTeacher.Controllers
 
             try
             {
-                var course = courseService.GetById(id);               
-
+                var course = courseService.GetById(id);   
                 if (course == null)
                 {
-                    return NotFound();
+                    return View("NotFoundError");
                 }
+
+                var topCourses = courseService.GetAll()
+                .OrderByDescending(x => x.Ratings.Any() ? x.Ratings.Average(r => r.RatingValue) : 0)
+                .ToList();
+
                 var courseViewModel = mapper.Map<CourseViewModel>(course);
+                courseViewModel.TopCourses = mapper.Map<IEnumerable<CourseViewModel>>(topCourses);
 
                 bool isEnrolled = student.EnrolledCourses.Any(x => x.CourseId == id);
                 ViewBag.IsEnrolled = isEnrolled;
@@ -70,7 +100,7 @@ namespace VirtualTeacher.Controllers
             }
             catch (EntityNotFoundException)
             {
-                return NoContent();
+                return View("NotFoundError");
             }
         }
 
@@ -84,30 +114,42 @@ namespace VirtualTeacher.Controllers
 
             bool isEnrolled = student.EnrolledCourses.Any(x => x.CourseId == id);
 
-            //Test
             if (!isEnrolled)
             {
                 return RedirectToAction("Details", new { id });
             }
-
             try
             {
                 var course = courseService.GetById(id);
                 var courseViewModel = mapper.Map<CourseViewModel>(course);
                 if (course == null)
                 {
-                    return NotFound();
+                    return View("NotFoundError");
                 }
 
                 return View(courseViewModel);
             }
             catch (EntityNotFoundException)
             {
-                return NoContent();
+                return View("NotFoundError");
             }
+        }
 
-        }               
-        
+        //[HttpPost]
+        //public ActionResult IncrementProgress(int courseId)
+        //{
+        //    var user = HttpContext.User;
+        //    var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+        //    var student = studentService.GetByEmail(email);
+        //    var course = courseService.GetById(courseId);
+
+        //    double? currentProgress = studentService.CalculateProgress(student, course);
+        //    currentProgress++;
+
+        //    return RedirectToAction("Lectures", new { courseId = courseId });
+        //}
+
+
         [AuthorizeUsers("student")]
         [HttpGet]
         public IActionResult Enroll([FromRoute] int id)
@@ -138,8 +180,8 @@ namespace VirtualTeacher.Controllers
             // var isCourseCompleted = student.CompletedCourses.Any(x => x.CourseId == courseId);
 
             courseService.RateCourse(courseId, student.Id, rating, feedback);
-           // return Json(new { success = true, responseText = "Your feedback has been submitted!" });
-           return RedirectToAction("Details", new { id = courseId });
+
+            return RedirectToAction("Details", new { id = courseId });
 
             //if (isCourseCompleted)
             //{
@@ -151,5 +193,6 @@ namespace VirtualTeacher.Controllers
             //}          
 
         }
+       
     }
 }

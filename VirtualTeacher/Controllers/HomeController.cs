@@ -4,6 +4,25 @@ namespace VirtualTeacher.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly CloudStorageService _cloudStorageService;
+
+        public HomeController(CloudStorageService cloudStorageService)
+        {
+            _cloudStorageService = cloudStorageService;
+        }
+
+        [HttpGet]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
+        }
+
         // GET: /Home/Index
         public async Task<IActionResult> Index()
         {
