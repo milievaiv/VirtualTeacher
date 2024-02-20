@@ -65,13 +65,6 @@
             .nav-item.search-bar input {
                 margin-right: 5px;
             }
-
-        /*media (max-width: 767px) {
-                    .nav-item.search-bar {
-                        display: none; /* Hide the search bar on smaller screens */
-        }
-        }
-        */
     </style>
 </head>
 
@@ -82,7 +75,7 @@
                 <div class="container-fluid p-0">
                     <div class="row align-items-center no-gutters">
                         <div class="col-xl-5 col-lg-7">
-                            <div class="main-menu  d-none d-lg-block">
+                            <div class="main-menu d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
                                         <li><a class="active" href="/">Home</a></li>
@@ -97,14 +90,22 @@
                                             </li>
                                             <li><a href="about.html">About</a></li>
                                             <li><a href="/Home/Contact">Contact</a></li>
+                                            <li class="nav-item search-bar">
+                                                <form class="form-inline" id="searchForm" action="/wiki-search" method="GET">
+                                                    <!-- Updated action and method -->
+                                                    <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search"> <!-- Added name attribute -->
+                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                                </form>
+                                                <div id="searchResults"></div>
+                                            </li>
                                         }
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        @if (!isLogged)
-                        {
-                            <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
+                        <div class="col-xl-7 col-lg-3 d-none d-lg-block">
+                            @if (!isLogged)
+                            {
                                 <div class="log_chat_area d-flex align-items-center">
                                     <a href="/Auth/SignIn" style="font-family: 'Poppins'" class="login popup-with-form">
                                         <i class="flaticon-user"></i>
@@ -116,19 +117,17 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
+                            }
+                            else
+                            {
                                 <div class="log_chat_area d-flex align-items-center">
                                     <a href="/Auth/SignOut" class="login popup-with-form">
                                         <i class="flaticon-user"></i>
                                         <span>Sign out</span>
                                     </a>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -139,7 +138,6 @@
     </header>
     <div class="grid-container">
         <div class="layout-header">
-            
         </div>
         <div class="layout-main">
             @RenderBody()
@@ -153,7 +151,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-@*     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+    @*     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/isotope.pkgd.min.js"></script>
     <script src="/js/ajax-form.js"></script>
