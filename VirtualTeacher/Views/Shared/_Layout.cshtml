@@ -67,30 +67,30 @@
             }
 
         /*  media (max-width: 767px) {
-                                    .nav-item.search-bar {
-                                        display: none;
-                        }
-                        } */
+                                            .nav-item.search-bar {
+                                                display: none;
+                                }
+                                } */
 
         .row {
             display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between; 
-            align-items: stretch; 
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
         }
 
         .footer-about, .footer-links, .footer-contact {
-            flex: 1; 
-            padding: 0 15px; 
+            flex: 1;
+            padding: 0 15px;
         }
 
         @@media (max-width: 768px) {
             .row {
-                flex-direction: column; 
+                flex-direction: column;
             }
 
             .footer-about, .footer-links, .footer-contact {
-                padding: 15px 0; 
+                padding: 15px 0;
             }
         }
 
@@ -156,14 +156,35 @@
         p {
             color: white;
         }
-        h6{
+
+        h6 {
             font-size: 20px;
         }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            color: #FFF; /* White text */
+            font-family: 'Poppins', sans-serif;
+        }
+
+            .navbar-brand > img {
+                height: 55px; /* Adjust based on your navbar's height */
+                margin-right: 10px;
+            }
+
+            .navbar-brand .smart {
+                font-weight: 300; /* Lighter weight for 'Smart' */
+                color: yellow;
+            }
+
+            .navbar-brand .stars {
+                font-weight: 700; /* Bolder weight for 'Stars' */
+                color: yellow;
+            }
     </style>
 </head>
-@{
-    bool isLogged = !string.IsNullOrEmpty(Context.Request.Cookies["Authorization"]);
-}
+
 <body>
     <header>
         <div class="header-area">
@@ -171,19 +192,22 @@
                 <div class="container-fluid p-0">
                     <div class="row align-items-center no-gutters">
                         <div class="col-xl-5 col-lg-7">
-                            <div class="main-menu d-none d-lg-block">
+                            <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
+                                        @* <li class="navbar-brand" href="">
+                                        <span class="smart">Smarty</span><span class="stars">Stars</span>
+                                        <img src="img/star.webp" alt="SmartyStars Icon">
+                                        </li> *@
                                         <li><a class="active" href="/">Home</a></li>
                                         <li><a href="/Courses/Index">Courses</a></li>
                                         <li><a href="/Home/About">About</a></li>
                                         <li><a href="/Home/Contact">Contact</a></li>
                                         <li class="nav-item search-bar">
-                                                <form class="form-inline" id="searchForm" action="/wiki-search" method="GET">
-                                                    <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search"> 
-                                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                                                </form>
-                                                <div id="searchResults"></div>
+                                            <form class="form-inline" id="searchForm" action="/wiki-search" method="GET">
+                                                <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search">
+                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                            </form>
                                         @*   @if (ViewData["Title"]?.ToString() != "Lectures")
                                         {
                                         } *@
@@ -205,9 +229,11 @@
                                         </a>
                                     </div>
                                 </div>
-                            }
-                            else
-                            {
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
                                 <div class="log_chat_area d-flex align-items-center">
                                     <a href="/Auth/SignOut" class="login popup-with-form">
                                         <i class="flaticon-user"></i>
@@ -217,8 +243,8 @@
                                         <span>My profile</span>
                                     </a>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                        }
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -245,8 +271,8 @@
                         <ul>
                             <li><a href="/Home/About">About Us</a></li>
                             <li><a href="/Courses/Index">Courses</a></li>
-                             <li><a href=#>FAQ</a></li>
-                            <li><a href=#>Pricing</a></li> 
+                            <li><a href=#>FAQ</a></li>
+                            <li><a href=#>Pricing</a></li>
                         </ul>
                     </div>
                     <div class="footer-contact">
@@ -274,7 +300,6 @@
         </footer>
         </div> *@
     </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -288,7 +313,7 @@
     <script src="/js/scrollIt.js"></script>
     <script src="/js/jquery.scrollUp.min.js"></script>
     <script src="/js/wow.min.js"></script>
-    <script src="/js/nice-select.min.js"></script> 
+    <script src="/js/nice-select.min.js"></script> *@
     <script src="/js/jquery.slicknav.min.js"></script>
     @*     <script src="/js/jquery.magnific-popup.min.js"></script>
     <script src="/js/gijgo.min.js"></script>
@@ -301,10 +326,6 @@
     *@
     <script src="/js/main.js"></script>
     <script src="/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false) -->
-
-    <script>
-        // Optional: You can add JavaScript logic here for any additional functionality.
-    </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
