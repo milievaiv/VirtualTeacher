@@ -217,7 +217,7 @@
                                 <div class="single_courses">
                                     <div class="thumb">
                                         <a href="#">
-                                            <img src="/img/back-to-school.jpg" alt="course-img">
+                                            <img src="@Url.Action("CoursePicture", "Courses", new { courseId = course.CourseId })" alt="Course Picture" style="width: 400px; height: 300px" />
                                         </a>
                                     </div>
                                     <div class="courses_info">
@@ -288,15 +288,16 @@
 </script>
  <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var body = document.body;
-        setInterval(createStar, 100);
+        // Select the specific div with all three classes
+        var starArea = document.querySelector(".courses_details_banner");
+        setInterval(createStar, 100);   
 
         function createStar() {
             var right = Math.random() * window.innerWidth;
             var top = Math.random() * window.innerHeight;
             var star = document.createElement("div");
             star.classList.add("star");
-            body.appendChild(star);
+            starArea.appendChild(star);
             star.style.top = top + "px";
 
             function runStar() {
