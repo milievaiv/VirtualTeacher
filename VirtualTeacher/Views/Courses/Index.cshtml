@@ -100,10 +100,7 @@
     .breadcam_bg {
         background-image: linear-gradient(to top, #2e1753, #1f1746, #131537, #0d1028, #050819);
     }
-    /* .overlay2::before {
-                background-color: none;
-            } */
-
+   
     .star {
         position: absolute;
         width: 2px;
@@ -184,11 +181,12 @@
 
 <!-- bradcam_area_start -->
 @* <div class="bradcam_area breadcam_bg overlay2"> *@
+<div class="mystars">
 <div class="star-container">
     <div></div> <!-- The inner div for displaying the background image -->
     <h2 class="course-title">Our Courses</h2> <!-- Title below the image -->
 </div>
-
+</div>
 <!-- bradcam_area_end -->
 <!-- popular_courses_start -->
 <div class="popular_courses plus_padding">
@@ -292,29 +290,30 @@
     <!-- testimonial_area_end -->
  
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var body = document.body;
-            setInterval(createStar, 100);
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select the specific div with all three classes
+        var starArea = document.querySelector(".mystars");
+        setInterval(createStar, 100);
 
-            function createStar() {
-                var right = Math.random() * window.innerWidth;
-                var top = Math.random() * window.innerHeight;
-                var star = document.createElement("div");
-                star.classList.add("star");
-                body.appendChild(star);
-                star.style.top = top + "px";
+        function createStar() {
+            var right = Math.random() * window.innerWidth;
+            var top = Math.random() * window.innerHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            starArea.appendChild(star);
+            star.style.top = top + "px";
 
-                function runStar() {
-                    if (right >= window.innerWidth) {
-                        star.remove();
-                    } else {
-                        right += 3;
-                        star.style.right = right + "px";
-                    }
+            function runStar() {
+                if (right >= window.innerWidth) {
+                    star.remove();
+                } else {
+                    right += 3;
+                    star.style.right = right + "px";
                 }
-                setInterval(runStar, 10);
             }
-        });
+            setInterval(runStar, 10);
+        }
+    });
     </script>
 
 

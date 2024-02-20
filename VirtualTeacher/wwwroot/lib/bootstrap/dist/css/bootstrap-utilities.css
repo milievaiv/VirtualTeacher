@@ -1430,7 +1430,8 @@
 
 .bg-white {
     --bs-bg-opacity: 1;
-    background-image: linear-gradient(to bottom, #2e1753, #1f1746, #131537, #0d1028, #050819)
+    /*background-image: linear-gradient(to bottom, #2e1753, #1f1746, #131537, #0d1028, #050819)*/
+   
 }
 
 .bg-body {

@@ -159,6 +159,28 @@
         h6{
             font-size: 20px;
         }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            color: #FFF; /* White text */
+            font-family: 'Poppins', sans-serif;
+        }
+
+            .navbar-brand > img {
+                height: 55px; /* Adjust based on your navbar's height */
+                margin-right: 10px;
+            }
+
+            .navbar-brand .smart {
+                font-weight: 300; /* Lighter weight for 'Smart' */
+                color: yellow;
+            }
+
+            .navbar-brand .stars {
+                font-weight: 700; /* Bolder weight for 'Stars' */
+                color: yellow;
+            }
     </style>
 </head>
 
@@ -170,8 +192,12 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col-xl-5 col-lg-7">
                             <div class="main-menu  d-none d-lg-block">
-                                <nav>
+                                <nav>                                    
                                     <ul id="navigation">
+                                        @* <li class="navbar-brand" href="">
+                                            <span class="smart">Smarty</span><span class="stars">Stars</span>
+                                            <img src="img/star.webp" alt="SmartyStars Icon">
+                                        </li> *@
                                         <li><a class="active" href="/">Home</a></li>
                                         <li><a href="/Courses/Index">Courses</a></li>
                                         <li><a href="/Home/About">About</a></li>
