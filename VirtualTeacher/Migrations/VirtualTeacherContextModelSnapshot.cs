@@ -86,6 +86,31 @@ namespace VirtualTeacher.Migrations
                     b.ToTable("Assignments");
                 });
 
+            modelBuilder.Entity("VirtualTeacher.Models.AssignmentContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.ToTable("AssignmentContents");
+                });
+
             modelBuilder.Entity("VirtualTeacher.Models.BaseUser", b =>
                 {
                     b.Property<int>("Id")
@@ -102,6 +127,9 @@ namespace VirtualTeacher.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("HasProfileImage")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -369,6 +397,17 @@ namespace VirtualTeacher.Migrations
                     b.Navigation("Lecture");
                 });
 
+            modelBuilder.Entity("VirtualTeacher.Models.AssignmentContent", b =>
+                {
+                    b.HasOne("VirtualTeacher.Models.Assignment", "Assignment")
+                        .WithMany("AssignmentContents")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+                });
+
             modelBuilder.Entity("VirtualTeacher.Models.Course", b =>
                 {
                     b.HasOne("VirtualTeacher.Models.CourseTopic", "CourseTopic")
@@ -523,6 +562,8 @@ namespace VirtualTeacher.Migrations
 
             modelBuilder.Entity("VirtualTeacher.Models.Assignment", b =>
                 {
+                    b.Navigation("AssignmentContents");
+
                     b.Navigation("Submissions");
                 });
 

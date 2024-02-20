@@ -27,14 +27,8 @@
         <!-- Left Menu -->
         <div class="course-left-menu">
             <div id="accordion">
-                <!--int count = 0-->
                 @foreach (var lecture in Model.Lectures)
                 {
-                    //if(count < progress) set to available lecture
-                    //{count++}
-                    //if(count > progress) set to unavailable lecture
-                    //{count++}
-                    //If button "next lecture" is clicked then increment progress by 1 until it reaches lectures.Count
                     <div class="card">
                         <div class="card-header" id="heading@(lecture.Id)">
                             <a class="card-link" data-toggle="collapse" href="#description@(lecture.Id)" aria-expanded="false" aria-controls="description@(lecture.Id)">
@@ -52,7 +46,14 @@
                                     </a>
                                     @if (lecture.Assignment != null)
                                     {
-                                        <a href="#" class="list-group-item list-group-item-action assignment-link" data-assignment-id="@lecture.Assignment.Id" data-assignment-content="@lecture.Assignment.Content">
+                                        var settings = new Newtonsoft.Json.JsonSerializerSettings
+                                        {
+                                            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                                        };
+                                        var assignmentContentsJson = Newtonsoft.Json.JsonConvert.SerializeObject(lecture.Assignment.AssignmentContents, settings);
+                                        <a href="#" class="list-group-item list-group-item-action assignment-link"
+                                           data-assignment-id="@lecture.Assignment.Id"
+                                           data-assignment-contents='@Html.Raw(assignmentContentsJson)'>
                                             <i class="fas fa-file-alt"></i> Assignment
                                         </a>
                                     }
@@ -60,11 +61,10 @@
                             </div>
                         </div>
                     </div>
-
                 }
             </div>
         </div>
-         <!-- Main Content -->
+        <!-- Main Content -->
         <div class="course-right-menu">
             <main>
                 <div id="lectureContent">
@@ -74,3 +74,4 @@
         </div>
     </div>
 </div>
+

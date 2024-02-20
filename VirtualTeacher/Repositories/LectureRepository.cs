@@ -77,7 +77,8 @@ namespace VirtualTeacher.Repositories
         private IQueryable<Lecture> IQ_GetAll()
         {
             return context.Lectures
-                .Include(x => x.Assignment);
+                .Include(x => x.Assignment)
+                .ThenInclude(x => x.AssignmentContents);
         }
         #endregion
     }

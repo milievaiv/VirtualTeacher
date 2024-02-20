@@ -7,9 +7,17 @@ using VirtualTeacher.Constants;
 using Microsoft.AspNetCore.Authorization;
 using VirtualTeacher.Attributes;
 using System.Security;
+using VirtualTeacher.Services;
+using VirtualTeacher.Models.ViewModel.UserViewModel;
+using Microsoft.AspNetCore.Components.Forms;
+using iTextSharp.text;
+using Google.Apis.Drive.v3.Data;
+using VirtualTeacher.Models.DTO.AuthenticationDTO;
+using VirtualTeacher.Models.DTO.UserDTO;
 
 namespace VirtualTeacher.Controllers
 {
+    [AuthorizeUsers("student, teacher")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -23,23 +31,156 @@ namespace VirtualTeacher.Controllers
         }
 
         // GET: /User/Profile
-        [AuthorizeUsers("student, teacher")]
 
         [Route("user/profile")]
         public async Task<IActionResult> Profile()
         {
+            var _user = HttpContext.User;
+            var email = _user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            var user = _userService.GetByEmail(email);
+            //var pfpName = _user.Id + ".png";
+            //byte[] imageData = _cloudStorageService.GetImageContent(pfpName, "profilePictures");
 
-            // var email = User.FindFirst(ClaimTypes.Email)?.Value; 
-            
-          
+            //Image profileImage = null;
+            //if (imageData != null)
+            //{
+            //    // Convert byte array to Image
+            //    using (MemoryStream ms = new MemoryStream(imageData))
+            //    {
+            //        profileImage = Image.FromStream(ms);
+            //    }
+            //}
 
-            var user = _userService.GetByEmail("martin23@gmail.com");
+            EditProfileViewModel profile = new EditProfileViewModel
+            {
+                HasProfileImage = user.HasProfileImage,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = user.Role
+            };
+
+            return View(profile);
+            //if (user == null)
+            //{
+            //    return NotFound(Messages.UserNotFound);
+            //}
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile([FromForm] EditProfileViewModel model)
+        {
+            var user = HttpContext.User;
+            var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            var _user = _userService.GetByEmail(email);
+
+            //if (ModelState.IsValidField("User"))
+
+            //    if (_user == null)
+            //{
+            //    return NotFound(Messages.UserNotFound);
+            //}
+
+            if (ModelState.IsValid)
+            {
+                _user.FirstName = model.FirstName;
+                _user.LastName = model.LastName;
+                _userService.Update(_user.Id, _user);
+            }
+            else
+            {
+                model.FirstName = _user.FirstName;
+                model.LastName = _user.LastName;
+            }
+
+            model.HasProfileImage = _user.HasProfileImage;
+
+            return View("Profile", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromForm] EditProfileViewModel model)
+        {
+            var user = HttpContext.User;
+            var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            var _user = _userService.GetByEmail(email);
+
             if (user == null)
             {
                 return NotFound(Messages.UserNotFound);
             }
 
-                return View(user);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _userService.ChangePassword(_user.Id, model.CurrentPassword, model.NewPassword);
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("CurrentPassword", "Invalid password!");
+                }
+            }
+
+            model.FirstName = _user.FirstName;
+            model.LastName = _user.LastName;
+            model.HasProfileImage = _user.HasProfileImage;
+
+            return View("Profile", model);
+        }
+        public async Task<IActionResult> ProfilePicture(string email)
+        {
+            var user = _userService.GetByEmail(email);
+            var pfpName = user.Id + ".png";
+
+            // Load profile picture data
+            byte[] imageData = _cloudStorageService.GetImageContent(pfpName, "profile-pictures/");
+
+            return File(imageData, "image/png");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProfilePicture(IFormFile file)
+        {
+            var user = HttpContext.User;
+            var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            var _user = _userService.GetByEmail(email);
+
+            //string extension = Path.GetExtension(file.FileName)?.ToLower();
+            string newFileName = _user.Id + ".png";
+            if (file != null && file.Length > 0)
+            {
+                using (var fileStream = file.OpenReadStream())
+                {
+                    // Use the dynamically fetched bucket name
+                    await _cloudStorageService.UploadFileAsync("profile-pictures/" + newFileName, fileStream);
+                }
+            }
+
+            _user.HasProfileImage = true;
+
+            _userService.Update(_user.Id, _user);
+
+            return RedirectToAction("Profile");
+        }
+
+        private string GetImageContentType(string imageName)
+        {
+            // Determine the content type based on the file extension
+            string extension = Path.GetExtension(imageName)?.ToLower();
+
+            switch (extension)
+            {
+                case ".jpg":
+                    return "image/jpg";
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                // Add additional cases for other supported formats
+                default:
+                    return null; // Unsupported format
+            }
         }
 
         // GET: /User/ChangePassword

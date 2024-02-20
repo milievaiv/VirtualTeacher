@@ -23,6 +23,7 @@ namespace VirtualTeacher.Data
         public DbSet<CourseTopic> CoursesTopics { get; set; }
 
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<AssignmentContent> AssignmentContents { get; set; }
         public DbSet<TeacherAssignment> TeachersAssigments { get; set; }
 
         //Bridge tables

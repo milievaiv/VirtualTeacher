@@ -26,6 +26,8 @@ namespace VirtualTeacher.Models
         public string LastName { get; set; }
 
         public UserRole Role { get; set; }
+
+        public bool HasProfileImage { get; set; }
         //[Required]
         //public bool IsDeleted { get; set; }
 

@@ -1,119 +1,88 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
-    <style>
-        .main-wrapper {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-container {
-            /* Keep main content on top of SVG */
-            position: relative;
-            z-index: 1;
-        }
-
-        .svg-container {
-            /* Position SVG behind main content */
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 0; /* Ensure SVG is behind main content */
-        }
-
-        .profile-header {
-            background: rgb(97,94,152);
-            background: linear-gradient(90deg, rgba(97,94,152,1) 0%, rgba(182,165,226,1) 0%, rgba(172,237,209,1) 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-
-            .profile-header h1 {
-                font-size: 36px;
-                margin-bottom: 20px;
-            }
-
-            .profile-header p {
-                font-size: 18px;
-                margin-bottom: 0;
-                color: black; /* Change email font color to black */
-            }
-
-        .profile-picture {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-
-        /* Adjust card-body width */
-        .card-body {
-            padding: 40px;
-        }
-    </style>
-</head>
-<body>
-    <div class="main-wrapper">
-        <div class="svg-container">
-            <!-- SVG container with your SVG image -->
-            <img src="~/img/sidelines.svg" class="" alt="">
-        </div>
-        <div class="container mt-5 main-container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <!-- Center the content -->
-                    <div class="card">
-                        <div class="card-header bg-dark text-white">
-                            Profile Edit
-                        </div>
-                        <div class="card-body">
-                            <div class="profile-header">
-                                <img src="path_to_your_profile_picture" alt="Profile Picture" class="profile-picture">
-                                <h1>@Model.FirstName @Model.LastName</h1>
-                                <p>@Model.Email</p>
+﻿@model VirtualTeacher.Models.ViewModel.UserViewModel.EditProfileViewModel
+<div style="margin-top: 0px!important; height: 100vh; max-width: unset; background-image: url(/img/sidelines.svg); background-size: cover" class="container mt-5 main-container">
+    <div style="top: 10vh; position: relative;" class="row">
+        <div class="col-md-8 mx-auto">
+            <!-- Center the content -->
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Profile Edit
+                </div>
+                <div class="card-body" style="display: flex;">
+                    <div style="    max-width: 30vh; display: flex; flex-direction: column; align-items: center; border-right: 1px #cdcdcd solid; padding-right: 20px; margin-right: 20px;">
+                        @if (!Model.HasProfileImage)
+                        {
+                            <div style="max-height: 100px;max-width: 100px;min-height: 100px;min-width: 100px;border-radius: 50%;overflow: hidden;margin: 20px;">
+                                <img src="/img/default-pfp.png" style="height: 100%; width: 100%;" alt="Profile Picture">
                             </div>
-                            <form>
-                                <div class="form-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="Enter first name" autocomplete="given-name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email" autocomplete="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Enter password">
-                                    @*<span asp-validation-for=""*@
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password">
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        <input type="file" name="ProfileImage" accept="image/png, image/gif, image/jpeg" />
-                                    </label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update Profile</button>
-                            </form>
-                        </div>
+                        }
+                        else
+                        {
+                            <div style="max-height: 100px;max-width: 100px;min-height: 100px;min-width: 100px;border-radius: 50%;overflow: hidden;margin: 20px;">
+                                <img src="@Url.Action("ProfilePicture", "User", new { email = Model.Email })" style="height: 100%; width: 100%; object-fit: cover;" alt="Profile Picture" />
+                            </div>
+                        }
+                        <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="ProfilePicture" style="width: 100%;">
+                            <!-- Center the form -->
+                            <div class="form-group" style="width: 100%;">
+                                <label for="file">Choose profile picture:</label>
+                                <input type="file" name="file" id="file" class="form-control" required />
+                            </div>
+                            <div style="width: 100%; display: flex; justify-content: center;">
+                                <!-- Center the button -->
+                                <button class="auth-btn btn btn-primary" style="padding:10px; border-radius: 10px; width: 15vh;" type="submit">Upload</button>
+                            </div>
+                        </form>
                     </div>
+                    <form action="/user/editprofile" method="post" style="max-width: 20vh; margin-right: 50px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 mb-3">
+                                <!-- User Name -->
+                                <label for="firstName" class="form-label">First name</label>
+                                <input asp-for="FirstName" type="text" id="firstName" value = "@Model.FirstName" class="form-control">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mb-3">
+                                <!-- User Name -->
+                                <label for="lastName" class="form-label">Last name</label>
+                                <input asp-for="LastName" type="text" id="lastName" value="@Model.LastName" class="form-control">
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 mb-0 d-grid gap-2">
+                                <!-- Button -->
+                                <button class="auth-btn btn btn-primary" style="padding:10px; border-radius: 10px; width: 15vh;" type="submit">Edit</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="ChangePassword">
+                        <div class="col-lg-12 col-md-12 mb-3">
+                            <!-- Password -->
+                            <label for="currentPassword" class="form-label">Current password</label>
+                            <input asp-for="CurrentPassword" type="password" id="currentPassword" class="form-control" placeholder="**************" required>
+                            <span asp-validation-for="CurrentPassword" class="text-danger"></span> <!-- Display validation error message -->
+                        </div>
+                        <div class="col-lg-12 col-md-12 mb-3">
+                            <!-- Password -->
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input asp-for="NewPassword" type="password" id="newPassword" class="form-control" placeholder="**************" required>
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 mb-3">
+                            <!-- Password -->
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input asp-for="ConfirmNewPassword" type="password" id="confirmPassword" class="form-control" placeholder="**************" required>
+                            <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 mb-0 d-grid gap-2">
+                            <!-- Button -->
+                            <button class="auth-btn btn btn-primary" style="padding:10px; border-radius: 10px; width: 15vh;" type="submit">Save</button>
+                        </div>
+                    </form>
+                    
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>

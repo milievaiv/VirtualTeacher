@@ -100,7 +100,9 @@
     <PackageReference Include="Google.Cloud.Storage.V1" Version="4.7.0" />
     <PackageReference Include="Google.Protobuf" Version="3.25.2" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="3.0.50813.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.25" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.25" />
