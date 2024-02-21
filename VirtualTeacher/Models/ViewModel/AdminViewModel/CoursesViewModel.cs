@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Hosting;
-using VirtualTeacher.Models.Search;
 
 namespace VirtualTeacher.Models.ViewModel.AdminViewModel
 {
     public class CoursesViewModel
     {
         public IList<Course>? Courses { get; set; }
-        public Search.Search? SearchModel { get; set; }
+        public Search? SearchModel { get; set; }
 
         // Pagination properties
         public int CurrentPage { get; set; }

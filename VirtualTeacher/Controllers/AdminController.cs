@@ -7,7 +7,6 @@ using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
 using VirtualTeacher.Models.QueryParameters;
-using VirtualTeacher.Models.Search;
 using VirtualTeacher.Models.ViewModel.AdminViewModel;
 using VirtualTeacher.Models.ViewModel.CourseViewModel;
 using VirtualTeacher.Models.ViewModel.UserViewModel;

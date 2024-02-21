@@ -1,4 +1,4 @@
-﻿namespace VirtualTeacher.Models.Search
+﻿namespace VirtualTeacher.Models.ViewModel.AdminViewModel
 {
     public class Search
     {

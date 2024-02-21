@@ -17,15 +17,15 @@
     <img src="/img/astronaut-flying-with-pencil-rocket-.webp" alt="Astronaut reading a book" class="img-fluid" style="width: 300px">
     <h3> Edit Profile</h3>
 </div>
-<div style="height: 80vh; background-size: cover; display: flex; align-items: center; justify-content: center;" class="container-fluid">
+<div style="height: 80vh; background-size: cover; display: flex; align-items: center; justify-content: center;"class="container-fluid">
     <div class="row justify-content-center" style="width: 1100px">
-        <div class="col-md-10 col-lg-8">
+        <div class="col-md-10 col-lg-12">
             <div class="card shadow-lg">
                @*  <div class="card-header bg-primary text-white text-center">
                    
                 </div> *@
                 <div class="card-body d-flex justify-content-start">
-                    <div class="profile-section d-flex flex-column align-items-center border-right pr-4" style="flex: 1; min-width: 250px;">
+                    <div class="profile-section d-flex flex-column align-items-center border-right pr-4" style="flex: 1;min-width: 66vh;padding: 5vh; padding-right: 5vh!important;">
                         @if (!Model.HasProfileImage)
                         {
                             <img src="/img/default-pfp.png" class="rounded-circle mb-3" style="width: 200px; height: 200px;" alt="Default Profile Picture">
@@ -45,8 +45,8 @@
                         </form>
                         @if (Model.Role == UserRole.Teacher)
                         {
-                            <a href="@Url.Action("Create", "Courses")" class="btn btn-outline-success btn-block" style="margin:10px; margin-top: 20px">Create Course</a>
-                            <a href="@Url.Action("CreateLecture", "Lectures")" class="btn btn-outline-success btn-block">Add Lecture</a>
+                            <a href="@Url.Action("Create", "Courses")" class="btn btn-outline-success btn-block" style="width: 20vh; margin:10px; margin-top: 20px">Create Course</a>
+                            <a href="@Url.Action("CreateLecture", "Lectures")" class="btn btn-outline-success btn-block" style="width: 20vh">Add Lecture</a>
                         }
                     </div>
                     <div class="edit-form pl-4" style="flex: 2;">
