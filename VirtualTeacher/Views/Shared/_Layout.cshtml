@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="/css/course.css">
     <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-    <style>
+    <style scoped>
         .layout-header {
             grid-area: header;
         }
@@ -186,7 +186,7 @@
         #navigation {
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin-left: 40px;
             display: flex;
             align-items: center;
         }
@@ -228,6 +228,24 @@
     }
 }
 
+          .container {
+            margin-top: 20px;
+        }
+
+        /* .btn:hover {
+            color: #fff;
+        }
+
+        .input-text:focus {
+            box-shadow: 0px 0px 0px;
+            border-color: #f8c146;
+            outline: 0px;
+        }
+
+        .form-control {
+            border: 1px solid #f8c146;
+        } */
+
 
     </style>
 </head>
@@ -247,13 +265,23 @@
                                         <li><a href="/Home/About">About</a></li>
                                         <li><a href="/Home/Contact">Contact</a></li>
                                         <!-- Ensure the search form is also within an <li> for proper alignment -->
-                                        <li class="nav-item search-bar">
-                                            <form class="form-inline" id="searchForm" action="/wiki-search" method="GET">
-                                                <input class="form-control mr-sm-2" type="search" id="searchInput" name="query" placeholder="Search" aria-label="Search">
-                                                @* <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>*@
-                                                <button class="boxed_btn_orange" style="font-family: 'Poppins'; text-align:center;" type="submit">Search</button>
-                                            </form>
-                                        </li>
+                                        <div class="container justify-content-center">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="input-group mb-3">
+                                                        <form action="/wiki-search" method="GET" class="w-100 d-flex">
+                                                            <input type="text" class="form-control input-text" name="query" placeholder="Search..." aria-label="Search">
+                                                            @* <div class="input-group-append">
+                                                                
+                                                            </div> *@
+                                                            <button class="btn btn-outline-warning btn-lg" style="border-radius: .95rem;" type="submit">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </ul>
                                     
                                 </nav>
