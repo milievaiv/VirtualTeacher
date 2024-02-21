@@ -6,6 +6,7 @@ namespace VirtualTeacher.Models.ViewModel.LectureViewModel
 {
     public class LectureCreateViewModel
     {
+        [Display(Name = "Course")]
         public int CourseId { get; set; } 
 
         [Required(ErrorMessage = "The Title field is required.")]

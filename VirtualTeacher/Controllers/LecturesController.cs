@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VirtualTeacher.Attributes;
 using VirtualTeacher.Models;
@@ -63,8 +62,11 @@ namespace VirtualTeacher.Controllers
 
                 lectureService.Create(course, lecture);
 
-                
-                return RedirectToAction("Index", "Courses");
+
+                var url = Url.Action("Details", "Courses", new { courseId = lecture.CourseId }, Request.Scheme);
+                url = url.Replace("Courses/Details", $"Courses/{lecture.CourseId}/Details");
+
+                return Redirect(url);
             }
 
             // If we get here, something was wrong with the form data
