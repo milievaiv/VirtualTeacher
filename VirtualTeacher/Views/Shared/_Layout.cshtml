@@ -260,21 +260,21 @@
                             <div class="main-menu d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="/">Home</a></li>
+                                        <li><a class="active" href="/">Home</a></li>                                        
                                         <li><a href="/Courses/Index">Courses</a></li>
                                         <li><a href="/Home/About">About</a></li>
                                         <li><a href="/Home/Contact">Contact</a></li>
                                         <!-- Ensure the search form is also within an <li> for proper alignment -->
                                         <div class="container justify-content-center">
                                             <div class="row">
-                                                <div class="col-md-8">
+                                                <div class="col-md-8" style="max-width: 50vh; width: 50vh; min-width: 50vh;">
                                                     <div class="input-group mb-3">
                                                         <form action="/wiki-search" method="GET" class="w-100 d-flex">
                                                             <input type="text" class="form-control input-text" name="query" placeholder="Search..." aria-label="Search">
                                                             @* <div class="input-group-append">
                                                                 
                                                             </div> *@
-                                                            <button class="btn btn-outline-warning btn-lg" style="border-radius: .95rem;" type="submit">
+                                                            <button class="btn btn-outline-warning btn-lg" style="border-radius: .95rem; margin-left: 10px;" type="submit">
                                                                 <i class="fa fa-search"></i>
                                                             </button>
                                                         </form>
