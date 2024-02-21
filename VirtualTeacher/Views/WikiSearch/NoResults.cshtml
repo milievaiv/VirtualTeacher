@@ -1,0 +1,45 @@
+﻿@using VirtualTeacher.Models.ViewModel.Search;
+@model SearchViewModel;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Results</title>
+
+    <style>
+        body {
+            margin-top: 40px;
+            background: #dcdcdc;
+            font-family: Arial, sans-serif;
+            color: #333; 
+            text-align: center; 
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+        }
+
+        .no-results {
+            font-size: 4em; 
+            font-weight: bold;
+            margin-top: 350px; 
+            position: absolute; 
+            left: 0; 
+            right: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image">
+        <img src="~/img/CloudsBirds.svg" class="" alt="">
+    </div>
+    <div class="no-results">No search results found.</div>
+</body>
+</html>

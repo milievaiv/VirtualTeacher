@@ -11,7 +11,8 @@
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="single_courses">
                                     <div class="thumb">
-                                        <img src="@Url.Content("~/img/back-to-school.jpg")" alt="course-img">
+                                        <img src="@Url.Action("CoursePicture", "Courses", new { courseId = course.CourseId })" alt="Course Picture" style="width: 400px; height: 300px"/>
+                                        @* <img src="@Url.Content("~/img/back-to-school.jpg")" alt="course-img"> *@
                                     </div>
                                     <div class="courses_info">
                                         <h3><a asp-controller="Courses" asp-action="Details" asp-route-id="@course.CourseId">@course.Title</a></h3>

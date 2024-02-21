@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="/css/course.css">
     <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-    <style>
+    <style scoped>
         .layout-header {
             grid-area: header;
         }
@@ -67,30 +67,30 @@
             }
 
         /*  media (max-width: 767px) {
-                                    .nav-item.search-bar {
-                                        display: none;
-                        }
-                        } */
+                                            .nav-item.search-bar {
+                                                display: none;
+                                }
+                                } */
 
         .row {
             display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between; 
-            align-items: stretch; 
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
         }
 
         .footer-about, .footer-links, .footer-contact {
-            flex: 1; 
-            padding: 0 15px; 
+            flex: 1;
+            padding: 0 15px;
         }
 
         @@media (max-width: 768px) {
             .row {
-                flex-direction: column; 
+                flex-direction: column;
             }
 
             .footer-about, .footer-links, .footer-contact {
-                padding: 15px 0; 
+                padding: 15px 0;
             }
         }
 
@@ -156,9 +156,97 @@
         p {
             color: white;
         }
-        h6{
+
+        h6 {
             font-size: 20px;
         }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            color: #FFF; /* White text */
+            font-family: 'Poppins', sans-serif;
+        }
+
+            .navbar-brand > img {
+                height: 55px; /* Adjust based on your navbar's height */
+                margin-right: 10px;
+            }
+
+            .navbar-brand .smart {
+                font-weight: 300; /* Lighter weight for 'Smart' */
+                color: yellow;
+            }
+
+            .navbar-brand .stars {
+                font-weight: 700; /* Bolder weight for 'Stars' */
+                color: yellow;
+            }
+
+        #navigation {
+            list-style: none;
+            padding: 0;
+            margin-left: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+            #navigation li {
+                margin-right: 20px; /* Adjust spacing between items as needed */
+            }
+
+                #navigation li a {
+                    text-decoration: none;
+                    color: #FFF
+                }
+
+        /* Adjustments for the search form to align it properly */
+        .nav-item.search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-inline {
+            display: flex;
+            align-items: center;
+        }
+        @@media (max-width: 992px) { /* Adjust this breakpoint as needed */
+    .nav-item.search-bar form input[type="search"] {
+        flex-grow: 1; /* Allows the input to grow but not beyond the available space */
+        width: auto; /* Adjusts the width automatically */
+        max-width: 140px; /* Prevents the input from taking too much space */
+    }
+
+    .nav-item.search-bar form button {
+        white-space: nowrap; /* Prevents the text inside the button from wrapping */
+    }
+}
+
+@@media (max-width: 768px) {
+    .nav-item.search-bar {
+        display: none; /* Optionally hide the search bar on very small screens */
+    }
+}
+
+          .container {
+            margin-top: 20px;
+        }
+
+        /* .btn:hover {
+            color: #fff;
+        }
+
+        .input-text:focus {
+            box-shadow: 0px 0px 0px;
+            border-color: #f8c146;
+            outline: 0px;
+        }
+
+        .form-control {
+            border: 1px solid #f8c146;
+        } */
+
+
     </style>
 </head>
 
@@ -169,24 +257,42 @@
                 <div class="container-fluid p-0">
                     <div class="row align-items-center no-gutters">
                         <div class="col-xl-5 col-lg-7">
-                            <div class="main-menu  d-none d-lg-block">
+                            <div class="main-menu d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="/">Home</a></li>
+                                        <li><a class="active" href="/">Home</a></li>                                        
                                         <li><a href="/Courses/Index">Courses</a></li>
                                         <li><a href="/Home/About">About</a></li>
                                         <li><a href="/Home/Contact">Contact</a></li>
-                                        @*   @if (ViewData["Title"]?.ToString() != "Lectures")
-                                        {
-                                        } *@
+                                        <!-- Ensure the search form is also within an <li> for proper alignment -->
+                                        <div class="container justify-content-center">
+                                            <div class="row">
+                                                <div class="col-md-8" style="max-width: 50vh; width: 50vh; min-width: 50vh;">
+                                                    <div class="input-group mb-3">
+                                                        <form action="/wiki-search" method="GET" class="w-100 d-flex">
+                                                            <input type="text" class="form-control input-text" name="query" placeholder="Search..." aria-label="Search">
+                                                            @* <div class="input-group-append">
+                                                                
+                                                            </div> *@
+                                                            <button class="btn btn-outline-warning btn-lg" style="border-radius: .95rem; margin-left: 10px;" type="submit">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </ul>
+                                    
                                 </nav>
+                               
                             </div>
                         </div>
+
                         @if (!isLogged)
                         {
                             <div style="padding-right:5vh" class="col-xl-7 col-lg-3 d-none d-lg-block">
-                                <div class="log_chat_area d-flex align-items-center">
+                                <div class="log_chat_area d-flex align-items-center">                                    
                                     <a href="/Auth/SignIn" style="font-family: 'Poppins'" class="login popup-with-form">
                                         <i class="flaticon-user"></i>
                                         <span>Sign in</span>
@@ -239,8 +345,8 @@
                         <ul>
                             <li><a href="/Home/About">About Us</a></li>
                             <li><a href="/Courses/Index">Courses</a></li>
-                             <li><a href=#>FAQ</a></li>
-                            <li><a href=#>Pricing</a></li> 
+                            <li><a href=#>FAQ</a></li>
+                            <li><a href=#>Pricing</a></li>
                         </ul>
                     </div>
                     <div class="footer-contact">

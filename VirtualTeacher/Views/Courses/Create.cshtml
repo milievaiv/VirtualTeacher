@@ -1,0 +1,127 @@
+﻿@model VirtualTeacher.Models.ViewModel.CourseViewModel.CourseCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Course";
+}
+<style scoped>
+    .project-form-container {
+        max-width: 600px;
+        margin: auto;
+        background-color: #fff;
+        padding: 100px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .modern-form .form-control, .modern-form .form-control:focus {
+        border-color: #ced4da;
+        box-shadow: none;
+    }
+
+    .modern-form .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .modern-form .btn-outline-secondary {
+        border-color: #6c757d;
+    }
+
+    .modern-form .form-label {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 768px) {
+        .project-form-container {
+            padding: 1rem;
+        }
+    }
+
+    .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background-color: yellow;
+        border-radius: 50%;
+    }
+
+    .bradcam_area.breadcam_bg.overlay2 {
+        position: relative;
+        overflow: hidden; /* Keeps stars within the div */
+    }
+</style>
+<div class="bradcam_area breadcam_bg overlay2" style="padding: 80px; margin-bottom: 100px">
+    <img src="/img/astronomy-science.webp" alt="Astronaut reading a book" class="img-fluid">
+    <h3>Add Course</h3>
+</div>
+<div class="project-form-container mt-5" style="max-width: 800px; padding: 30px; margin-bottom: 100px">
+ @*    <h3>Add Course</h3> *@
+
+    <form asp-action="Create" asp-controller="Courses" method="post" enctype="multipart/form-data" class="modern-form">
+        <div class="form-row">
+            <!-- Course Title -->
+            <div class="col-md-12 mb-3">
+                <label asp-for="Title" class="form-label">Course Title <span class="text-danger">*</span></label>
+                <input asp-for="Title" class="form-control" placeholder="Enter course title">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <!-- Course Topic -->
+            <div class="col-md-12 mb-3">
+                <label asp-for="CourseTopic" class="form-label">Course Topic <span class="text-danger">*</span></label>
+                <input asp-for="CourseTopic" class="form-control" placeholder="Enter course topic">
+                <span asp-validation-for="CourseTopic" class="text-danger"></span>
+            </div>
+
+            <!-- Description -->
+            <div class="col-md-12 mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Course description..."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Start Date -->
+            <div class="col-md-6 mb-3">
+                <label asp-for="StartDate" class="form-label">Start Date <span class="text-danger">*</span></label>
+                <input asp-for="StartDate" class="form-control">
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <!-- Course Photo -->
+            <div class="col-md-12 mb-3">
+                <label asp-for="Photo" class="form-label">Course Photo</label>
+                <input asp-for="Photo" type="file" class="form-control">
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" name="courseId" value="@Model.CourseId" />
+            <!-- Buttons -->
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-outline-success" style="width: 20vh">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select the specific div with all three classes
+        var bradcamArea = document.querySelector(".bradcam_area.breadcam_bg.overlay2");
+        setInterval(createStar, 100);
+
+        function createStar() {
+            var right = Math.random() * bradcamArea.offsetWidth;
+            var top = Math.random() * bradcamArea.offsetHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            bradcamArea.appendChild(star); // Append the star to the targeted div
+            star.style.top = top + "px";
+            star.style.left = Math.random() * bradcamArea.offsetWidth + "px"; // Adjust to use left for horizontal positioning
+
+            // Adjust or remove the function below based on your animation needs
+            setTimeout(function () { star.remove(); }, 3000); // Remove the star after 3 seconds
+        }
+    });
+
+</script>

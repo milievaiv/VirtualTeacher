@@ -22,6 +22,8 @@ namespace VirtualTeacher.Models.ViewModel.CourseViewModel
         public double? AverageRating { get; set; }
 
         public Teacher Creator { get; set; }
+
+        public string PhotoUrl { get; set; }
        
 
         public ICollection<Lecture> Lectures { get; set; }

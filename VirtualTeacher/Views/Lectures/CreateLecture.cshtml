@@ -1,0 +1,111 @@
+﻿@model VirtualTeacher.Models.ViewModel.LectureViewModel.LectureCreateViewModel
+@{
+    ViewData["Title"] = "Create Lecture";
+}
+<style scoped>
+    .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background-color: yellow;
+        border-radius: 50%;
+    }
+
+    .bradcam_area.breadcam_bg.overlay2 {
+        position: relative;
+        overflow: hidden; /* Keeps stars within the div */
+    }
+</style>
+<div class="bradcam_area breadcam_bg overlay2" style="padding: 80px">
+    <img src="/img/astronaut-reading-a-book.webp" alt="Astronaut reading a book" class="img-fluid">
+    <h3>Create Lecture</h3>
+</div>
+<div class="container mt-5" style="margin-bottom: 100px">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="CreateLecture" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" placeholder="Title" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea asp-for="Description" class="form-control" placeholder="Description" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="VideoURL" class="control-label"></label>
+                            <input asp-for="VideoURL" class="form-control" placeholder="Video URL" />
+                            <span asp-validation-for="VideoURL" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label asp-for="CourseId" class="control-label"></label>
+                            <select asp-for="CourseId" asp-items="@Model.Courses" class="form-control">
+                                <option value="">Select a course</option>
+                            </select>
+                            <span asp-validation-for="CourseId" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-success" style="width: 20vh">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div> 
+        @* <div class="col-lg-6 d-flex align-items-center">
+            <img src="/img/astronaut-reading-a-book.webp" alt="Astronaut reading a book" class="img-fluid">
+        </div>  *@
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+ }
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select the specific div with all three classes
+        var bradcamArea = document.querySelector(".bradcam_area.breadcam_bg.overlay2");
+        setInterval(createStar, 100);
+
+        function createStar() {
+            var right = Math.random() * bradcamArea.offsetWidth;
+            var top = Math.random() * bradcamArea.offsetHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            bradcamArea.appendChild(star); // Append the star to the targeted div
+            star.style.top = top + "px";
+            star.style.left = Math.random() * bradcamArea.offsetWidth + "px"; // Adjust to use left for horizontal positioning
+
+            // Adjust or remove the function below based on your animation needs
+            setTimeout(function () { star.remove(); }, 3000); // Remove the star after 3 seconds
+        }
+    });
+
+</script>
+
+

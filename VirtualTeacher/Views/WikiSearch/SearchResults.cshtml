@@ -1,0 +1,164 @@
+﻿@using VirtualTeacher.Models.ViewModel.Search;
+@model SearchViewModel;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikipedia Search Results</title>
+    <link rel="stylesheet" href="~/css/animate.css">
+    <style>
+        /* Your CSS styles here */
+        body {
+            margin-top: 150px;
+            background: #dcdcdc;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure the background image is behind other content */
+        }
+
+        .search-results {
+            text-align: center; /* Center-align content */
+            position: relative; /* Ensure content is positioned relative to the body */
+            z-index: 1; /* Ensure content is above the background image */
+            opacity: 0; /* Initially hide the content */
+        }
+
+        .search-results-title {
+            font-size: 3em; /* Adjust font size */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Add text shadow */
+            margin-bottom: 20px; /* Add spacing below the title */
+        }
+
+        .card {
+            border: 2px solid #e3eaef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px; 
+            background: rgb(97,94,152);
+            background: linear-gradient(0deg, rgba(97,94,152,1) 0%, rgba(245,249,255,1) 0%, rgba(237,255,251,1) 73%);
+            opacity: 0; 
+            max-height: 200px; 
+            overflow: hidden; 
+        }
+
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.5em; 
+            text-align: left; 
+            cursor: pointer; 
+            color: #222; 
+            text-decoration: none; 
+            display: inline-block; 
+        }
+
+            .card-title:hover {
+                text-decoration: underline; 
+            }
+
+        .card-snippet {
+            color: #6c757d;
+            font-size: 1.2em; 
+            min-height: 4em;
+            max-height: 100px; 
+            overflow: hidden; 
+            text-align: left; 
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image">
+        <img src="~/img/CloudsBirds.svg" class="" alt="">
+    </div>
+    <div class="search-results" id="search-results">
+       
+        <h2 class="search-results-title animated fadeInUp">Search Results</h2>
+        <div id="results-container" class="container">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchQuery = getSearchQueryFromURL();
+            if (searchQuery) {
+                fetchSearchResults(searchQuery);
+            }
+            
+            setTimeout(() => {
+                const searchResultsContainer = document.getElementById('search-results');
+                searchResultsContainer.style.opacity = 1;
+            }, 100); 
+        });
+
+        function getSearchQueryFromURL() {
+            const queryParams = new URLSearchParams(window.location.search);
+            return queryParams.get('query');
+        }
+
+        function fetchSearchResults(searchQuery) {
+            fetch(`/api/wiki-search?query=${searchQuery}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to fetch search results');
+                    }
+                })
+                .then(data => {
+                    console.log(data); 
+                    displaySearchResults(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        function displaySearchResults(results) {
+            const resultsContainer = document.getElementById('results-container');
+            results.forEach(result => {
+                const card = document.createElement('div');
+                card.classList.add('card', 'animated', 'fadeInUp');
+                setTimeout(() => { 
+                    card.style.opacity = 1;
+                }, 100); 
+
+                const title = document.createElement('div');
+                title.classList.add('card-title');
+                title.textContent = result.title;
+                title.addEventListener('click', () => {
+                    openLinkInNewTab(`https://en.wikipedia.org/wiki/${encodeURIComponent(result.title)}`);
+                });
+
+                const snippet = document.createElement('div');
+                snippet.classList.add('card-snippet');
+                snippet.innerHTML = removeSearchMatches(result.snippet) + '...';
+
+                card.appendChild(title);
+                card.appendChild(snippet);
+
+                resultsContainer.appendChild(card);
+            });
+        }
+
+        function removeSearchMatches(snippet) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = snippet;
+            const searchMatches = tempDiv.querySelectorAll('span.searchmatch');
+            searchMatches.forEach(match => match.parentNode.removeChild(match));
+            return tempDiv.innerHTML;
+        }
+
+        function openLinkInNewTab(url) {
+            const newTab = window.open(url, '_blank');
+            newTab.focus();
+        }
+    </script>
+</body>
+</html>
