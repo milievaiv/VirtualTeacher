@@ -38,10 +38,25 @@
         }
     }
 
-</style>
+    .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background-color: yellow;
+        border-radius: 50%;
+    }
 
-<div class="project-form-container mt-5">
+    .bradcam_area.breadcam_bg.overlay2 {
+        position: relative;
+        overflow: hidden; /* Keeps stars within the div */
+    }
+</style>
+<div class="bradcam_area breadcam_bg overlay2" style="padding: 80px; margin-bottom: 100px">
+    <img src="/img/astronomy-science.webp" alt="Astronaut reading a book" class="img-fluid">
     <h3>Add Course</h3>
+</div>
+<div class="project-form-container mt-5" style="max-width: 800px; padding: 30px; margin-bottom: 100px">
+ @*    <h3>Add Course</h3> *@
 
     <form asp-action="Create" asp-controller="Courses" method="post" enctype="multipart/form-data" class="modern-form">
         <div class="form-row">
@@ -83,10 +98,30 @@
             <input type="hidden" name="courseId" value="@Model.CourseId" />
             <!-- Buttons -->
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <!-- Cancel button handling might need to redirect to a specific page -->
-                <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                <button type="submit" class="btn btn-outline-success" style="width: 20vh">Submit</button>
             </div>
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select the specific div with all three classes
+        var bradcamArea = document.querySelector(".bradcam_area.breadcam_bg.overlay2");
+        setInterval(createStar, 100);
+
+        function createStar() {
+            var right = Math.random() * bradcamArea.offsetWidth;
+            var top = Math.random() * bradcamArea.offsetHeight;
+            var star = document.createElement("div");
+            star.classList.add("star");
+            bradcamArea.appendChild(star); // Append the star to the targeted div
+            star.style.top = top + "px";
+            star.style.left = Math.random() * bradcamArea.offsetWidth + "px"; // Adjust to use left for horizontal positioning
+
+            // Adjust or remove the function below based on your animation needs
+            setTimeout(function () { star.remove(); }, 3000); // Remove the star after 3 seconds
+        }
+    });
+
+</script>

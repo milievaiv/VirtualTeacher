@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Teacher\**" />
+    <Content Remove="Views\Teacher\**" />
+    <EmbeddedResource Remove="Views\Teacher\**" />
+    <None Remove="Views\Teacher\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Attributes\AuthorizeApiUser.cs" />
     <Compile Remove="Attributes\AuthorizeApiUserAttribute.cs" />
     <Compile Remove="Attributes\AuthorizeUser.cs" />
@@ -121,10 +128,6 @@
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Teacher\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4lib_4bootstrap_4dist_4css_4bootstrap-grid_1min_1css_1map__JsonSchema="https://json.schemastore.org/swa-cli.config.json" /></VisualStudio></ProjectExtensions>

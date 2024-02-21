@@ -22,7 +22,7 @@ namespace VirtualTeacher.Controllers.ExternalApi
             {
                 if (string.IsNullOrWhiteSpace(query))
                 {
-                    return BadRequest("Search query cannot be empty.");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 var searchResponse = _wikiService.GetWikiMediaSearchRequest(query);

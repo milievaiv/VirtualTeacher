@@ -209,7 +209,7 @@ namespace VirtualTeacher.Controllers
         }
 
 
-        [AuthorizeUsers("student")]
+        [AuthorizeUsers("student, teacher")]
         [HttpGet("courses/{id}/lectures")]
         public IActionResult Lectures([FromRoute] int id)
         {
