@@ -3,6 +3,7 @@ using VirtualTeacher.Data;
 using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Repositories
 {
@@ -38,6 +39,12 @@ namespace VirtualTeacher.Repositories
             var teacher = GetTeachers().FirstOrDefault(u => u.Email == email);
 
             return teacher;
+        }
+        public IList<Teacher> GetAll()
+        {
+            var teachers = GetTeachers().ToList();
+
+            return teachers;
         }
 
         public bool Delete(int id)
@@ -95,6 +102,17 @@ namespace VirtualTeacher.Repositories
             }
             return true;
         }
+
+        public IList<Teacher> FilterBy(UserQueryParameters userQueryParameters)
+        {
+            IQueryable<Teacher> result = GetTeachers();
+
+            result = FilterByEmail(result, userQueryParameters.Email);
+            result = FilterByFirstName(result, userQueryParameters.FirstName);
+            result = FilterByLastName(result, userQueryParameters.LastName);
+
+            return result.ToList();
+        }
         #endregion
 
         private IQueryable<Teacher> GetTeachers()
@@ -106,6 +124,42 @@ namespace VirtualTeacher.Repositories
         private IQueryable<ApprovedTeacher> IQ_GetApprovedTeachers()
         {
             return context.ApprovedTeachers;
+        }
+
+        private static IQueryable<Teacher> FilterByEmail(IQueryable<Teacher> users, string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                return users.Where(user => user.Email.Contains(email));
+            }
+            else
+            {
+                return users;
+            }
+        }
+
+        private static IQueryable<Teacher> FilterByFirstName(IQueryable<Teacher> users, string firstName)
+        {
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                return users.Where(user => user.FirstName.Contains(firstName));
+            }
+            else
+            {
+                return users;
+            }
+        }
+
+        private static IQueryable<Teacher> FilterByLastName(IQueryable<Teacher> users, string lastName)
+        {
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                return users.Where(user => user.LastName.Contains(lastName));
+            }
+            else
+            {
+                return users;
+            }
         }
         #endregion
     }

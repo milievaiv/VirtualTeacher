@@ -1,5 +1,6 @@
 ﻿using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.AuthenticationDTO;
+using VirtualTeacher.Models.QueryParameters;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 
@@ -55,9 +56,24 @@ namespace VirtualTeacher.Services
         #endregion
 
         #region Additional Methods
+        public IList<Log> Logs()
+        {
+            return adminsRepository.Logs(); 
+        }
+    
+        public Log CreateLog(Log log)
+        {
+            return adminsRepository.CreateLog(log);
+        }
+
         public ApprovedTeacher ApproveTeacher(string email)
         {
             return adminsRepository.ApproveTeacher(email);
+        }
+
+        public IList<Admin> FilterBy(UserQueryParameters userQueryParameters)
+        {
+            return adminsRepository.FilterBy(userQueryParameters);
         }
         #endregion
 

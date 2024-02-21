@@ -66,17 +66,24 @@ namespace VirtualTeacher.Attributes
                 context.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(jsonToken?.Claims, "jwt"));
 
                 // Check if the user has any of the allowed roles
-                //if (!IsAuthorized(rolesClaim))
-                //{
-                //    context.Result = new RedirectToRouteResult(new { controller = "Home", action = "Index" });
-                //}
+                if (!IsAuthorized(rolesClaim))
+                {
+                    if(rolesClaim == "admin")
+                    {
+                        context.Result = new RedirectToRouteResult(new { controller = "Admin", action = "Index" });
+                    }
+                    else
+                    {
+                        context.Result = new RedirectToRouteResult(new { controller = "Home", action = "Index" });
+                    }
+                }
             }
         }
 
         private bool IsAuthorized(string rolesClaim)
         {
             // Check if the user has any of the allowed roles based on the roles claim
-            return !string.IsNullOrEmpty(rolesClaim) && allowedRoles.Any(role => role == rolesClaim);
+            return !string.IsNullOrEmpty(rolesClaim) && allowedRoles[0].Contains(rolesClaim);
         }
     }
 }

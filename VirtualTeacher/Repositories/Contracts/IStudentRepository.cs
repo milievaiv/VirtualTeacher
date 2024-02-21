@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VirtualTeacher.Models;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Repositories.Contracts
 {
@@ -16,5 +17,7 @@ namespace VirtualTeacher.Repositories.Contracts
         public bool IsEnrolled(int studentId, int courseId);
         public void EnrollStudentInCourse(int studentId, int courseId);
         IList<Course> GetCompletedCourses(Student student);
+        IList<Student> FilterBy(UserQueryParameters userQueryParameters);
+
     }
 }

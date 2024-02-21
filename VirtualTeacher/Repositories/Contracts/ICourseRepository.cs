@@ -1,4 +1,5 @@
 ﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Repositories.Contracts
 
@@ -16,5 +17,7 @@ namespace VirtualTeacher.Repositories.Contracts
         void AddLectureToCourse(int courseId, Lecture newLecture);
         void RateCourse(int courseId, int studentId, int ratingValue, string feedback);
         void EnrollStudentInCourse(int studentId, int courseId);
+        int GetAllCourseEnrollments();
+        IList<Course> FilterBy(CourseQueryParameters filterParameters);
     }
 }

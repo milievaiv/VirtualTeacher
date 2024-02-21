@@ -1,4 +1,5 @@
 ﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Services.Contracts
 {
@@ -14,6 +15,8 @@ namespace VirtualTeacher.Services.Contracts
         double? CalculateProgress(Student student, Course course);
         IList<Course> GetEnrolledCourses(Student student);
         IList<Course> GetCompletedCourses(Student student);
+        IList<Student> FilterBy(UserQueryParameters userQueryParameters);
+
 
     }
 }

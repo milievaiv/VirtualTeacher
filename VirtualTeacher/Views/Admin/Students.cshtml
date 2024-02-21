@@ -1,0 +1,110 @@
+﻿@model VirtualTeacher.Models.ViewModel.AdminViewModel.StudentsViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="section">
+    <h1 class="section-header">
+        <div>Students</div>
+    </h1>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="display: flex;margin-bottom: 2vh;">
+                            <form asp-controller="Admin" asp-action="SearchStudents" method="post" style="width:70vh" class="d-flex">
+                                <select asp-for="SearchModel.Property" class="form-control" style="width: 20vh;margin-left:2vh;">
+                                    <option value="Email">Email</option>
+                                    <option value="FirstName">FirstName</option>
+                                    <option value="LastName">LastName</option>
+                                </select>
+                                <input asp-for="SearchModel.Value" class="form-control me-sm-2" style="width: 50vh; margin-left:1vh;" placeholder="Search">
+                                <button type="submit" style="margin-left:20px" class="btn btn-secondary my-2 my-sm-0">Search</button>
+                            </form>
+                            <div style="display:flex; margin-left: 2vh">
+                                <form asp-controller="Admin" asp-action="Students" method="get">
+                                    <button type="submit" class="btn btn-primary">Clear</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="courseTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><a asp-action="Students" asp-route-page="@Model.CurrentPage" asp-route-sortBy="Id" asp-route-sortOrder="@(Model.SortBy == "Id" && Model.SortOrder == "asc" ? "desc" : "asc")">Id</a></th>
+                                        <th><a asp-action="Students" asp-route-page="@Model.CurrentPage" asp-route-sortBy="Email" asp-route-sortOrder="@(Model.SortBy == "Email" && Model.SortOrder == "asc" ? "desc" : "asc")">Email</a></th>
+                                        <th><a asp-action="Students" asp-route-page="@Model.CurrentPage" asp-route-sortBy="FirstName" asp-route-sortOrder="@(Model.SortBy == "FirstName" && Model.SortOrder == "asc" ? "desc" : "asc")">FirstName</a></th>
+                                        <th><a asp-action="Students" asp-route-page="@Model.CurrentPage" asp-route-sortBy="LastName" asp-route-sortOrder="@(Model.SortBy == "LastName" && Model.SortOrder == "asc" ? "desc" : "asc")">LastName</a></th>
+                                        <th><a asp-action="Students" asp-route-page="@Model.CurrentPage" asp-route-sortBy="Courses_Enrolled_In" asp-route-sortOrder="@(Model.SortBy == "Courses_Enrolled_In" && Model.SortOrder == "asc" ? "desc" : "asc")">Courses_Enrolled_In</a></th>
+                                        <th><a asp-action="Students" asp-route-page="@Model.CurrentPage" asp-route-sortBy="IsDeleted" asp-route-sortOrder="@(Model.SortBy == "IsDeleted" && Model.SortOrder == "asc" ? "desc" : "asc")">IsDeleted</a></th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body">
+                                    @foreach (var student in Model.Students)
+                                    {
+                                        <tr>
+                                            <td>@student.Id</td>
+                                            <td>@student.Email</td>
+                                            <td>@student.FirstName</td>
+                                            <td>@student.LastName</td>
+                                            <td>@student.EnrolledCourses.Count</td>
+                                            <td>@student.IsDeleted</td>
+                                            <td>
+                                                @if (student.IsDeleted == false)
+                                                {
+                                                    <form asp-controller="Admin" asp-action="DeleteStudent" asp-route-page=@Model.CurrentPage asp-route-Property="@Model.SearchModel.Property" asp-route-Value="@Model.SearchModel.Value" method="post">
+                                                        <input type="hidden" name="studentId" value="@student.Id" />
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-secondary">Deleted</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <nav class="d-inline-block">
+                            <ul id="pagination" class="pagination mb-0">
+                                @if (Model.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="Students" asp-route-page="1" asp-route-SortBy="@Model.SortBy" asp-route-SortOrder="@Model.SortOrder" asp-route-Property="@Model.SearchModel.Property" asp-route-Value="@Model.SearchModel.Value">
+                                            &laquo;
+                                        </a>
+                                    </li>
+                                }
+
+                                @for (int i = Math.Max(1, Model.CurrentPage - 1); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 3); i++)
+                                {
+                                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                        <a class="page-link" asp-action="Students" asp-route-page="@i" asp-route-SortBy="@Model.SortBy" asp-route-SortOrder="@Model.SortOrder" asp-route-Property="@Model.SearchModel.Property" asp-route-Value="@Model.SearchModel.Value">
+                                            @i
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (Model.CurrentPage < Model.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="Students" asp-route-page="@Model.TotalPages" asp-route-SortBy="@Model.SortBy" asp-route-SortOrder="@Model.SortOrder" asp-route-Property="@Model.SearchModel.Property" asp-route-Value="@Model.SearchModel.Value">
+                                            &raquo;
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.CourseDTO;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Services.Contracts
 {
@@ -18,5 +19,7 @@ namespace VirtualTeacher.Services.Contracts
         // Course EnrollStudentInCourse(Student student, Course course);
         void EnrollStudentInCourse(int studentId, int courseId);
         void RateCourse(int courseId, int studentId, int ratingValue, string feedback);
+        int GetAllCourseEnrollments();
+        IList<Course> FilterBy(CourseQueryParameters filterParameters);
     }
 }

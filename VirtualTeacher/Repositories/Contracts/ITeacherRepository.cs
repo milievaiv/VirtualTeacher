@@ -1,4 +1,5 @@
 ﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Repositories.Contracts
 {
@@ -13,5 +14,7 @@ namespace VirtualTeacher.Repositories.Contracts
         void Create(Application application);
         bool ApplicationExists(string requestId);
         bool FiveDaysPastApplication(string email);
+        IList<Teacher> GetAll();
+        IList<Teacher> FilterBy(UserQueryParameters userQueryParameters);
     }
 }

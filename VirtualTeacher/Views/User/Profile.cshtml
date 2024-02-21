@@ -21,8 +21,10 @@
                                 <img src="@Url.Action("ProfilePicture", "User", new { email = Model.Email })" style="height: 100%; width: 100%; object-fit: cover;" alt="Profile Picture" />
                             </div>
                         }
+                        <p style="margin-bottom: unset; color:black">@Model.Email</p>
+                        <p style="    font-weight: 500; color:black">@Model.Role</p>
                         <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="ProfilePicture" style="width: 100%;">
-                            <!-- Center the form -->
+                            <input type="hidden" name="_email" value="@Model.Email" />
                             <div class="form-group" style="width: 100%;">
                                 <label for="file">Choose profile picture:</label>
                                 <input type="file" name="file" id="file" class="form-control" required />

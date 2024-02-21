@@ -1,6 +1,7 @@
 ﻿using VirtualTeacher.Exceptions;
 using VirtualTeacher.Models;
 using VirtualTeacher.Models.DTO.CourseDTO;
+using VirtualTeacher.Models.QueryParameters;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 
@@ -87,6 +88,15 @@ namespace VirtualTeacher.Services
         public void AddLectureToCourse(int courseId, Lecture newLecture)
         {
             courseRepository.AddLectureToCourse(courseId, newLecture);
+        }
+        public int GetAllCourseEnrollments()
+        {
+            return courseRepository.GetAllCourseEnrollments();
+        }
+
+        public IList<Course> FilterBy(CourseQueryParameters filterParameters)
+        {
+            return courseRepository.FilterBy(filterParameters);
         }
 
         //public Course EnrollStudentInCourse(Student student, Course course)

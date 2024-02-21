@@ -10,6 +10,7 @@ namespace VirtualTeacher.Models
         public Course Course { get; set; }
         public double? Grade { get; set; }
         public double? Progress { get; set; }
-        
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+
     }
 }

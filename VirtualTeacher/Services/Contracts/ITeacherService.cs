@@ -1,4 +1,5 @@
 ﻿using VirtualTeacher.Models;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Services.Contracts
 {
@@ -9,5 +10,8 @@ namespace VirtualTeacher.Services.Contracts
         bool Delete(int id);
         IList<ApprovedTeacher> GetApprovedTeachers();
         IList<Course> GetCoursesCreated(Teacher teacher);
+        IList<Teacher> GetAll();
+        IList<Teacher> FilterBy(UserQueryParameters userQueryParameters);
+
     }
 }

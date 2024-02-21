@@ -1,5 +1,6 @@
 ﻿using VirtualTeacher.Data;
 using VirtualTeacher.Models;
+using VirtualTeacher.Models.QueryParameters;
 using VirtualTeacher.Repositories.Contracts;
 
 namespace VirtualTeacher.Repositories
@@ -50,12 +51,72 @@ namespace VirtualTeacher.Repositories
 
             return approvedTeacher;
         }
+
+        public IList<Admin> FilterBy(UserQueryParameters userQueryParameters)
+        {
+            IQueryable<Admin> result = IQ_GetAdmins();
+
+            result = FilterByEmail(result, userQueryParameters.Email);
+            result = FilterByFirstName(result, userQueryParameters.FirstName);
+            result = FilterByLastName(result, userQueryParameters.LastName);
+
+            return result.ToList();
+        }
+
+        public Log CreateLog(Log log)
+        {
+            context.Logs.Add(log);
+            context.SaveChanges();
+            return log;
+        }
+
+        public IList<Log> Logs()
+        {
+            return context.Logs.ToList();
+        }
+
         #endregion
 
         #region Private Methods
         private IQueryable<Admin> IQ_GetAdmins()
         {
             return context.Admins;
+        }
+
+        private static IQueryable<Admin> FilterByEmail(IQueryable<Admin> users, string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                return users.Where(user => user.Email.Contains(email));
+            }
+            else
+            {
+                return users;
+            }
+        }
+
+        private static IQueryable<Admin> FilterByFirstName(IQueryable<Admin> users, string firstName)
+        {
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                return users.Where(user => user.FirstName.Contains(firstName));
+            }
+            else
+            {
+                return users;
+            }
+        }
+
+        private static IQueryable<Admin> FilterByLastName(IQueryable<Admin> users, string lastName)
+        {
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                return users.Where(user => user.LastName.Contains(lastName));
+            }
+            else
+            {
+                return users;
+            }
         }
         #endregion
     }

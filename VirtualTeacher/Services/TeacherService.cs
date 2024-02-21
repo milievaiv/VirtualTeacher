@@ -1,6 +1,7 @@
 ﻿using VirtualTeacher.Models;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Repositories.Contracts;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Services
 {
@@ -20,7 +21,10 @@ namespace VirtualTeacher.Services
         #endregion
 
         #region CRUD Methods
-        
+        public IList<Teacher> GetAll()
+        {
+            return this.teacherRepository.GetAll();
+        }
         public Teacher GetById(int id)
         {
             return teacherRepository.GetById(id);
@@ -47,6 +51,12 @@ namespace VirtualTeacher.Services
         {
             return teacherRepository.GetCoursesCreated(teacher);
         }
+
+        public IList<Teacher> FilterBy(UserQueryParameters userQueryParameters)
+        {
+            return teacherRepository.FilterBy(userQueryParameters);
+        }
+
         #endregion
     }
 }

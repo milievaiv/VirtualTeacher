@@ -94,6 +94,8 @@ namespace VirtualTeacher.Controllers
             }
 
             model.HasProfileImage = _user.HasProfileImage;
+            model.Email = email;
+            model.Role = _user.Role;
 
             return View("Profile", model);
         }
@@ -125,6 +127,8 @@ namespace VirtualTeacher.Controllers
             model.FirstName = _user.FirstName;
             model.LastName = _user.LastName;
             model.HasProfileImage = _user.HasProfileImage;
+            model.Email = email;
+            model.Role = _user.Role;
 
             return View("Profile", model);
         }
@@ -140,7 +144,7 @@ namespace VirtualTeacher.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProfilePicture(IFormFile file)
+        public async Task<IActionResult> ProfilePicture(IFormFile file, string _email)
         {
             var user = HttpContext.User;
             var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;

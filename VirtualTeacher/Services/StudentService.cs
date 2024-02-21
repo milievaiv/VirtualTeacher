@@ -3,6 +3,8 @@ using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Services.Contracts;
 using VirtualTeacher.Constants;
+using VirtualTeacher.Models.QueryParameters;
+using VirtualTeacher.Repositories;
 
 namespace VirtualTeacher.Services
 {
@@ -72,6 +74,11 @@ namespace VirtualTeacher.Services
         public double? CalculateProgress(Student student, Course course)
         {
             return studentRepository.CalculateProgress(student, course);
+        }
+
+        public IList<Student> FilterBy(UserQueryParameters userQueryParameters)
+        {
+            return studentRepository.FilterBy(userQueryParameters);
         }
         #endregion
     }

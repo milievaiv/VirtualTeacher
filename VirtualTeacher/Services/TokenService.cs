@@ -18,10 +18,13 @@ namespace VirtualTeacher.Services
 
         public string CreateToken(BaseUser user, string role)
         {
+            string _name = user.FirstName + " " + user.LastName;
+
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.Name, _name)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

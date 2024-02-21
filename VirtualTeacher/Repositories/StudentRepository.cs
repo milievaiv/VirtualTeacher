@@ -4,6 +4,7 @@ using VirtualTeacher.Models;
 using VirtualTeacher.Repositories.Contracts;
 using VirtualTeacher.Constants;
 using VirtualTeacher.Exceptions;
+using VirtualTeacher.Models.QueryParameters;
 
 namespace VirtualTeacher.Repositories
 {
@@ -99,9 +100,57 @@ namespace VirtualTeacher.Repositories
 
             return enrolledCourse.Grade;
         }
+
+        public IList<Student> FilterBy(UserQueryParameters userQueryParameters)
+        {
+            IQueryable<Student> result = GetStudents();
+
+            result = FilterByEmail(result, userQueryParameters.Email);
+            result = FilterByFirstName(result, userQueryParameters.FirstName);
+            result = FilterByLastName(result, userQueryParameters.LastName);
+            //result = SortBy(result, userQueryParameters.SortBy);
+
+            return result.ToList();
+        }
+
         #endregion
 
         #region Private Methods
+        private static IQueryable<Student> FilterByEmail(IQueryable<Student> users, string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                return users.Where(user => user.Email.Contains(email));
+            }
+            else
+            {
+                return users;
+            }
+        }
+
+        private static IQueryable<Student> FilterByFirstName(IQueryable<Student> users, string firstName)
+        {
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                return users.Where(user => user.FirstName.Contains(firstName));
+            }
+            else
+            {
+                return users;
+            }
+        }
+
+        private static IQueryable<Student> FilterByLastName(IQueryable<Student> users, string lastName)
+        {
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                return users.Where(user => user.LastName.Contains(lastName));
+            }
+            else
+            {
+                return users;
+            }
+        }
         private IQueryable<Student> GetStudents()
         {
             return context.Students
