@@ -38,7 +38,7 @@
                         <div id="description@(lecture.Id)" class="collapse" aria-labelledby="heading@(lecture.Id)" data-parent="#accordion">
                             <div class="card-body">
                                 <h4>What you'll learn</h4>
-                                <p>@Html.Raw(lecture.Description)</p>
+                                <p style="color:black">@Html.Raw(lecture.Description)</p>
                                 <div class="list-group">
                                     <a href="#" class="list-group-item list-group-item-action video-link" data-video-url="@lecture.VideoURL">
                                         <i class="fas fa-video"></i> Video
