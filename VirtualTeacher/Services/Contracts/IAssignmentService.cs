@@ -11,5 +11,8 @@ namespace VirtualTeacher.Services.Contracts
         IList<Assignment> GetAll();
         Assignment SubmitAssignment(Student student, Assignment assignment);
         bool IsAssignmentSubmitted(Student student, Assignment assignment);
+
+        AssignmentContent AssignContent(AssignmentContent content);
+
     }
 }

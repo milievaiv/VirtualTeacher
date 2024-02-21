@@ -6,6 +6,10 @@ using VirtualTeacher.Services;
 using VirtualTeacher.Services.Contracts;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using VirtualTeacher.Models.ViewModel.LectureViewModel;
+using VirtualTeacher.Models;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VirtualTeacher.Controllers
 {
@@ -15,13 +19,16 @@ namespace VirtualTeacher.Controllers
         private readonly CloudStorageService _cloudStorageService;
         private readonly IStudentService studentService;
         private readonly IAssignmentService assignmentService;
+        private readonly ILectureService lectureService;
 
-        public AssignmentController(IWebHostEnvironment hostingEnvironment, CloudStorageService cloudStorageService, IAssignmentService assignmentService, IStudentService studentService)
+        public AssignmentController(IWebHostEnvironment hostingEnvironment, CloudStorageService cloudStorageService, IAssignmentService assignmentService, IStudentService studentService,
+             ILectureService lectureService)
         {
             _hostingEnvironment = hostingEnvironment;
             _cloudStorageService = cloudStorageService;
             this.studentService = studentService;
             this.assignmentService = assignmentService;
+            this.lectureService = lectureService;
         }
 
 
@@ -45,7 +52,7 @@ namespace VirtualTeacher.Controllers
                     {
                         var ext = Path.GetExtension(file.FileName);
                         string newFileName = student.Id + ext;
-                        string filePath = $"Courses/{course.Id}/Lectures/{lecture.Id}/Assignments/{assignmentId}/";
+                        string filePath = $"Courses/{course.Id}/Lectures/{lecture.Id}/Assignments/{assignmentId}/Submissions";
                         await _cloudStorageService.UploadFileAsync(filePath + newFileName, fileStream);
                     }
                 }
@@ -55,6 +62,117 @@ namespace VirtualTeacher.Controllers
 
             }
             return Json(new { success = false });
+        }
+
+        [HttpGet]
+        [AuthorizeUsers("teacher")]
+        public IActionResult CreateAssignment()
+        {
+            var lectures = lectureService.GetAll().Select(c => new { c.Id, c.Title }).ToList();
+
+            var viewModel = new AssignmentCreateViewModel
+            {
+                // Populate the SelectList for the dropdown
+                Lectures = new SelectList(lectures, "Id", "Title")
+            };
+
+            return View("CreateAssignment", viewModel);
+        }
+
+        [AuthorizeUsers("teacher")]
+        [HttpPost]
+        public async Task<IActionResult> CreateAssignment(AssignmentCreateViewModel model)
+        {
+            var user = HttpContext.User;
+            var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            var student = studentService.GetByEmail(email);
+            //var assignment = assignmentService.GetById(assignmentId);      
+            var lecture = lectureService.GetById(model.LectureId);
+            var _assignment = new Assignment { };
+            //var course = lecture.Course;
+
+            try
+            {
+                ModelState.Remove("Lectures");
+                ModelState.Remove("Url");
+
+                if (ModelState.IsValid)
+                {
+                    Assignment assignment = new Assignment
+                    {
+                        Lecture = lecture,
+                    };
+                    _assignment = assignmentService.Create(lecture, assignment);
+                }
+                else
+                {
+                    var lectures = lectureService.GetAll().Select(c => new { c.Id, c.Title }).ToList();
+                    model.Lectures = new SelectList(lectures, "Id", "Title");
+
+                    View(model);
+                }
+                if (model.File != null && model.File.Length > 0)
+                {
+                    string newFileName = "";
+                    string filePath = $"Courses/{lecture.CourseId}/Lectures/{lecture.Id}/Assignments/{_assignment.Id}/";
+                    using (var fileStream = model.File.OpenReadStream())
+                    {
+                        var ext = Path.GetExtension(model.File.FileName);
+                        newFileName = filePath + _assignment.Id + ext;
+                        await _cloudStorageService.UploadFileAsync(newFileName, fileStream);
+                    }
+                    AssignmentContent aContent = new AssignmentContent
+                    {
+                        Type = ContentType.File,
+                        Content = newFileName,
+                        Assignment = _assignment
+                    };
+                    assignmentService.AssignContent(aContent);
+                }
+                if (model.Url != string.Empty && model.Url != null)
+                {
+                    AssignmentContent aContent = new AssignmentContent
+                    {
+                        Type = ContentType.URL,
+                        Content = model.Url,
+                        Assignment = _assignment
+                    };
+                    assignmentService.AssignContent(aContent);
+                }
+                if (model.Content != string.Empty && model.Content != null)
+                {
+                    AssignmentContent aContent = new AssignmentContent
+                    {
+                        Type = ContentType.PlainText,
+                        Content = model.Content,
+                        Assignment = _assignment
+                    };
+                    assignmentService.AssignContent(aContent);
+                }
+                return RedirectToAction("Lectures", "Courses", lecture.Id);
+            }
+            catch (Exception)
+            {
+                return View("CreateAssignment");
+            }
+            //if (!assignmentService.IsAssignmentSubmitted(student, assignment))
+            //{
+            //    if (file != null && file.Length > 0)
+            //    {
+            //        using (var fileStream = file.OpenReadStream())
+            //        {
+            //            var ext = Path.GetExtension(file.FileName);
+            //            string newFileName = student.Id + ext;
+            //            string filePath = $"Courses/{course.Id}/Lectures/{lecture.Id}/Assignments/{assignmentId}/";
+            //            await _cloudStorageService.UploadFileAsync(filePath + newFileName, fileStream);
+            //        }
+            //    }
+            //    assignmentService.SubmitAssignment(student, assignment);
+
+            //    return Json(new { success = true });
+
+            //}
+            //return Json(new { success = false });
         }
 
         [HttpGet]

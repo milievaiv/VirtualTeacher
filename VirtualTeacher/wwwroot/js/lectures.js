@@ -71,7 +71,7 @@
                         await fetchPdfContent(assignmentId, content.Content);
                         break;
                     case 'PlainText':
-                        $('#lectureContent').append('<p>' + String(content.Content) + '</p>');
+                        $('#lectureContent').append('<p style="color:black">' + String(content.Content) + '</p>');
                         break;
                     case 'URL':
                         $('#lectureContent').append('<p><a href="' + content.value + '" target="_blank">' + content.Content + '</a></p>');

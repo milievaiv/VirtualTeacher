@@ -148,6 +148,7 @@ namespace VirtualTeacher.Controllers
         {
             Student student = null;
             var jwtFromRequest = Request.Cookies["Authorization"];
+            string role = "";
 
             if (!string.IsNullOrEmpty(jwtFromRequest))
             {
@@ -159,7 +160,13 @@ namespace VirtualTeacher.Controllers
                     if (jwtToken != null)
                     {
                         var emailClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
-                        if (emailClaim != null)
+                        var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+                        if (roleClaim == "teacher")
+                        {
+                            role = roleClaim;
+                        }
+                        else if (emailClaim != null)
                         {
                             student = studentService.GetByEmail(emailClaim.Value);
                         }
@@ -196,7 +203,11 @@ namespace VirtualTeacher.Controllers
                     bool isEnrolled = student.EnrolledCourses.Any(x => x.CourseId == id);
                     ViewBag.IsEnrolled = isEnrolled;
                    
-                }              
+                }
+                else if (role == "teacher")
+                {
+                    ViewBag.IsTeacher = true;
+                }    
 
                 ViewBag.CourseId = id; 
 
@@ -215,13 +226,18 @@ namespace VirtualTeacher.Controllers
         {
             var user = HttpContext.User;
             var email = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
-            var student = studentService.GetByEmail(email);
+            var role = user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role)?.Value;
 
-            bool isEnrolled = student.EnrolledCourses.Any(x => x.CourseId == id);
-
-            if (!isEnrolled)
+            if (role == "student")
             {
-                return RedirectToAction("Details", new { id });
+                var student = studentService.GetByEmail(email);
+
+                bool isEnrolled = student.EnrolledCourses.Any(x => x.CourseId == id);
+
+                if (!isEnrolled)
+                {
+                    return RedirectToAction("Details", new { id });
+                }
             }
             try
             {

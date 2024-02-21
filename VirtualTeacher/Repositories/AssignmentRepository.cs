@@ -26,6 +26,15 @@ namespace VirtualTeacher.Repositories
 
             return lecture.Assignment;
         }
+
+        public AssignmentContent AssignContent(AssignmentContent content)
+        {
+            context.AssignmentContents.Add(content);
+
+            context.SaveChanges();
+
+            return content;
+        }
         public IList<Assignment> GetAll()
         {
             var assignments = IQ_GetAll().ToList();

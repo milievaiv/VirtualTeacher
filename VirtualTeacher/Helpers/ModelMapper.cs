@@ -82,7 +82,6 @@ namespace VirtualTeacher.Helpers
         {
             return new Assignment
             {
-                Content = assignmentDto.Content
             };
         }
 

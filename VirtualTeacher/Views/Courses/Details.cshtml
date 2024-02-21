@@ -5,6 +5,7 @@
     ViewData["Title"] = "Course Details";
 }
 @{
+    bool isTeacher = TempData["IsTeacher"] as string == "true";
     bool isEnrolled = TempData["IsEnrolled"] as string == "true";
 }
 
@@ -266,10 +267,11 @@
  <script>
     document.addEventListener('DOMContentLoaded', function () {
         var isEnrolled = @Html.Raw(Json.Serialize(ViewBag.IsEnrolled));
+        var isTeacher = @Html.Raw(Json.Serialize(ViewBag.IsTeacher));
         var courseId = @Html.Raw(Json.Serialize(ViewBag.CourseId));
 
         document.querySelector('.second_title').addEventListener('click', function () {
-            if (isEnrolled) {
+            if (isEnrolled || isTeacher) {
                 window.location.href = '/courses/' + courseId + '/lectures';
             }
         });

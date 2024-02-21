@@ -10,7 +10,7 @@ namespace VirtualTeacher.Services
         private readonly IAssignmentRepository assignmentRepository;
 
         public AssignmentService(IAssignmentRepository assignmentRepository)
-        { 
+        {
             this.assignmentRepository = assignmentRepository;
         }
         #endregion
@@ -49,6 +49,11 @@ namespace VirtualTeacher.Services
         public bool IsAssignmentSubmitted(Student student, Assignment assignment)
         {
             return assignmentRepository.IsAssignmentSubmitted(student, assignment);
+        }
+
+        public AssignmentContent AssignContent(AssignmentContent content)
+        {
+            return assignmentRepository.AssignContent(content);
         }
 
         #endregion

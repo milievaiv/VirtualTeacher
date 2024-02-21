@@ -117,7 +117,7 @@ namespace VirtualTeacherServicesTests
         {
             // Arrange
             var lectureId = 1;
-            var newAssignment = new Assignment { Id = 1, Content = "Assignment Content" };
+            var newAssignment = new Assignment { Id = 1 };
 
             var mockLectureRepository = new Mock<ILectureRepository>();
 

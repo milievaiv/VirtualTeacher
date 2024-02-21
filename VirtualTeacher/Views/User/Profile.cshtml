@@ -41,12 +41,13 @@
                                 <input type="file" name="file" id="file" class="custom-file-input" required>
                                 <label class="custom-file-label" for="file">Choose profile picture</label>
                             </div>
-                            <button class="btn btn-outline-primary btn-block" type="submit">Upload</button>
+                            <button style="width: 36vh;" class="btn btn-outline-primary btn-block" type="submit">Upload</button>
                         </form>
                         @if (Model.Role == UserRole.Teacher)
                         {
                             <a href="@Url.Action("Create", "Courses")" class="btn btn-outline-success btn-block" style="width: 36vh; margin:10px; margin-top: 20px">Create Course</a>
                             <a href="@Url.Action("CreateLecture", "Lectures")" class="btn btn-outline-success btn-block" style="width: 36vh">Add Lecture</a>
+                            <a href="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-outline-success btn-block" style="width: 36vh">Add assignment</a>
                         }
                     </div>
                     <div class="edit-form pl-4" style="flex: 2;">

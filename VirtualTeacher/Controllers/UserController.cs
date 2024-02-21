@@ -38,18 +38,6 @@ namespace VirtualTeacher.Controllers
             var _user = HttpContext.User;
             var email = _user.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
             var user = _userService.GetByEmail(email);
-            //var pfpName = _user.Id + ".png";
-            //byte[] imageData = _cloudStorageService.GetImageContent(pfpName, "profilePictures");
-
-            //Image profileImage = null;
-            //if (imageData != null)
-            //{
-            //    // Convert byte array to Image
-            //    using (MemoryStream ms = new MemoryStream(imageData))
-            //    {
-            //        profileImage = Image.FromStream(ms);
-            //    }
-            //}
 
             EditProfileViewModel profile = new EditProfileViewModel
             {
