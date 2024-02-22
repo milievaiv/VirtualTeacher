@@ -42,16 +42,24 @@ To use “Virtual Teacher”, you may enter either as guest user or as registere
 ![Courses](ScreenShots/OurCoursesScreenshot.png)
 
 
+
+
 - Pick a course and use the “Enroll” menu to gain full access to the contents of the lectures. 
+
 
 
 ![CoursesPreview](ScreenShots/EnrollCourseContentScreenshot.png)
 
 
+
+
 - Once enrolled in a course, navigate to a lecture and you will be able to read the assignments, watch the embedded videos as well as upload your own completed assignments on which you will be graded by the teacher.
 
 
+
 ![Lecture Assignment](ScreenShots/LectureWithAssignment.png)
+
+
 
 
 - Users can use the “Search” option in the navigation bar to look up information from Wikipedia directly from the application. This will open a new page with the search results with a snippet and a link to the original article.
@@ -73,6 +81,7 @@ To use “Virtual Teacher”, you may enter either as guest user or as registere
 
 
 ![Course Creation](ScreenShots/CourseCreationScreenshot.png)
+
 
 
 - To create a Lecture navigate to the “Profile” menu where you need to open the “Add Lecture” menu. The teacher must then add a Title, a Description, a Video URL and pick a Course from the drop down menu for the Lecture to be added to. 
