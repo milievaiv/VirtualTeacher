@@ -50,10 +50,11 @@ To use “Virtual Teacher”, you may enter either as guest user or as registere
 
 - Once enrolled in a course, navigate to a lecture and you will be able to read the assignments, watch the embedded videos as well as upload your own completed assignments on which you will be graded by the teacher.
 
+
+![Lecture Assignment](ScreenShots/LectureWithAssignment.png)
+
+
 - Users can use the “Search” option in the navigation bar to look up information from Wikipedia directly from the application. This will open a new page with the search results with a snippet and a link to the original article.
-
-
-LECTURES WITH EMBEDDED VIDEOS AND ASSIGNMENTS SCREENSHOT
 
 
 ## Teachers
