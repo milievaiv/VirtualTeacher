@@ -49,13 +49,6 @@ namespace VirtualTeacher.Services
                     _logger.Warning("Search response is null or empty.");
                     return null;
                 }
-
-                // Include snippet in each search result
-                //foreach (var item in result.Query.Search)
-                //{
-                //    item.Snippet = GetSnippet(item.PageId); // Assuming you have a method to get the snippet based on pageId
-                //}
-
                 return result;
             }
             else
@@ -64,11 +57,5 @@ namespace VirtualTeacher.Services
                 return null;
             }
         }
-
-        //private string GetSnippet(int pageId)
-        //{
-        //    // Implement logic to fetch snippet based on pageId
-        //    return "Sample snippet for pageId " + pageId;
-        //}
     }
 }
