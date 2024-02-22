@@ -1,12 +1,12 @@
 
 # "Virtual Teacher" Application
 
-[Click to join "Virtual Teacher"](link)
+[Click to join "Virtual Teacher"](https://github.com/milievaiv/VirtualTeacher/tree/main)
 
 
 ## Description
 
-Virtual Teacher is an online platform designed to educate children by providing a dynamic learning environment. Our platform empowers teachers to deliver engaging courses, lectures, and assignments, while also grading the students and recieving feedback for their work.
+Virtual Teacher is an online platform designed to educate children of all ages by providing a dynamic learning environment. Our platform empowers teachers to deliver engaging courses, lectures, and assignments, while also grading the students and recieving feedback for their work.
 
 
 
